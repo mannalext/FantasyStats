@@ -1,0 +1,78 @@
+[
+    {
+      "type": "snake",
+      "status": "pre_draft",
+      "start_time": null,
+      "sport": "nfl",
+      "settings": {
+        "teams": 12,
+        "slots_wr": 2,
+        "slots_te": 1,
+        "slots_rb": 2,
+        "slots_qb": 1,
+        "slots_k": 1,
+        "slots_flex": 1,
+        "slots_def": 1,
+        "slots_bn": 7,
+        "rounds": 16,
+        "reversal_round": 0,
+        "player_type": 0,
+        "pick_timer": 0,
+        "cpu_autopick": 0,
+        "alpha_sort": 0
+      },
+      "season_type": "regular",
+      "season": "2021",
+      "metadata": {
+        "scoring_type": "half_ppr",
+        "name": "Blood, Sweat, and ACT's"
+      },
+      "league_id": "717042450975227904",
+      "last_picked": null,
+      "last_message_time": 1625318751619,
+      "last_message_id": "717042450975227905",
+      "draft_order": null,
+      "draft_id": "717042450975227905",
+      "creators": null,
+      "created": 1625318751619
+    },
+    {
+      "type": "snake",
+      "status": "pre_draft",
+      "start_time": null,
+      "sport": "nfl",
+      "settings": {
+        "teams": 10,
+        "slots_wr": 2,
+        "slots_te": 1,
+        "slots_rb": 2,
+        "slots_qb": 1,
+        "slots_k": 1,
+        "slots_idp_flex": 2,
+        "slots_flex": 2,
+        "slots_def": 1,
+        "slots_bn": 18,
+        "rounds": 5,
+        "reversal_round": 0,
+        "player_type": 1,
+        "pick_timer": 0,
+        "cpu_autopick": 1,
+        "alpha_sort": 0
+      },
+      "season_type": "regular",
+      "season": "2021",
+      "metadata": {
+        "scoring_type": "idp",
+        "name": "Live Free Or Dynasty",
+        "description": ""
+      },
+      "league_id": "704174897080889344",
+      "last_picked": 1622600370503,
+      "last_message_time": 1622250887702,
+      "last_message_id": "704174897080889345",
+      "draft_order": null,
+      "draft_id": "704174897080889345",
+      "creators": null,
+      "created": 1622250887702
+    }
+  ]
