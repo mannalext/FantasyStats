@@ -1,0 +1,12 @@
+# Packages
+node_modules
+
+# Distributables
+dist
+coverage
+
+# Certificates
+server.crt
+server.key
+
+template-readme.md

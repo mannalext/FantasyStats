@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "allowJs": false,
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "outDir": "dist",
+    "paths": {
+      "@configuration": ["configuration.ts"],
+      "@database/*": ["database/*"],
+      "@services/*": ["services/*"],
+      "@types": ["src/types.ts"],
+      "@utils/*": ["utils/*"],
+      "@src/*": ["src/*"]
+    },
+    "strictNullChecks": true,
+    "target": "ES2020"
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
