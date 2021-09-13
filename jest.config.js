@@ -17,9 +17,9 @@ const createConfig = (
   testEnvironment: 'node',
 });
 
-const integration = createConfig('integration/');
+const src = createConfig('src/');
 
 module.exports = {
   collectCoverage: true,
-  projects: [ server, pacts, integration ],
+  projects: [ src ],
 };
