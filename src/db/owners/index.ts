@@ -9,3 +9,10 @@ export const insert = async (ownerInserValues: OwnerInsertValues): Promise<void>
     ],
   );
 };
+
+export const select = async (ownerId: number): Promise<void> => {
+  await query(
+    'SELECT * FROM owners WHERE owner_id = $1',
+    [ ownerId ],
+  );
+};

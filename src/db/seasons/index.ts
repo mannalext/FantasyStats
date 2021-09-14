@@ -11,3 +11,10 @@ export const insert = async (seasonInsertValues: SeasonInsertValues): Promise<vo
     ],
   );
 };
+
+export const select = async (seasonId: number): Promise<void> => {
+  await query(
+    'SELECT * FROM seasons WHERE season_id = $1',
+    [ seasonId ],
+  );
+};

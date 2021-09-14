@@ -14,5 +14,13 @@ export const insert = async (teamInsertValues: TeamInsertValues): Promise<void> 
   );
 };
 
-
+export const select = async (seasonId: number, ownerId: number): Promise<void> => {
+  await query(
+    'SELECT * FROM teams WHERE season_id = $1 AND owner_id = $2',
+    [
+      seasonId,
+      ownerId,
+    ],
+  );
+};
 // TODO: write a script that parses the json and actually does some inserts
