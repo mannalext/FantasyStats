@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register ./",
-    "dev": "export $(cat .dev.env | xargs) && npm run generate:cert && npm run dev:docker && npm run start",
+    "dev": "export $(cat .dev.env | xargs) && npm run dev:docker && npm run start",
     "dev:watch": "nodemon -e 'ts' -i '**/*.test.ts' -w 'src/*' -x 'npm run dev'",
     "dev:docker": "docker-compose kill && docker-compose rm -f && docker-compose down -v && docker-compose build && docker-compose up -d",
     "test": "concurrently -p '·{name}·' -n UNIT,LINT -c cyan.inverse,magenta.inverse 'npm:test:unit' 'npm:lint'",
