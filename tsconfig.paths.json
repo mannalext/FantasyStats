@@ -7,7 +7,8 @@
       "@services/*": ["services/*"],
       "@types": ["src/types.ts"],
       "@utils/*": ["utils/*"],
-      "@src/*": ["src/*"]
+      "@src/*": ["src/*"],
+      "@entities/*": ["src/entities/*"],
     }
   }
 }
