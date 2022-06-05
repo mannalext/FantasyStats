@@ -4,6 +4,15 @@ services:
 
   db:
     image: postgres
+    ports: 
+      - 5432:5432
     restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_PASSWORD: admin
+
+volumes:
+  db_data:
+    name: fantasy-stats-database
