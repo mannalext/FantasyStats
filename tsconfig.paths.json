@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@configuration": ["configuration.ts"],
+      "@database/*": ["database/*"],
+      "@services/*": ["services/*"],
+      "@types": ["src/types.ts"],
+      "@utils/*": ["utils/*"],
+      "@src/*": ["src/*"],
+      "@entities/*": ["src/entities/*"],
+    }
+  }
+}

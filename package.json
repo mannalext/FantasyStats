@@ -1,20 +1,27 @@
 {
-  "name": "insert-project-name",
+  "name": "fantasy-stats",
   "version": "1.0.0",
-  "description": "INSERT PROJECT DESCRIPTION>",
-  "main": "index.js",
+  "description": "",
+  "main": "index.ts",
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register ./",
-    "dev": "export $(cat .dev.env | xargs) && npm run generate:cert && npm run dev:docker && npm run start",
+    "dev": "export $(cat .dev.env | xargs) && npm run dev:docker && npm run start",
     "dev:watch": "nodemon -e 'ts' -i '**/*.test.ts' -w 'src/*' -x 'npm run dev'",
     "dev:docker": "docker-compose kill && docker-compose rm -f && docker-compose down -v && docker-compose build && docker-compose up -d",
-    "test": "concurrently -p '·{name}·' -n UNIT,LINT -c cyan.inverse,magenta.inverse 'npm:test:unit' 'npm:lint'",
+    "testOLD": "concurrently -p '·{name}·' -n UNIT,LINT -c cyan.inverse,magenta.inverse 'npm:test:unit' 'npm:lint'",
     "test:unit": "export $(cat .test.env | xargs) && jest",
     "test:watch": "npm run test:unit -- --watch",
-    "lint": "concurrently -p '·{name}·' -n CODE,COMMITS -c magenta.inverse 'npm:lint:code' 'npm:lint:commits'",
+    "linOLD": "concurrently -p '·{name}·' -n CODE,COMMITS -c magenta.inverse 'npm:lint:code' 'npm:lint:commits'",
     "lint:code": "eslint --ext .tsx,.ts .",
     "lint:commits": "commitlint -f $(git log --reverse --pretty=%H | head -1) -t $(git log -1 --pretty=%H)",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "USE_FAKE_PORTS='true' jest --group=-bq",
+    "testWatch": "USE_FAKE_PORTS='true' jest --watch",
+    "testRealPorts": "jest --runInBand",
+    "testWatchRealPorts": "jest --watch --runInBand",
+    "format": "npx prettier --write **/*.ts",
+    "lint": "yarn run eslint . --ext ts --max-warnings=0",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git"
@@ -22,22 +29,38 @@
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
+    "axios": "^0.27.2",
     "env-var": "^6.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pg": "^8.7.3",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.2",
-    "@types/express": "^4.17.7",
-    "@types/jest": "^26.0.4",
-    "@typescript-eslint/eslint-plugin": "^3.6.1",
-    "@typescript-eslint/parser": "^3.6.1",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^27.0.2",
+    "@types/pg": "^8.6.5",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
     "concurrently": "^5.2.0",
-    "eslint": "^7.4.0",
-    "jest": "^26.1.0",
+    "eslint": "^8.6.0",
+    "eslint-plugin-jest": "^26.5.1",
+    "eslint-plugin-unicorn": "^42.0.0",
+    "husky": "^8.0.1",
+    "jest": "^27.3.0",
+    "jest-junit": "^13.2.0",
+    "lint-staged": "^13.0.0",
     "nodemon": "^2.0.4",
+    "prettier": "^2.6.2",
     "ts-jest": "^26.1.2",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.8.1",
+    "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.9.6"
+    "tsconfig-paths-jest": "^0.0.1",
+    "typescript": "^4.7.3"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
