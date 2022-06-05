@@ -13,7 +13,7 @@ CREATE TABLE seasons (
 );
 
 CREATE TABLE owners (
-  owner_id uuid DEFAULT uuid_generate_v4 (),
+  owner_id uuid,
   display_name varchar(50) NOT NULL,
   PRIMARY KEY (owner_id)
 );

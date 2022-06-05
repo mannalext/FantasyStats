@@ -22,24 +22,32 @@ export class PgStatsRepository implements StatsRepository {
     return queryResult.rows[0];
   }
   findLeagueById(leagueId: number): Promise<League | undefined> {
+    console.log(leagueId);
     throw new Error("Method not implemented.");
   }
   createOwner(ownerName: string): Promise<Owner> {
+    console.log(ownerName);
+    // TODO: generate a UUID and send it in
     throw new Error("Method not implemented.");
   }
   findOwnerById(ownerId: string): Promise<Owner | undefined> {
+    console.log(ownerId);
     throw new Error("Method not implemented.");
   }
   createSeason(seasonId: string, leagueId: number, year: number): Promise<Season> {
+    console.log(seasonId, leagueId, year);
     throw new Error("Method not implemented.");
   }
   findSeasonById(seasonId: number): Promise<Season | undefined> {
+    console.log(seasonId);
     throw new Error("Method not implemented.");
   }
   createTeam(seasonId: number, ownerId: string, wins: number, losses: number, ties: number): Promise<Team> {
+    console.log(seasonId, ownerId, wins, losses, ties);
     throw new Error("Method not implemented.");
   }
   findTeam(seasonId: number, ownerId: string): Promise<Team | undefined> {
+    console.log(seasonId, ownerId);
     throw new Error("Method not implemented.");
   }
   

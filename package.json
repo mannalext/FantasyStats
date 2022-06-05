@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register ./",
-    "dev": "export $(cat .dev.env | xargs) && npm run generate:cert && npm run dev:docker && npm run start",
+    "dev": "export $(cat .dev.env | xargs) && npm run dev:docker && npm run start",
     "dev:watch": "nodemon -e 'ts' -i '**/*.test.ts' -w 'src/*' -x 'npm run dev'",
     "dev:docker": "docker-compose kill && docker-compose rm -f && docker-compose down -v && docker-compose build && docker-compose up -d",
     "testOLD": "concurrently -p '·{name}·' -n UNIT,LINT -c cyan.inverse,magenta.inverse 'npm:test:unit' 'npm:lint'",
@@ -54,10 +54,11 @@
     "nodemon": "^2.0.4",
     "prettier": "^2.6.2",
     "ts-jest": "^26.1.2",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.8.1",
+    "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^3.9.0",
     "tsconfig-paths-jest": "^0.0.1",
-    "typescript": "^4.4.4"
+    "typescript": "^4.7.3"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

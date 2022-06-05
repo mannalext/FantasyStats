@@ -15,4 +15,4 @@ services:
 
 volumes:
   db_data:
-    name: fantasy-stats-database
+    name: postgres

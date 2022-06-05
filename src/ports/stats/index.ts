@@ -2,9 +2,9 @@ import { Pool, QueryResult } from 'pg';
 
 const pool = new Pool({
   host: 'localhost',
-  database: 'fantasy-stats-database',
-  password: 'pgpassword',
-  user: 'pguser',
+  database: 'postgres',
+  password: 'admin',
+  user: 'postgres',
   port: 5432,
 });
 
