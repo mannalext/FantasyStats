@@ -1,25 +1,11 @@
-const { compilerOptions } = require('./tsconfig.json');
-const { pathsToModuleNameMapper } = require('ts-jest/utils');
-
-const createConfig = (
-  directory,
-) => ({
-  clearMocks: true,
-  coverageDirectory: `coverage/${directory}`,
-  moduleNameMapper: {
-    ...pathsToModuleNameMapper(
-      compilerOptions.paths,
-      { prefix: '<rootDir>/' },
-    ),
-  },
-  preset: 'ts-jest',
-  roots: [ `<rootDir>/${directory}` ],
-  testEnvironment: 'node',
-});
-
-const integration = createConfig('integration/');
+const tsconfig = require('./tsconfig.paths.json')
+const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig)
 
 module.exports = {
-  collectCoverage: true,
-  projects: [ server, pacts, integration ],
-};
+  moduleNameMapper,
+  preset: 'ts-jest',
+  reporters: ['default', 'jest-junit'],
+  testPathIgnorePatterns: ['__tests__/helpers', '__tests__/builders'],
+  testEnvironment: 'node',
+  setupFilesAfterEnv: ['./__tests__/helpers/setup.ts'],
+}
