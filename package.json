@@ -8,13 +8,21 @@
     "dev": "export $(cat .dev.env | xargs) && npm run generate:cert && npm run dev:docker && npm run start",
     "dev:watch": "nodemon -e 'ts' -i '**/*.test.ts' -w 'src/*' -x 'npm run dev'",
     "dev:docker": "docker-compose kill && docker-compose rm -f && docker-compose down -v && docker-compose build && docker-compose up -d",
-    "test": "concurrently -p '·{name}·' -n UNIT,LINT -c cyan.inverse,magenta.inverse 'npm:test:unit' 'npm:lint'",
+    "testOLD": "concurrently -p '·{name}·' -n UNIT,LINT -c cyan.inverse,magenta.inverse 'npm:test:unit' 'npm:lint'",
     "test:unit": "export $(cat .test.env | xargs) && jest",
     "test:watch": "npm run test:unit -- --watch",
-    "lint": "concurrently -p '·{name}·' -n CODE,COMMITS -c magenta.inverse 'npm:lint:code' 'npm:lint:commits'",
+    "linOLD": "concurrently -p '·{name}·' -n CODE,COMMITS -c magenta.inverse 'npm:lint:code' 'npm:lint:commits'",
     "lint:code": "eslint --ext .tsx,.ts .",
     "lint:commits": "commitlint -f $(git log --reverse --pretty=%H | head -1) -t $(git log -1 --pretty=%H)",
-    "build": "tsc"
+    "build": "tsc",
+
+    "test": "USE_FAKE_PORTS='true' jest --group=-bq",
+    "testWatch": "USE_FAKE_PORTS='true' jest --watch",
+    "testRealPorts": "jest --runInBand",
+    "testWatchRealPorts": "jest --watch --runInBand",
+    "format": "npx prettier --write **/*.ts",
+    "lint": "yarn run eslint . --ext ts --max-warnings=0",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git"
