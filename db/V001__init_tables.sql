@@ -13,13 +13,14 @@ CREATE TABLE seasons (
 );
 
 CREATE TABLE owners (
-  owner_id bigint PRIMARY KEY,
-  display_name varchar(50) NOT NULL
+  owner_id uuid DEFAULT uuid_generate_v4 (),
+  display_name varchar(50) NOT NULL,
+  PRIMARY KEY (owner_id)
 );
 
 CREATE TABLE teams (
   season_id bigint NOT NULL,
-  owner_id bigint NOT NULL,
+  owner_id uuid NOT NULL,
   wins int NOT NULL,
   losses int NOT NULL,
   ties int NOT NULL,
