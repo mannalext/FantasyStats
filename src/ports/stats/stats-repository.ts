@@ -1,7 +1,7 @@
-import { League } from "@entities/league";
-import { Owner } from "@entities/owner";
-import { Season } from "@entities/season";
-import { Team } from "@entities/team";
+import { League } from "../../entities/league";
+import { Owner } from "../../entities/owner";
+import { Season } from "../../entities/season";
+import { Team } from "../../entities/team";
 
 // TODO: still need to do implementations that are found in the old branch for the below
 export interface StatsRepository {

@@ -1,4 +1,4 @@
-import { League } from "@entities/league";
+import { League } from "../../entities/league";
 import { PgStatsRepository } from "../../ports/stats/pg-stats-repository";
 
 export async function findLeagueById(leagueId: number): Promise<League | undefined> {

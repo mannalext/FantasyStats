@@ -1,4 +1,4 @@
-import { League } from "@entities/league";
+import { League } from "../../entities/league";
 import { PgStatsRepository } from "../../ports/stats/pg-stats-repository";
 
 export async function createLeague(leagueName: string): Promise<League> {
