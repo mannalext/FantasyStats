@@ -1,7 +1,7 @@
-import { League } from "@src/entities/league";
-import { Owner } from "@src/entities/owner";
-import { Season } from "@src/entities/season";
-import { Team } from "@src/entities/team";
+import { League } from "../../entities/league";
+import { Owner } from "../../entities/owner";
+import { Season } from "../../entities/season";
+import { Team } from "../../entities/team";
 import { query } from ".";
 import { StatsRepository } from "./stats-repository";
 
@@ -16,13 +16,14 @@ export class PgStatsRepository implements StatsRepository {
    */
   async createLeague(leagueName: string): Promise<League> {
     const queryResult = await query('INSERT INTO leagues (name) VALUES ($1)', [ leagueName ]);
-    console.log(queryResult.rows[0]);
+    console.log(`queryResult.rows[0], ${queryResult.rows[0]}`);
 
     // TODO: translate this into the actual type before returning
     return queryResult.rows[0];
   }
   findLeagueById(leagueId: number): Promise<League | undefined> {
     console.log(leagueId);
+    console.log('YOU ABOUT TO BLOW UP');
     throw new Error("Method not implemented.");
   }
   createOwner(ownerName: string): Promise<Owner> {

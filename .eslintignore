@@ -2,3 +2,5 @@ node_modules/
 jest.config.js
 prettier.config.js
 .eslintrc.js
+src/routes.ts
+dist/

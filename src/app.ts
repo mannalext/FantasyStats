@@ -1,5 +1,7 @@
-import express from "express";
-import { port } from '@configuration';
+// import { port } from '@src/configuration';
+import Koa from 'koa';
+import KoaRouter from '@koa/router';
+import { RegisterRoutes } from './routes';
 
 export class App {
   // async createLeague(leagueName: string): Promise<League> {
@@ -8,9 +10,16 @@ export class App {
   // }
   
   run(): void {
-    const app = express();
-    app.listen(port, () => {
-      console.log(`api server running on port ${port}`);
-    });
+    const app: Koa = new Koa();
+    const router = new KoaRouter();
+    RegisterRoutes(router);
+    app.listen(8080);
+    console.log('anybody out there?');
+
+
+    // app.use(async (context: Koa.Context) => {
+    //   context.body = 'hello world';
+    // });
+
   }
 }

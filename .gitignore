@@ -10,3 +10,6 @@ server.crt
 server.key
 
 template-readme.md
+
+src/routes.ts
+dist/**/*
