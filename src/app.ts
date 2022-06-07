@@ -1,7 +1,7 @@
 // import { port } from '@src/configuration';
 import Koa from 'koa';
 import KoaRouter from '@koa/router';
-const bodyParser = require('koa-bodyparser');
+import bodyParser from 'koa-bodyparser';
 import { RegisterRoutes } from './routes';
 // import { koaSwagger } from 'koa2-swagger-ui';
 // import KoaMount from 'koa-mount';
