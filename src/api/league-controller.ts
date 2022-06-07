@@ -16,6 +16,7 @@ export class LeaguesController extends Controller {
     @Res() notFoundResponse: TsoaResponse<404, ErrorResponse>
   ): Promise<SingleLeagueResponse> {
     const found = await findLeagueById(id);
+    console.log(found);
     if (!found) {
       return notFoundResponse(404, {
         error: {
@@ -30,12 +31,9 @@ export class LeaguesController extends Controller {
 
   @Post('')
   public async createLeague(
-    @Body() name: string,
-  ): Promise<SingleLeagueResponse> {
-    console.log(name);
-    const league = await createLeague(name);
-    return {
-      league,
-    }
+    @Body() body: { leagueName: string }
+  ): Promise<void> {
+    await createLeague(body.leagueName);
+    // TODO: this needs to return something once I figure out how to get the return from the insert statement
   }
 }

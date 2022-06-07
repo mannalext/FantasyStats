@@ -5,7 +5,7 @@ import { Team } from "../../entities/team";
 
 // TODO: still need to do implementations that are found in the old branch for the below
 export interface StatsRepository {
-  createLeague(leagueName: string): Promise<League>;
+  createLeague(leagueName: string): Promise<void>;
   findLeagueById(leagueId: number): Promise<League | undefined>;
   createOwner(ownerName: string): Promise<Owner>;
   findOwnerById(ownerId: string): Promise<Owner | undefined>;
