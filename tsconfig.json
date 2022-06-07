@@ -1,7 +1,7 @@
 {
-  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "lib": ["ESNext"],
+    "lib": ["esnext", "dom"],
+    "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,
     "noFallthroughCasesInSwitch": true,
@@ -13,7 +13,7 @@
     "noUncheckedIndexedAccess": true,
     "removeComments": true,
     "sourceMap": true,
-    "target": "ES5",
+    "target": "es6",
     "outDir": "dist",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -21,7 +21,4 @@
     "downlevelIteration": true,
   },
   "include": ["src/**/*.ts", "__tests__/**/*.ts"],
-  "ts-node": {
-    "require": ["tsconfig-paths/register"]
-  }
 }

@@ -1,6 +1,3 @@
-const tsconfig = require('./tsconfig.paths.json')
-const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig)
-
 module.exports = {
   moduleNameMapper,
   preset: 'ts-jest',
