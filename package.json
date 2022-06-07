@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "dev": "npm run build && npm run dev:docker && node ./dist/index.js ",
+    "dev": "npm run build && npm run dev:docker && node ./dist/app.js",
+    "start-temp": "node ./dist/app.js",
     "build": "tsoa spec-and-routes && tsc -b tsconfig.build.json",
     "dev:docker": "docker-compose kill && docker-compose rm -f && docker-compose down -v && docker-compose build && docker-compose up -d",
     "start": "ts-node -r tsconfig-paths/register ./",

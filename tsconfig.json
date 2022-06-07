@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext"],
+    "lib": ["esnext", "dom"],
+    "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,
     "noFallthroughCasesInSwitch": true,
@@ -12,7 +13,7 @@
     "noUncheckedIndexedAccess": true,
     "removeComments": true,
     "sourceMap": true,
-    "target": "ES5",
+    "target": "es6",
     "outDir": "dist",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
