@@ -7,13 +7,12 @@ import { RegisterRoutes } from './routes';
 // import KoaMount from 'koa-mount';
 // import KoaServe from 'koa-static';
 
-
 export class App {
   // async createLeague(leagueName: string): Promise<League> {
   //   const repo = new PgStatsRepository();
   //   return await repo.createLeague(leagueName);
   // }
-  
+
   run(): void {
     const app: Koa = new Koa();
     app.use(bodyParser());
@@ -22,26 +21,24 @@ export class App {
     app.listen(9090);
     app.use(router.routes()).use(router.allowedMethods());
     console.log('anybody out there?');
-    
+
     // this.enableSwaggerDocs(app);
-    
 
     // app.use(async (context: Koa.Context) => {
     //   context.body = 'hello world';
     // });
-
   }
 
   // private enableSwaggerDocs(app: Koa) {
-  //   app.use(koaSwagger({ 
-  //       routePrefix: "docs", 
-  //       swaggerOptions: { 
+  //   app.use(koaSwagger({
+  //       routePrefix: "docs",
+  //       swaggerOptions: {
   //           url: 'spec',
   //       },
-  //       hideTopbar: true, 
+  //       hideTopbar: true,
   //       title: 'FantasyStats API',
   //       favicon: 'https://www.physna.com/assets/images/icon/favicon-32x32.png',
-  //       // oauthOptions: { 
+  //       // oauthOptions: {
   //       //     usePkceWithAuthorizationCodeGrant: true,
   //       //     clientId: process.env.oktaOauthClientId,
   //       //     scopes: ["tenant"]

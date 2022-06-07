@@ -8,6 +8,8 @@
     "start-temp": "node ./dist/app.js",
     "build": "tsoa spec-and-routes && tsc -b tsconfig.build.json",
     "dev:docker": "docker-compose kill && docker-compose rm -f && docker-compose down -v && docker-compose build && docker-compose up -d",
+    "lint": "yarn run eslint . --ext ts --max-warnings=0",
+    "format": "npx prettier --write **/*.ts",
     "start": "ts-node -r tsconfig-paths/register ./",
     "dev:watch": "nodemon -e 'ts' -i '**/*.test.ts' -w 'src/*' -x 'npm run dev'",
     "testOLD": "concurrently -p '·{name}·' -n UNIT,LINT -c cyan.inverse,magenta.inverse 'npm:test:unit' 'npm:lint'",
@@ -20,8 +22,6 @@
     "testWatch": "USE_FAKE_PORTS='true' jest --watch",
     "testRealPorts": "jest --runInBand",
     "testWatchRealPorts": "jest --watch --runInBand",
-    "format": "npx prettier --write **/*.ts",
-    "lint": "yarn run eslint . --ext ts --max-warnings=0",
     "prepare": "husky install"
   },
   "repository": {

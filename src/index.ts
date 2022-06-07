@@ -1,9 +1,7 @@
-
 import { App } from './app';
 
 const app = new App();
 app.run();
-
 
 // const app = express();
 // const application = new App();

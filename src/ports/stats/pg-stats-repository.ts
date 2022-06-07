@@ -7,13 +7,6 @@ import { StatsRepository } from "./stats-repository";
 
 export class PgStatsRepository implements StatsRepository {
 
-  // TODO need to run this to see what a queryResult looks like
-  // ideally debug. that means the following:
-  /**
-   * 1. get the app running
-   *  - docker, db, etc
-   * 2. get a debugger attached, somehow. while in docker
-   */
   async createLeague(leagueName: string): Promise<void> {
     // TODO: figure out how to return something identifying from these requests
     await query('INSERT INTO leagues (name) VALUES ($1)', [ leagueName ]);
