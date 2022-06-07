@@ -1,6 +1,7 @@
 // import { port } from '@src/configuration';
 import Koa from 'koa';
 import KoaRouter from '@koa/router';
+const bodyParser = require('koa-bodyparser');
 import { RegisterRoutes } from './routes';
 // import { koaSwagger } from 'koa2-swagger-ui';
 // import KoaMount from 'koa-mount';
@@ -15,6 +16,7 @@ export class App {
   
   run(): void {
     const app: Koa = new Koa();
+    app.use(bodyParser());
     const router = new KoaRouter();
     RegisterRoutes(router);
     app.listen(9090);
