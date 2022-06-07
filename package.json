@@ -6,7 +6,7 @@
   "scripts": {
     "dev:fresh": "npm run build && npm run dev:docker && node ./dist/app.js",
     "dev": "npm run build && npm run start",
-    "start": "node ./dist/app.js",
+    "start": "node --inspect=0.0.0.0 ./dist/app.js",
     "build": "tsoa spec-and-routes && tsc -b tsconfig.build.json",
     "dev:watch": "nodemon --ignore src/routes.ts -e 'ts' -i '**/*.test.ts' -w 'src/*' -x 'npm run dev'",
     "dev:docker": "docker-compose kill && docker-compose rm -f && docker-compose down -v && docker-compose build && docker-compose up -d",
