@@ -4,11 +4,16 @@ import { Season } from '../../entities/season';
 import { Team } from '../../entities/team';
 import { query } from '.';
 import { StatsRepository } from './stats-repository';
+import { isNumber } from '../../utilities/is-number';
 
 export class PgStatsRepository implements StatsRepository {
-  async createLeague(leagueName: string): Promise<void> {
-    // TODO: figure out how to return something identifying from these requests
-    await query('INSERT INTO leagues (name) VALUES ($1)', [leagueName]);
+  async createLeague(leagueName: string): Promise<number> {
+    const queryResult = await query('INSERT INTO leagues (name) VALUES ($1) RETURNING league_id', [leagueName]);
+    if (isNumber(queryResult.rows[0].league_id)) {
+      return queryResult.rows[0].league_id;
+    } else {
+      throw new Error('Unexpected result from createLeague');
+    }
   }
   async findLeagueById(leagueId: number): Promise<League | undefined> {
     const found = await query('SELECT * FROM leagues WHERE league_id=$1', [leagueId]);
