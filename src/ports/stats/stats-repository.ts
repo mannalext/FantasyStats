@@ -1,11 +1,11 @@
-import { League } from "../../entities/league";
-import { Owner } from "../../entities/owner";
-import { Season } from "../../entities/season";
-import { Team } from "../../entities/team";
+import { League } from '../../entities/league';
+import { Owner } from '../../entities/owner';
+import { Season } from '../../entities/season';
+import { Team } from '../../entities/team';
 
 // TODO: still need to do implementations that are found in the old branch for the below
 export interface StatsRepository {
-  createLeague(leagueName: string): Promise<void>;
+  createLeague(leagueName: string): Promise<number>;
   findLeagueById(leagueId: number): Promise<League | undefined>;
   createOwner(ownerName: string): Promise<Owner>;
   findOwnerById(ownerId: string): Promise<Owner | undefined>;
