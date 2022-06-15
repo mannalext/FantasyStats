@@ -1,6 +1,6 @@
 CREATE TABLE leagues (
   league_id SERIAL PRIMARY KEY,
-  name CHAR(100) NOT NULL
+  name varchar(100) NOT NULL
 );
 
 CREATE TABLE seasons (
