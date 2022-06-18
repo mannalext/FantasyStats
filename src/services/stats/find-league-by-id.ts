@@ -1,8 +1,7 @@
-import { League } from "../../entities/league";
-import { PgStatsRepository } from "../../ports/stats/pg-stats-repository";
+import { League } from '../../entities/league';
+import { getPorts } from '../../ports/get-ports';
 
 export async function findLeagueById(leagueId: number): Promise<League | undefined> {
-    // TODO: ports
-  const repo = new PgStatsRepository();
-  return repo.findLeagueById(leagueId);
+  const ports = await getPorts();
+  return await ports.statsRepository.findLeagueById(leagueId);
 }
