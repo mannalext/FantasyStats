@@ -1,4 +1,4 @@
-// import { port } from '@src/configuration';
+import { port } from './configuration';
 import Koa from 'koa';
 import KoaRouter from '@koa/router';
 import bodyParser from 'koa-bodyparser';
@@ -18,7 +18,7 @@ export class App {
     app.use(bodyParser());
     const router = new KoaRouter();
     RegisterRoutes(router);
-    app.listen(9090);
+    app.listen(port);
     app.use(router.routes()).use(router.allowedMethods());
     console.log('anybody out there?');
 

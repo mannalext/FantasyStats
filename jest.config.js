@@ -1,5 +1,4 @@
 module.exports = {
-  moduleNameMapper,
   preset: 'ts-jest',
   reporters: ['default', 'jest-junit'],
   testPathIgnorePatterns: ['__tests__/helpers', '__tests__/builders'],

@@ -1,8 +1,6 @@
-import { PgStatsRepository } from "../../ports/stats/pg-stats-repository";
+import { getPorts } from '../../ports/get-ports';
 
-export async function createLeague(leagueName: string): Promise<void> {
-  // TODO: ports
-  const repo = new PgStatsRepository();
-  // TODO prevent duplicates? maybe that's not necessary? probably should be allowed. but how to do we tell them apart?
-  await repo.createLeague(leagueName);
+export async function createLeague(leagueName: string): Promise<number> {
+  const ports = await getPorts();
+  return await ports.statsRepository.createLeague(leagueName);
 }

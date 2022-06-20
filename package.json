@@ -6,7 +6,7 @@
   "scripts": {
     "dev:fresh": "npm run build && npm run dev:docker && node ./dist/app.js",
     "dev": "npm run build && npm run start",
-    "start": "node --inspect=0.0.0.0 ./dist/app.js",
+    "start": "NODE_ENV=development node --inspect=0.0.0.0 ./dist/app.js",
     "build": "tsoa spec-and-routes && tsc -b tsconfig.build.json",
     "dev:watch": "nodemon --ignore src/routes.ts -e 'ts' -i '**/*.test.ts' -w 'src/*' -x 'npm run dev'",
     "dev:docker": "docker-compose kill && docker-compose rm -f && docker-compose down -v && docker-compose build && docker-compose up -d",
@@ -21,8 +21,8 @@
     "lint:commits": "commitlint -f $(git log --reverse --pretty=%H | head -1) -t $(git log -1 --pretty=%H)",
     "test": "USE_FAKE_PORTS='true' jest --group=-bq",
     "testWatch": "USE_FAKE_PORTS='true' jest --watch",
-    "testRealPorts": "jest --runInBand",
-    "testWatchRealPorts": "jest --watch --runInBand",
+    "testRealPorts": "npm run dev:docker && jest --runInBand",
+    "testWatchRealPorts": "npm run dev:docker && jest --watch --runInBand",
     "prepare": "husky install"
   },
   "repository": {
@@ -75,7 +75,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.6.2",
-    "ts-jest": "^26.1.2",
+    "ts-jest": "^27",
     "ts-node": "^10.8.1",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^3.9.0",
