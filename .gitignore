@@ -13,3 +13,5 @@ template-readme.md
 
 src/routes.ts
 dist/**/*
+
+junit.xml

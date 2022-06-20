@@ -23,8 +23,6 @@ interface DatabaseConfiguration {
 
 export class Configuration {
   getDatabaseConfig(): DatabaseConfiguration {
-    console.log(process.env.NODE_ENV);
-    console.log('yo');
     return this.isTestEnv() ? this.getTestDatabaseConfig() : this.getProdDatabaseConfig();
   }
 

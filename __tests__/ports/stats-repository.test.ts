@@ -14,7 +14,6 @@ describe('stats-repository', () => {
 
       it('creates a league', () => {
         repo.createLeague(leagueName);
-        console.log('we ran a test');
         expect(true).toBe(true);
       });
 
