@@ -25,15 +25,13 @@ export class LeaguesController extends Controller {
       });
     }
     return {
-      league: found
+      league: found,
     };
   }
 
   @Post('')
-  public async createLeague(
-    @Body() body: { leagueName: string }
-  ): Promise<void> {
-    await createLeague(body.leagueName);
+  public async createLeague(@Body() body: { leagueName: string }): Promise<number> {
+    return await createLeague(body.leagueName);
     // TODO: this needs to return something once I figure out how to get the return from the insert statement
   }
 }
