@@ -18,7 +18,7 @@ export class PgStatsRepository implements StatsRepository {
 
   async findLeagueById(leagueId: number): Promise<League | undefined> {
     const found = await query('SELECT * FROM leagues WHERE id=$1', [leagueId]);
-    return this.isLeague(found.rows[0]) ? found.rows[0] : undefined;
+    return found.rows.length > 0 ? (this.isLeague(found.rows[0]) ? found.rows[0] : undefined) : undefined;
   }
 
   createOwner(ownerName: string): Promise<Owner> {
