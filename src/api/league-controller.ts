@@ -16,7 +16,6 @@ export class LeaguesController extends Controller {
     @Res() notFoundResponse: TsoaResponse<404, ErrorResponse>
   ): Promise<SingleLeagueResponse> {
     const found = await findLeagueById(id);
-    console.log(found);
     if (!found) {
       return notFoundResponse(404, {
         error: {

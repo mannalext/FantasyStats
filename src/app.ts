@@ -20,7 +20,7 @@ export class App {
     RegisterRoutes(router);
     app.listen(port);
     app.use(router.routes()).use(router.allowedMethods());
-    console.log('anybody out there?');
+    console.log(`anybody out there? port: ${port}`);
 
     // this.enableSwaggerDocs(app);
 
