@@ -21,8 +21,8 @@
     "lint:commits": "commitlint -f $(git log --reverse --pretty=%H | head -1) -t $(git log -1 --pretty=%H)",
     "test": "USE_FAKE_PORTS='true' jest --group=-bq",
     "testWatch": "USE_FAKE_PORTS='true' jest --watch",
-    "testRealPorts": "npm run dev:docker && jest --runInBand",
-    "testWatchRealPorts": "npm run dev:docker && jest --watch --runInBand",
+    "testRealPorts": "export $(cat .test.env | xargs) && npm run dev:docker && jest --runInBand",
+    "testWatchRealPorts": "export $(cat .test.env | xargs) && npm run dev:docker && jest --watch --runInBand",
     "prepare": "husky install"
   },
   "repository": {

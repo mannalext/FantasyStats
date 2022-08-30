@@ -3,8 +3,10 @@ import { getPortsForTesting } from '../helpers/ports-for-testing';
 
 describe('stats-repository', () => {
   let repo: StatsRepository;
-  beforeEach(() => {
-    const ports = getPortsForTesting();
+  let ports;
+
+  beforeAll(() => {
+    ports = getPortsForTesting();
     repo = ports.statsRepository;
   });
 
