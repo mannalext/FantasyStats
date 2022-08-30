@@ -25,7 +25,8 @@
       "@ports": ["src/ports/"],
       "@utilities/*": ["src/utilities/*"],
       "@services/*": ["src/services/*"],
-      "@api/": ["src/api/*"]
+      "@api/": ["src/api/*"],
+      "@configuration/": ["src/configuration.ts"] 
     }
   },
   "include": ["src/**/*.ts", "__tests__/**/*.ts"],
