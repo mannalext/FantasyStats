@@ -43,7 +43,7 @@ jobs:
       - name: build
         run: |
           npm run build
-          npm run test
+          npm run testRealPorts
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
