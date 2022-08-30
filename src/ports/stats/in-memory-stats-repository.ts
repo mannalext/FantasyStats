@@ -5,33 +5,54 @@ import { Team } from '../../entities/team';
 import { StatsRepository } from './stats-repository';
 
 export class InMemoryStatsRepository implements StatsRepository {
-  createLeague(leagueName: string): Promise<number> {
-    console.log(leagueName);
-    throw new Error('Method not implemented.');
+  private leagues: League[];
+  private static leagueIdCounter = 1;
+
+  constructor() {
+    this.leagues = [];
   }
-  findLeagueById(leagueId: number): Promise<League | undefined> {
-    console.log(leagueId);
-    throw new Error('Method not implemented.');
+
+  async createLeague(leagueName: string): Promise<number> {
+    const league: League = {
+      name: leagueName,
+      id: InMemoryStatsRepository.leagueIdCounter,
+    };
+
+    this.leagues.push(league);
+
+    InMemoryStatsRepository.leagueIdCounter++;
+
+    return league.id;
   }
-  createOwner(ownerName: string): Promise<Owner> {
+
+  async findLeagueById(leagueId: number): Promise<League | undefined> {
+    return this.leagues.find(league => {
+      return league.id === leagueId;
+    });
+  }
+  async createOwner(ownerName: string): Promise<Owner> {
     console.log(ownerName);
     throw new Error('Method not implemented.');
   }
-  findOwnerById(ownerId: string): Promise<Owner | undefined> {
+
+  async findOwnerById(ownerId: string): Promise<Owner | undefined> {
     console.log(ownerId);
     throw new Error('Method not implemented.');
   }
-  createSeason(seasonId: string, leagueId: number, year: number): Promise<Season> {
+
+  async createSeason(seasonId: string, leagueId: number, year: number): Promise<Season> {
     console.log(seasonId);
     console.log(leagueId);
     console.log(year);
     throw new Error('Method not implemented.');
   }
-  findSeasonById(seasonId: number): Promise<Season | undefined> {
+
+  async findSeasonById(seasonId: number): Promise<Season | undefined> {
     console.log(seasonId);
     throw new Error('Method not implemented.');
   }
-  createTeam(seasonId: number, ownerId: string, wins: number, losses: number, ties: number): Promise<Team> {
+
+  async createTeam(seasonId: number, ownerId: string, wins: number, losses: number, ties: number): Promise<Team> {
     console.log(seasonId);
     console.log(ownerId);
     console.log(wins);
@@ -39,7 +60,8 @@ export class InMemoryStatsRepository implements StatsRepository {
     console.log(ties);
     throw new Error('Method not implemented.');
   }
-  findTeam(seasonId: number, ownerId: string): Promise<Team | undefined> {
+
+  async findTeam(seasonId: number, ownerId: string): Promise<Team | undefined> {
     console.log(seasonId);
     console.log(ownerId);
     throw new Error('Method not implemented.');
