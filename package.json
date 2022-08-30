@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "dev:fresh": "npm run build && npm run dev:docker && node ./dist/app.js",
+    "dev:fresh": "export $(cat .dev.env | xargs) && npm run build && npm run dev:docker && node ./dist/app.js",
     "dev": "npm run build && npm run start",
-    "start": "NODE_ENV=development node --inspect=0.0.0.0 ./dist/app.js",
+    "start": "export $(cat .dev.env | xargs) && node --inspect=0.0.0.0 ./dist/app.js",
     "build": "tsoa spec-and-routes && tsc -b tsconfig.build.json",
     "dev:watch": "nodemon --ignore src/routes.ts -e 'ts' -i '**/*.test.ts' -w 'src/*' -x 'npm run dev'",
     "dev:docker": "docker-compose kill && docker-compose rm -f && docker-compose down -v && docker-compose build && docker-compose up -d",
@@ -19,10 +19,10 @@
     "linOLD": "concurrently -p '·{name}·' -n CODE,COMMITS -c magenta.inverse 'npm:lint:code' 'npm:lint:commits'",
     "lint:code": "eslint --ext .tsx,.ts .",
     "lint:commits": "commitlint -f $(git log --reverse --pretty=%H | head -1) -t $(git log -1 --pretty=%H)",
-    "test": "USE_FAKE_PORTS='true' jest --group=-bq",
-    "testWatch": "USE_FAKE_PORTS='true' jest --watch",
-    "testRealPorts": "npm run dev:docker && jest --runInBand",
-    "testWatchRealPorts": "npm run dev:docker && jest --watch --runInBand",
+    "test": "export $(cat .test.env | xargs) && USE_FAKE_PORTS='true' jest --group=-bq",
+    "testWatch": "export $(cat .test.env | xargs) && USE_FAKE_PORTS='true' jest --watch",
+    "testRealPorts": "export $(cat .test.env | xargs) && npm run dev:docker && jest --runInBand",
+    "testWatchRealPorts": "export $(cat .test.env | xargs) && npm run dev:docker && jest --watch --runInBand",
     "prepare": "husky install"
   },
   "repository": {

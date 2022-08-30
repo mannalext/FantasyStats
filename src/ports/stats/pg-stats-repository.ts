@@ -8,17 +8,19 @@ import { isNumber } from '../../utilities/is-number';
 
 export class PgStatsRepository implements StatsRepository {
   async createLeague(leagueName: string): Promise<number> {
-    const queryResult = await query('INSERT INTO leagues (name) VALUES ($1) RETURNING league_id', [leagueName]);
-    if (isNumber(queryResult.rows[0].league_id)) {
-      return queryResult.rows[0].league_id;
+    const queryResult = await query('INSERT INTO leagues (name) VALUES ($1) RETURNING id', [leagueName]);
+    if (isNumber(queryResult.rows[0].id)) {
+      return queryResult.rows[0].id;
     } else {
       throw new Error('Unexpected result from createLeague');
     }
   }
+
   async findLeagueById(leagueId: number): Promise<League | undefined> {
-    const found = await query('SELECT * FROM leagues WHERE league_id=$1', [leagueId]);
-    return this.isLeague(found.rows[0]) ? found.rows[0] : undefined;
+    const found = await query('SELECT * FROM leagues WHERE id=$1', [leagueId]);
+    return found.rows.length > 0 ? (this.isLeague(found.rows[0]) ? found.rows[0] : undefined) : undefined;
   }
+
   createOwner(ownerName: string): Promise<Owner> {
     console.log(ownerName);
     // TODO: generate a UUID and send it in
