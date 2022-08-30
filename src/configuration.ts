@@ -1,7 +1,7 @@
 import * as env from 'env-var';
 
 // const nodeEnvironment = env.get('NODE_ENV').default('production').asString();
-export const port = env.get('PORT').required().asIntPositive();
+export const port = env.get('PORT').default(9092).asIntPositive();
 // export const developmentMode = (): boolean => nodeEnvironment !== 'production';
 
 // import * as path from 'node:path';

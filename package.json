@@ -19,8 +19,8 @@
     "linOLD": "concurrently -p '·{name}·' -n CODE,COMMITS -c magenta.inverse 'npm:lint:code' 'npm:lint:commits'",
     "lint:code": "eslint --ext .tsx,.ts .",
     "lint:commits": "commitlint -f $(git log --reverse --pretty=%H | head -1) -t $(git log -1 --pretty=%H)",
-    "test": "USE_FAKE_PORTS='true' jest --group=-bq",
-    "testWatch": "USE_FAKE_PORTS='true' jest --watch",
+    "test": "export $(cat .test.env | xargs) && USE_FAKE_PORTS='true' jest --group=-bq",
+    "testWatch": "export $(cat .test.env | xargs) && USE_FAKE_PORTS='true' jest --watch",
     "testRealPorts": "export $(cat .test.env | xargs) && npm run dev:docker && jest --runInBand",
     "testWatchRealPorts": "export $(cat .test.env | xargs) && npm run dev:docker && jest --watch --runInBand",
     "prepare": "husky install"
