@@ -1,10 +1,10 @@
-import { League } from '../../entities/league';
-import { Owner } from '../../entities/owner';
-import { Season } from '../../entities/season';
-import { Team } from '../../entities/team';
+import { League } from '@entities/league';
+import { Owner } from '@entities/owner';
+import { Season } from '@entities/season';
+import { Team } from '@entities/team';
 import { query } from '.';
 import { StatsRepository } from './stats-repository';
-import { isNumber } from '../../utilities/is-number';
+import { isNumber } from '@utilities/is-number';
 
 export class PgStatsRepository implements StatsRepository {
   async createLeague(leagueName: string): Promise<number> {
