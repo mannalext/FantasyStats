@@ -19,6 +19,17 @@
     "experimentalDecorators": true,
     "esModuleInterop": true, 
     "downlevelIteration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@entities/*": ["src/entities/*"],
+      "@ports/*": ["src/ports/*"],
+      "@utilities/*": ["src/utilities/*"],
+      "@services/*": ["src/services/*"],
+      "@api/": ["src/api/*"]
+    }
   },
   "include": ["src/**/*.ts", "__tests__/**/*.ts"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }

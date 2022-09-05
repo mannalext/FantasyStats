@@ -1,7 +1,7 @@
-import { League } from '../../entities/league';
-import { Owner } from '../../entities/owner';
-import { Season } from '../../entities/season';
-import { Team } from '../../entities/team';
+import { League } from '@entities/league';
+import { Owner } from '@entities/owner';
+import { Season } from '@entities/season';
+import { Team } from '@entities/team';
 import { StatsRepository } from './stats-repository';
 
 export class InMemoryStatsRepository implements StatsRepository {

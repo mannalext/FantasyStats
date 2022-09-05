@@ -1,4 +1,4 @@
-import { League } from '../../entities/league';
+import { League } from '@entities/league';
 import { getPorts } from '../../ports/get-ports';
 
 export async function findLeagueById(leagueId: number): Promise<League | undefined> {
