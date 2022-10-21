@@ -24,3 +24,9 @@
 
 - `npm run testWatchRealPorts`
   - Runs the real ports tests in watch mode
+
+## Accessing the Swagger Documentation
+
+- Bring the application up normally and navigate to `http://localhost:9090/swagger`. This can be configured in the private `enableSwaggerDocs` function
+
+- `swagger.json` powers the spec and that file should be automatically updated every time a controller is edited
