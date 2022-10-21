@@ -7,7 +7,7 @@ export const port = env.get('PORT').default(9092).asIntPositive();
 // import * as path from 'node:path';
 
 interface DatabaseConfiguration {
-  host?: string;
+  host: string;
   database: string;
   user: string;
   password: string;
@@ -64,10 +64,10 @@ export class Configuration {
 
   private getReplitDatabaseConfig(): DatabaseConfiguration {
     return {
-      host: 'peanut.db.elephantsql.com',
-      database: 'vcyjietn',
-      user: 'vcyjietn',
-      password: 'FB5i5o4RuJe6m1S8i5xMTpTwELkP8VAa',
+      host: process.env.REPLIT_DB_HOST ?? 'replit-config-failure',
+      database: process.env.REPLIT_DB_DATABASE ?? 'replit-config-failure',
+      user: process.env.REPLIT_DB_USER ?? 'replit-config-failure',
+      password: process.env.REPLIT_DB_PASSWORD ?? 'replit-config-failure',
     };
   }
 }
