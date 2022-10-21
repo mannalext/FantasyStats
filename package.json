@@ -22,7 +22,9 @@
     "test": "export $(cat .test.env | xargs) && USE_FAKE_PORTS='true' jest --group=-bq",
     "testWatch": "export $(cat .test.env | xargs) && USE_FAKE_PORTS='true' jest --watch",
     "testRealPorts": "export $(cat .test.env | xargs) && npm run dev:docker && jest --runInBand",
+    "testRealPortsReplit": "jest --runInBand",
     "testWatchRealPorts": "export $(cat .test.env | xargs) && npm run dev:docker && jest --watch --runInBand",
+    "testWatchRealPortsReplit": "jest --watch --runInBand",
     "prepare": "husky install"
   },
   "repository": {
