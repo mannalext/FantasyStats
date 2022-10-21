@@ -23,7 +23,11 @@ interface DatabaseConfiguration {
 
 export class Configuration {
   getDatabaseConfig(): DatabaseConfiguration {
-    return this.isTestEnv() ? this.getTestDatabaseConfig() : this.getProdDatabaseConfig();
+    if (process.env.NODE_ENV === 'replit') {
+      return this.getReplitDatabaseConfig();
+    } else {
+      return this.isTestEnv() ? this.getTestDatabaseConfig() : this.getProdDatabaseConfig();
+    }
   }
 
   // TODO: this is maybe useful when setting up a config for hitting sleeper?
@@ -55,6 +59,15 @@ export class Configuration {
       database: 'lol',
       user: 'lol',
       password: 'lol',
+    };
+  }
+
+  private getReplitDatabaseConfig(): DatabaseConfiguration {
+    return {
+      host: 'peanut.db.elephantsql.com',
+      database: 'vcyjietn',
+      user: 'vcyjietn',
+      password: 'FB5i5o4RuJe6m1S8i5xMTpTwELkP8VAa',
     };
   }
 }

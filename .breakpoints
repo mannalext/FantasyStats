@@ -1,0 +1,26 @@
+{
+  "files": {
+    "src/configuration.ts": [
+      {
+        "id": "932c1b22-2776-4018-9d3f-96351c81ab47",
+        "line": 26,
+        "version": 219,
+        "index": 621
+      }
+    ],
+    "src/ports/stats/pg-stats-repository.ts": [
+      {
+        "id": "72a00b21-5f6f-4466-b118-ba43bce504ef",
+        "line": 20,
+        "version": 1,
+        "index": 767
+      },
+      {
+        "id": "99cf5ae2-f98c-49b9-9b17-2471c68df431",
+        "line": 21,
+        "version": 1,
+        "index": 847
+      }
+    ]
+  }
+}
