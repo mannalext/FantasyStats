@@ -15,3 +15,7 @@ src/routes.ts
 dist/**/*
 
 junit.xml
+
+.replit
+replit.nix
+.breakpoints

@@ -7,7 +7,7 @@ export const port = env.get('PORT').default(9092).asIntPositive();
 // import * as path from 'node:path';
 
 interface DatabaseConfiguration {
-  host?: string;
+  host: string;
   database: string;
   user: string;
   password: string;
@@ -23,7 +23,11 @@ interface DatabaseConfiguration {
 
 export class Configuration {
   getDatabaseConfig(): DatabaseConfiguration {
-    return this.isTestEnv() ? this.getTestDatabaseConfig() : this.getProdDatabaseConfig();
+    if (process.env.NODE_ENV === 'replit') {
+      return this.getReplitDatabaseConfig();
+    } else {
+      return this.isTestEnv() ? this.getTestDatabaseConfig() : this.getProdDatabaseConfig();
+    }
   }
 
   // TODO: this is maybe useful when setting up a config for hitting sleeper?
@@ -55,6 +59,15 @@ export class Configuration {
       database: 'lol',
       user: 'lol',
       password: 'lol',
+    };
+  }
+
+  private getReplitDatabaseConfig(): DatabaseConfiguration {
+    return {
+      host: process.env.REPLIT_DB_HOST ?? 'replit-config-failure',
+      database: process.env.REPLIT_DB_DATABASE ?? 'replit-config-failure',
+      user: process.env.REPLIT_DB_USER ?? 'replit-config-failure',
+      password: process.env.REPLIT_DB_PASSWORD ?? 'replit-config-failure',
     };
   }
 }
