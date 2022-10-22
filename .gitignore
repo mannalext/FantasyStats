@@ -16,6 +16,4 @@ dist/**/*
 
 junit.xml
 
-.replit
-replit.nix
 .breakpoints
