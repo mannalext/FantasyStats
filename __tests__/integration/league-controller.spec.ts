@@ -15,4 +15,7 @@ describe('league-controller', () => {
    * - should they be run separately from the unit tests? (probably)
    * - jest configuration to make all the above happen?
    */
+  it('does a thing', () => {
+    expect(true);
+  });
 });

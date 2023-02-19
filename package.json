@@ -25,6 +25,7 @@
     "testRealPortsReplit": "jest --runInBand",
     "testWatchRealPorts": "export $(cat .test.env | xargs) && npm run dev:docker && jest --watch --runInBand",
     "testWatchRealPortsReplit": "jest --watch --runInBand",
+    "testIntegrationReplit": "jest __tests__/integration/* --runInBand",
     "prepare": "husky install"
   },
   "repository": {
