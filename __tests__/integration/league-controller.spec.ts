@@ -1,5 +1,4 @@
-import { app } from '../../src/app';
-import supertest from 'supertest';
+import axios from 'axios';
 
 describe('league-controller', () => {
   /**
@@ -15,7 +14,17 @@ describe('league-controller', () => {
    * - should they be run separately from the unit tests? (probably)
    * - jest configuration to make all the above happen?
    */
-  it('does a thing', () => {
-    expect(true);
+
+  it('does a thing', async () => {
+    const response = await axios.get('https://fantasystats-1.mannalext.repl.co/leagues/48'); // TODO: parameterize
+    // TODO: host can be an env. for replit, a secret
+
+    // TODO: idempotency
+
+    // TODO: script for non replit needs to start and stop the app
+
+    console.log(response.data);
+
+    expect(response.data).toEqual(123);
   });
 });
