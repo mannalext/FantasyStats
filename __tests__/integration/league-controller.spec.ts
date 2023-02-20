@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const host = process.env['STATS_API_URL'];
+
 describe('league-controller', () => {
   /**
    * TODO:
@@ -16,7 +18,7 @@ describe('league-controller', () => {
    */
 
   it('does a thing', async () => {
-    const response = await axios.get('https://fantasystats-1.mannalext.repl.co/leagues/48'); // TODO: parameterize
+    const response = await axios.get(`${host}leagues/48`); // TODO: parameterize
     // TODO: host can be an env. for replit, a secret
 
     // TODO: idempotency
