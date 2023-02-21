@@ -1,8 +1,9 @@
 import axios from 'axios';
-
-const host = process.env['STATS_API_URL'];
+// import { app } from '../../src/app';
 
 describe('league-controller', () => {
+  const host = process.env['STATS_API_URL'];
+
   it('creating and fetching a league', async () => {
     const leagueName = 'IntegrationTestLeague';
 
@@ -12,9 +13,6 @@ describe('league-controller', () => {
     const leagueId = createLeagueResponse.data;
 
     const response = await axios.get(`${host}leagues/${leagueId}`);
-    // TODO: host can be an env. for replit, a secre
-
-    // TODO: script for non replit needs to start and stop the app
 
     expect(response.data).toEqual({
       league: {

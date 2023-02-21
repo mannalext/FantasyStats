@@ -24,3 +24,8 @@
 
 - `npm run testWatchRealPorts`
   - Runs the real ports tests in watch mode
+
+## To see the Swagger Documentation
+
+- Bring up the application in one of the ways described above
+  - Navigate to `localhost:9090/swagger`
