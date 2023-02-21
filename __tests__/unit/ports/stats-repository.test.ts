@@ -1,8 +1,8 @@
-import { League } from '../../src/entities/league';
-import { StatsRepository } from '../../src/ports/stats/stats-repository';
-import { findLeagueById } from '../../src/services/stats/find-league-by-id';
-import { isNumber } from '../../src/utilities/is-number';
-import { getPortsForTesting } from '../helpers/ports-for-testing';
+import { League } from '../../../src/entities/league';
+import { StatsRepository } from '../../../src/ports/stats/stats-repository';
+import { findLeagueById } from '../../../src/services/stats/find-league-by-id';
+import { isNumber } from '../../../src/utilities/is-number';
+import { getPortsForTesting } from '../../helpers/ports-for-testing';
 
 describe('stats-repository', () => {
   let repo: StatsRepository;

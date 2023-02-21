@@ -1,5 +1,5 @@
-import { createLeague } from '../../../src/services/stats/create-league';
-import { findLeagueById } from '../../../src/services/stats/find-league-by-id';
+import { createLeague } from '../../../../src/services/stats/create-league';
+import { findLeagueById } from '../../../../src/services/stats/find-league-by-id';
 
 describe('findLeagueById service', () => {
   describe('when a league exists with the given leagueId', () => {
