@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import { app } from '../../src/app';
 
 describe('league-controller', () => {
   const host = process.env['STATS_API_URL'];
