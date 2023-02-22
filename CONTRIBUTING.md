@@ -23,4 +23,14 @@
   - Runs the real ports tests (real === uses the database and actual implementations)
 
 - `npm run testWatchRealPorts`
+
   - Runs the real ports tests in watch mode
+
+- `npm run dev`
+- In a second terminal: `npm run testIntegration`
+  - Runs integration tests outside of replit
+
+## To see the Swagger Documentation
+
+- Bring up the application in one of the ways described above
+  - Navigate to `localhost:9090/swagger`
