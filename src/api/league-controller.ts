@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Path, Post, Res, Route, TsoaResponse } from 'tsoa';
+import { createLeague } from '@services/stats/leagues/create-league';
+import { findLeagueById } from '@services/stats/leagues/find-league-by-id';
+import { League } from '@entities/league';
 import { ErrorResponse } from './error-message';
-import { League } from '../entities/league';
-import { findLeagueById } from '../services/stats/find-league-by-id';
-import { createLeague } from '../services/stats/create-league';
 
 interface SingleLeagueResponse {
   league: League | undefined;

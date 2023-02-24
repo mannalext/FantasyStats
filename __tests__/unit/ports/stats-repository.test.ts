@@ -1,7 +1,7 @@
-import { League } from '../../../src/entities/league';
-import { StatsRepository } from '../../../src/ports/stats/stats-repository';
-import { findLeagueById } from '../../../src/services/stats/find-league-by-id';
-import { isNumber } from '../../../src/utilities/is-number';
+import { League } from '@entities/league';
+import { StatsRepository } from '@ports/stats/stats-repository';
+import { findLeagueById } from '@services/stats/leagues/find-league-by-id';
+import { isNumber } from '@utilities/is-number';
 import { getPortsForTesting } from '../../helpers/ports-for-testing';
 
 describe('stats-repository', () => {
