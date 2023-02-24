@@ -4,9 +4,10 @@ CREATE TABLE leagues (
 );
 
 CREATE TABLE seasons (
-  id bigint PRIMARY KEY,
-  league_id int NOT NULL,
+  id SERIAL PRIMARY KEY,
+  league_id bigint NOT NULL,
   year int NOT NULL,
+  UNIQUE (league_id, year),
   CONSTRAINT fk_league
     FOREIGN KEY(league_id)
       REFERENCES leagues(id)
