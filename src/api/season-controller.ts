@@ -12,5 +12,7 @@ export class SeasonsController extends Controller {
   public async findSeasonById(
     @Path() id: number,
     @Res() notFoundResponse: TsoaResponse<404, ErrorResponse>
-  ): Promise<SingleSeasonResponse> {}
+  ): Promise<SingleSeasonResponse> {
+    return {} as unknown as SingleSeasonResponse;
+  }
 }
