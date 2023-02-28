@@ -1,9 +1,9 @@
 import { createLeague } from '@services/stats/leagues/create-league';
 import { createSeason } from '@services/stats/seasons/create-season';
-import { findSeasonById } from '@services/stats/seasons/find-season-by-id';
+import { findSeasonByLeagueAndYear } from '@services/stats/seasons/find-season-by-league-and-year';
 
-describe('findSeasonById service', () => {
-  describe('when a season exists with the given seasonId', () => {
+describe('findSeasonByLeagueAndYear service', () => {
+  describe('when a season exists within the given league and year', () => {
     it('returns it', async () => {
       const leagueName = 'someLeagueName';
       const leagueId = await createLeague(leagueName);
@@ -15,15 +15,15 @@ describe('findSeasonById service', () => {
         year: new Date().getFullYear(),
       };
 
-      const season = await findSeasonById(seasonId);
+      const season = await findSeasonByLeagueAndYear(leagueId, someSeason.year);
 
       expect(season).toEqual(someSeason);
     });
   });
 
-  describe('when a season does not exist with the given seasonId', () => {
+  describe('when a season does not exist within the given league and year', () => {
     it('returns undefined', async () => {
-      const season = await findSeasonById(-1);
+      const season = await findSeasonByLeagueAndYear(-1, -1);
       expect(season).toEqual(undefined);
     });
   });

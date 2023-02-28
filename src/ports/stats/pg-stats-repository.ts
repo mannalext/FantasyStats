@@ -48,6 +48,21 @@ export class PgStatsRepository implements StatsRepository {
       `,
       [seasonId]
     );
+
+    return found.rows.length > 0 ? (this.isSeason(found.rows[0]) ? found.rows[0] : undefined) : undefined;
+  }
+
+  async findSeasonByLeagueAndYear(leagueId: number, year: number): Promise<Season | undefined> {
+    const found = await query(
+      `
+        select id, league_id::int as "leagueId", year
+        from seasons
+        where league_id=$1
+        and year=$2
+      `,
+      [leagueId, year]
+    );
+
     return found.rows.length > 0 ? (this.isSeason(found.rows[0]) ? found.rows[0] : undefined) : undefined;
   }
 
