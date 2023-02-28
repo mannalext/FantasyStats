@@ -13,38 +13,9 @@ describe('stats-repository', () => {
     repo = ports.statsRepository;
   });
 
-  describe('createLeague', () => {
-    describe('when a valid league name is given', () => {
-      const leagueName = 'testLeague';
-      let leagueId: number;
-
-      beforeAll(async () => {
-        leagueId = await repo.createLeague(leagueName);
-      });
-
-      it('returns the league id', () => {
-        expect(isNumber(leagueId)).toBe(true);
-      });
-
-      it('creates a league', async () => {
-        const league: League = {
-          id: leagueId,
-          name: leagueName,
-        };
-        expect(await repo.findLeagueById(leagueId)).toEqual(league);
-      });
-
-      it('increments league ids for successively created leagues', async () => {
-        const newLeagueId = await repo.createLeague('newLeague)');
-        const anotherNewLeagueId = await repo.createLeague('anotherNewLeague');
-        expect(anotherNewLeagueId).toEqual(newLeagueId + 1);
-      });
-    });
-  });
-
-  describe('findLeagueById', () => {
-    describe('when a valid leagueId is given', () => {
-      describe('if the league exists', () => {
+  describe('leagues', () => {
+    describe('createLeague', () => {
+      describe('when a valid league name is given', () => {
         const leagueName = 'testLeague';
         let leagueId: number;
 
@@ -52,22 +23,53 @@ describe('stats-repository', () => {
           leagueId = await repo.createLeague(leagueName);
         });
 
-        it('returns the league', async () => {
-          const expectedLeague: League = {
-            name: 'testLeague',
+        it('returns the league id', () => {
+          expect(isNumber(leagueId)).toBe(true);
+        });
+
+        it('creates a league', async () => {
+          const league: League = {
             id: leagueId,
+            name: leagueName,
           };
+          expect(await repo.findLeagueById(leagueId)).toEqual(league);
+        });
 
-          const league = await repo.findLeagueById(leagueId);
-
-          expect(league).toEqual(expectedLeague);
+        it('increments league ids for successively created leagues', async () => {
+          const newLeagueId = await repo.createLeague('newLeague)');
+          const anotherNewLeagueId = await repo.createLeague('anotherNewLeague');
+          expect(anotherNewLeagueId).toEqual(newLeagueId + 1);
         });
       });
+    });
 
-      describe('if the league does not exist', () => {
-        it('returns undefined', async () => {
-          const league = await findLeagueById(9_999_999);
-          expect(league).toEqual(undefined);
+    describe('findLeagueById', () => {
+      describe('when a valid leagueId is given', () => {
+        describe('if the league exists', () => {
+          const leagueName = 'testLeague';
+          let leagueId: number;
+
+          beforeAll(async () => {
+            leagueId = await repo.createLeague(leagueName);
+          });
+
+          it('returns the league', async () => {
+            const expectedLeague: League = {
+              name: 'testLeague',
+              id: leagueId,
+            };
+
+            const league = await repo.findLeagueById(leagueId);
+
+            expect(league).toEqual(expectedLeague);
+          });
+        });
+
+        describe('if the league does not exist', () => {
+          it('returns undefined', async () => {
+            const league = await findLeagueById(9_999_999);
+            expect(league).toEqual(undefined);
+          });
         });
       });
     });
