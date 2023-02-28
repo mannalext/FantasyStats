@@ -74,4 +74,6 @@ describe('stats-repository', () => {
       });
     });
   });
+
+  describe('seasons', () => {});
 });
