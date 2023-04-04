@@ -19,7 +19,7 @@ CREATE TABLE owners (
 );
 
 CREATE TABLE teams (
-  id SERIAL UNIQUE
+  id SERIAL UNIQUE,
   season_id bigint NOT NULL,
   owner_id bigint NOT NULL,
   wins int NOT NULL,
