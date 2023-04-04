@@ -8,7 +8,7 @@ describe('createSeason service', () => {
       const someLeagueName = 'someLeagueName';
       const leagueId = await createLeague(someLeagueName);
       const seasonId = await createSeason(leagueId);
-      const season = findSeasonById(seasonId);
+      const season = await findSeasonById(seasonId);
       expect(season).toEqual({
         leagueId,
         id: seasonId,
@@ -21,7 +21,7 @@ describe('createSeason service', () => {
     it('throws an exception', async () => {
       const someLeagueName = 'someLeagueName';
       const leagueId = await createLeague(someLeagueName);
-      const seasonId = await createSeason(leagueId);
+      await createSeason(leagueId);
       await expect(createSeason(leagueId)).rejects.toThrow();
     });
   });
