@@ -51,6 +51,38 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"Season": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"leagueId": {
+						"type": "number",
+						"format": "double"
+					},
+					"year": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"leagueId",
+					"year"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SingleSeasonResponse": {
+				"properties": {
+					"season": {
+						"$ref": "#/components/schemas/Season"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -134,6 +166,132 @@
 								},
 								"required": [
 									"leagueName"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/seasons/{id}": {
+			"get": {
+				"operationId": "FindSeasonById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SingleSeasonResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/seasons/{leagueId}/{year}": {
+			"get": {
+				"operationId": "FindSeasonByLeagueAndYear",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SingleSeasonResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "leagueId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "year",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/seasons": {
+			"post": {
+				"operationId": "CreateSeason",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"leagueId": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"leagueId"
 								],
 								"type": "object"
 							}

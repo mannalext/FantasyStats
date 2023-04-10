@@ -1,9 +1,9 @@
-import { Season } from '@entities/season';
+import { Season } from '../entities/season';
 import { Body, Controller, Get, Path, Post, Res, Route, TsoaResponse } from 'tsoa';
 import { ErrorResponse } from './error-message';
-import { findSeasonById } from '@services/stats/seasons/find-season-by-id';
-import { findSeasonByLeagueAndYear } from '@services/stats/seasons/find-season-by-league-and-year';
-import { createSeason } from '@services/stats/seasons/create-season';
+import { findSeasonById } from '../services/stats/seasons/find-season-by-id';
+import { findSeasonByLeagueAndYear } from '../services/stats/seasons/find-season-by-league-and-year';
+import { createSeason } from '../services/stats/seasons/create-season';
 
 interface SingleSeasonResponse {
   season: Season | undefined;
@@ -29,7 +29,7 @@ export class SeasonsController extends Controller {
     };
   }
 
-  @Get('{leagueId}')
+  @Get('{leagueId}/{year}')
   public async findSeasonByLeagueAndYear(
     @Path() leagueId: number,
     @Path() year: number,
