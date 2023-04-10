@@ -1,7 +1,8 @@
-import { League } from '../../../src/entities/league';
-import { StatsRepository } from '../../../src/ports/stats/stats-repository';
-import { findLeagueById } from '../../../src/services/stats/find-league-by-id';
-import { isNumber } from '../../../src/utilities/is-number';
+import { League } from '@entities/league';
+import { Season } from '@entities/season';
+import { StatsRepository } from '@ports/stats/stats-repository';
+import { findLeagueById } from '@services/stats/leagues/find-league-by-id';
+import { isNumber } from '@utilities/is-number';
 import { getPortsForTesting } from '../../helpers/ports-for-testing';
 
 describe('stats-repository', () => {
@@ -13,38 +14,9 @@ describe('stats-repository', () => {
     repo = ports.statsRepository;
   });
 
-  describe('createLeague', () => {
-    describe('when a valid league name is given', () => {
-      const leagueName = 'testLeague';
-      let leagueId: number;
-
-      beforeAll(async () => {
-        leagueId = await repo.createLeague(leagueName);
-      });
-
-      it('returns the league id', () => {
-        expect(isNumber(leagueId)).toBe(true);
-      });
-
-      it('creates a league', async () => {
-        const league: League = {
-          id: leagueId,
-          name: leagueName,
-        };
-        expect(await repo.findLeagueById(leagueId)).toEqual(league);
-      });
-
-      it('increments league ids for successively created leagues', async () => {
-        const newLeagueId = await repo.createLeague('newLeague)');
-        const anotherNewLeagueId = await repo.createLeague('anotherNewLeague');
-        expect(anotherNewLeagueId).toEqual(newLeagueId + 1);
-      });
-    });
-  });
-
-  describe('findLeagueById', () => {
-    describe('when a valid leagueId is given', () => {
-      describe('if the league exists', () => {
+  describe('leagues', () => {
+    describe('createLeague', () => {
+      describe('when a valid league name is given', () => {
         const leagueName = 'testLeague';
         let leagueId: number;
 
@@ -52,22 +24,155 @@ describe('stats-repository', () => {
           leagueId = await repo.createLeague(leagueName);
         });
 
-        it('returns the league', async () => {
-          const expectedLeague: League = {
-            name: 'testLeague',
+        it('returns the league id', () => {
+          expect(isNumber(leagueId)).toBe(true);
+        });
+
+        it('creates a league', async () => {
+          const league: League = {
             id: leagueId,
+            name: leagueName,
+          };
+          expect(await repo.findLeagueById(leagueId)).toEqual(league);
+        });
+
+        it('increments league ids for successively created leagues', async () => {
+          const newLeagueId = await repo.createLeague('newLeague)');
+          const anotherNewLeagueId = await repo.createLeague('anotherNewLeague');
+          expect(anotherNewLeagueId).toEqual(newLeagueId + 1);
+        });
+      });
+    });
+
+    describe('findLeagueById', () => {
+      describe('when a valid leagueId is given', () => {
+        describe('if the league exists', () => {
+          const leagueName = 'testLeague';
+          let leagueId: number;
+
+          beforeAll(async () => {
+            leagueId = await repo.createLeague(leagueName);
+          });
+
+          it('returns the league', async () => {
+            const expectedLeague: League = {
+              name: 'testLeague',
+              id: leagueId,
+            };
+
+            const league = await repo.findLeagueById(leagueId);
+
+            expect(league).toEqual(expectedLeague);
+          });
+        });
+
+        describe('if the league does not exist', () => {
+          it('returns undefined', async () => {
+            const league = await findLeagueById(9_999_999);
+            expect(league).toEqual(undefined);
+          });
+        });
+      });
+    });
+  });
+
+  describe('seasons', () => {
+    describe('createSeason', () => {
+      describe('when a valid combination of league_id and year is given', () => {
+        const leagueName = 'testLeagueForSeasonRepositoryUnitTests';
+        let leagueId: number;
+        let seasonId: number;
+
+        beforeAll(async () => {
+          leagueId = await repo.createLeague(leagueName);
+          seasonId = await repo.createSeason(leagueId);
+        });
+
+        it('returns the season id', () => {
+          expect(isNumber(seasonId)).toBe(true);
+        });
+
+        it('creates a season', async () => {
+          const season: Season = {
+            id: seasonId,
+            leagueId: leagueId,
+            year: new Date().getFullYear(),
           };
 
-          const league = await repo.findLeagueById(leagueId);
+          expect(await repo.findSeasonById(seasonId)).toEqual(season);
+        });
 
-          expect(league).toEqual(expectedLeague);
+        it('increments season ids for successively created seasons', async () => {
+          const newLeagueId = await repo.createLeague(leagueName);
+          const newSeasonId = await repo.createSeason(newLeagueId);
+
+          expect(newSeasonId).toEqual(seasonId + 1);
         });
       });
 
-      describe('if the league does not exist', () => {
-        it('returns undefined', async () => {
-          const league = await findLeagueById(9_999_999);
-          expect(league).toEqual(undefined);
+      describe('when the given league id does not exist', () => {
+        it('throws an exception', async () => {
+          await expect(repo.createSeason(69)).rejects.toThrow();
+        });
+      });
+
+      describe('when the season already exists', () => {
+        it('throws an exception', async () => {
+          const leagueName = 'testLeagueForAlreadyExistingSeason';
+          const leagueId = await repo.createLeague(leagueName);
+          await repo.createSeason(leagueId);
+
+          await expect(repo.createSeason(leagueId)).rejects.toThrow();
+        });
+      });
+    });
+
+    describe('findSeasonById', () => {
+      describe('when a valid season id is given', () => {
+        describe('and the season exists', () => {
+          it('returns the season', async () => {
+            const leagueName = 'testLeagueForFindSeasonById';
+            const leagueId = await repo.createLeague(leagueName);
+            const seasonId = await repo.createSeason(leagueId);
+            const season: Season = {
+              id: seasonId,
+              leagueId: leagueId,
+              year: new Date().getFullYear(),
+            };
+
+            expect(await repo.findSeasonById(seasonId)).toEqual(season);
+          });
+        });
+
+        describe('and the season does not exist', () => {
+          it('returns undefined', async () => {
+            expect(await repo.findSeasonById(9_999_999)).toEqual(undefined);
+          });
+        });
+      });
+    });
+
+    describe('findSeasonByLeagueAndYear', () => {
+      describe('when a valid league id and year are given', () => {
+        describe('and the season exists', () => {
+          it('returns the season', async () => {
+            const leagueName = 'testLeagueForFindSeasonByLeagueAndYear';
+            const leagueId = await repo.createLeague(leagueName);
+            const seasonId = await repo.createSeason(leagueId);
+            const season: Season = {
+              id: seasonId,
+              leagueId: leagueId,
+              year: new Date().getFullYear(),
+            };
+
+            expect(await repo.findSeasonByLeagueAndYear(leagueId, new Date().getFullYear())).toEqual(season);
+          });
+        });
+
+        describe('and the season does not exist', () => {
+          it('returns undefined', async () => {
+            expect(await repo.findSeasonByLeagueAndYear(1, 2020)).toEqual(undefined);
+          });
         });
       });
     });
