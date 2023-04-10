@@ -25,4 +25,19 @@ describe('createSeason service', () => {
       await expect(createSeason(leagueId)).rejects.toThrow();
     });
   });
+
+  describe('when a non existent league id is passed in', () => {
+    it('throws an exception', async () => {
+      await expect(createSeason(69)).rejects.toThrow();
+    });
+  });
+
+  describe('when the season already exists', () => {
+    it('throws an exception', async () => {
+      const someLeagueName = 'someLeagueName';
+      const leagueId = await createLeague(someLeagueName);
+      await createSeason(leagueId);
+      await expect(createSeason(leagueId)).rejects.toThrow();
+    });
+  });
 });
