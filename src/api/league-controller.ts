@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Path, Post, Res, Route, TsoaResponse } from 'tsoa';
-import { createLeague } from '@services/stats/leagues/create-league';
-import { findLeagueById } from '@services/stats/leagues/find-league-by-id';
-import { League } from '@entities/league';
+import { createLeague } from '../services/stats/leagues/create-league';
+import { findLeagueById } from '../services/stats/leagues/find-league-by-id';
+import { League } from '../entities/league';
 import { ErrorResponse } from './error-message';
 
 interface SingleLeagueResponse {

@@ -1,4 +1,4 @@
-import { getPorts } from '@ports/get-ports';
+import { getPorts } from '../../../ports/get-ports';
 
 export async function createSeason(leagueId: number): Promise<number> {
   const ports = await getPorts();
