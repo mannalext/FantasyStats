@@ -6,7 +6,6 @@ import { query } from '.';
 import { StatsRepository } from './stats-repository';
 import { isNumber } from '../../utilities/is-number';
 import { QueryResult } from 'pg';
-import { LeagueDoesNotExistError } from '../../services/stats/leagues/leagues-validators';
 
 interface PostgresConstraintError extends Error {
   code: string;
@@ -23,17 +22,19 @@ export class PgStatsRepository implements StatsRepository {
     }
   }
 
-  async findLeagueById(leagueId: number): Promise<League | undefined> {
+  // TODO: slim down this function when we get an ORM implemented
+  async findLeagueById(leagueId: number): Promise<League> {
     const found = await query('SELECT * FROM leagues WHERE id=$1', [leagueId]);
-    if (found.rows.length > 0) {
-      if (this.isLeagueEntity(found.rows[0])) {
-        return found.rows[0];
-      } else {
-        throw new Error('Unexpected result from findLeagueById');
-      }
+    if (this.isLeagueEntity(found.rows[0])) {
+      return found.rows[0];
     } else {
-      throw new LeagueDoesNotExistError('No league found for that id');
+      throw new Error('Unexpected result from findLeagueById');
     }
+  }
+
+  async doesLeagueExist(leagueId: number): Promise<boolean> {
+    const found = await query('SELECT * FROM leagues WHERE id=$1', [leagueId]);
+    return found.rows.length > 0;
   }
 
   async createSeason(leagueId: number): Promise<number> {
@@ -118,6 +119,7 @@ export class PgStatsRepository implements StatsRepository {
 
   // privates
 
+  // TODO: this type guard likely goes away when we get an ORM
   private isLeagueEntity(result: LeagueEntity | unknown): result is LeagueEntity {
     return (result as LeagueEntity).name !== undefined && (result as LeagueEntity).id !== undefined;
   }

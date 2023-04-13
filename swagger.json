@@ -23,15 +23,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"SingleLeagueResponse": {
-				"properties": {
-					"league": {
-						"$ref": "#/components/schemas/League"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
-			},
 			"Owner": {
 				"properties": {
 					"id": {
@@ -132,7 +123,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/SingleLeagueResponse"
+									"$ref": "#/components/schemas/League"
 								}
 							}
 						}

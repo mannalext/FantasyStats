@@ -5,7 +5,8 @@ import { Team } from '@entities/team';
 
 export interface StatsRepository {
   createLeague(leagueName: string): Promise<number>;
-  findLeagueById(leagueId: number): Promise<League | undefined>;
+  findLeagueById(leagueId: number): Promise<League>;
+  doesLeagueExist(leagueId: number): Promise<boolean>;
   createOwner(ownerName: string): Promise<number>;
   findOwnerById(ownerId: number): Promise<Owner | undefined>;
   createSeason(leagueId: number): Promise<number>;

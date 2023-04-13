@@ -1,4 +1,4 @@
-import { LeagueDoesNotExistError } from '../../services/stats/leagues/leagues-validators';
+import { EntityAlreadyExistsError, EntityDoesNotExistError } from '../../services/errors';
 import * as Router from 'koa-router';
 
 export const LeagueErrorHandlingMiddleware = async (
@@ -6,20 +6,11 @@ export const LeagueErrorHandlingMiddleware = async (
   next: () => Promise<any>
 ): Promise<any> => {
   try {
-    console.log('what');
     await next();
   } catch (error: any) {
-    console.log('how');
-    if (error instanceof LeagueDoesNotExistError) {
+    if (error instanceof EntityDoesNotExistError || error instanceof EntityAlreadyExistsError) {
       context.throw(error, 404);
     }
-    // if (error instanceof TooManyTiersError || error instanceof PriceTooLowError) {
-    //   ctx.throw(error, 400);
-    // } else if (error instanceof UserNotAuthorizedError) {
-    //   ctx.throw(error, 403);
-    // } else if (error instanceof TierDoesNotExistError) {
-    //   ctx.throw(error, 404);
-    // }
     context.throw(error, 500);
   }
 };

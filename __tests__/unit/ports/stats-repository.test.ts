@@ -1,7 +1,6 @@
 import { League } from '@entities/league';
 import { Season } from '@entities/season';
 import { StatsRepository } from '@ports/stats/stats-repository';
-import { findLeagueById } from '@services/stats/leagues/find-league-by-id';
 import { isNumber } from '@utilities/is-number';
 import { getPortsForTesting } from '../../helpers/ports-for-testing';
 
@@ -67,9 +66,9 @@ describe('stats-repository', () => {
         });
 
         describe('if the league does not exist', () => {
-          it('returns undefined', async () => {
-            const league = await findLeagueById(9_999_999);
-            expect(league).toEqual(undefined);
+          it('throws an exception', async () => {
+            const leagueId = 9_999_999;
+            await expect(repo.findLeagueById(leagueId)).rejects.toThrow();
           });
         });
       });

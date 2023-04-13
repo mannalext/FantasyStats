@@ -1,13 +1,10 @@
-export class LeagueDoesNotExistError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'LeagueDoesNotExistError';
+import { EntityDoesNotExistError } from '../../../services/errors';
+import { getPorts } from '../../../ports/get-ports';
+
+export async function validateLeagueExists(leagueId: number): Promise<void> {
+  const ports = await getPorts();
+  const doesLeagueExist = await ports.statsRepository.doesLeagueExist(leagueId);
+  if (!doesLeagueExist) {
+    throw new EntityDoesNotExistError(`No league found for id ${leagueId}`);
   }
 }
-
-// export async function validateLeagueExists(leagueId: number): Promise<void> {
-//   const league = await findLeagueById(leagueId);
-//   if (!league) {
-//     throw new LeagueDoesNotExistError(`No league found for id ${leagueId}`);
-//   }
-// }
