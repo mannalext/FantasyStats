@@ -177,4 +177,45 @@ describe('stats-repository', () => {
       });
     });
   });
+
+  // TODO: add negative tests (invalid inputs, etc.
+  // TODO: probably need better negative case handling for those tests to make sense)
+  describe('owners', () => {
+    describe('createOwner', () => {
+      describe('when a valid owner name is given', () => {
+        it('returns the owner id', async () => {
+          const ownerId = await repo.createOwner('testOwner');
+          expect(isNumber(ownerId)).toBe(true);
+        });
+
+        it('creates an owner', async () => {
+          const ownerId = await repo.createOwner('testOwner');
+          expect(await repo.findOwnerById(ownerId)).toEqual({ id: ownerId, name: 'testOwner' });
+        });
+
+        it('increments owner ids for successively created owners', async () => {
+          const newOwnerId = await repo.createOwner('newOwner');
+          const anotherNewOwnerId = await repo.createOwner('anotherNewOwner');
+          expect(anotherNewOwnerId).toEqual(newOwnerId + 1);
+        });
+      });
+    });
+
+    describe('findOwnerById', () => {
+      describe('when a valid owner id is given', () => {
+        describe('and the owner exists', () => {
+          it('returns the owner', async () => {
+            const ownerId = await repo.createOwner('testOwner');
+            expect(await repo.findOwnerById(ownerId)).toEqual({ id: ownerId, name: 'testOwner' });
+          });
+        });
+
+        describe('and the owner does not exist', () => {
+          it('returns undefined', async () => {
+            expect(await repo.findOwnerById(9_999_999)).toEqual(undefined);
+          });
+        });
+      });
+    });
+  });
 });

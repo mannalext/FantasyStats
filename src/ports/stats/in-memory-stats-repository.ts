@@ -30,12 +30,12 @@ export class InMemoryStatsRepository implements StatsRepository {
       return league.id === leagueId;
     });
   }
-  async createOwner(ownerName: string): Promise<Owner> {
+  async createOwner(ownerName: string): Promise<number> {
     console.log(ownerName);
     throw new Error('Method not implemented.');
   }
 
-  async findOwnerById(ownerId: string): Promise<Owner | undefined> {
+  async findOwnerById(ownerId: number): Promise<Owner | undefined> {
     console.log(ownerId);
     throw new Error('Method not implemented.');
   }

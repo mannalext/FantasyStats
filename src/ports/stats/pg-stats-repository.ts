@@ -1,10 +1,11 @@
 import { League } from '@entities/league';
-import { Owner } from '@entities/owner';
+import { Owner, OwnerEntity } from '@entities/owner';
 import { Season } from '@entities/season';
 import { Team } from '@entities/team';
 import { query } from '.';
 import { StatsRepository } from './stats-repository';
 import { isNumber } from '../../utilities/is-number';
+import { QueryResult } from 'pg';
 
 interface PostgresConstraintError extends Error {
   code: string;
@@ -80,19 +81,27 @@ export class PgStatsRepository implements StatsRepository {
     return found.rows.length > 0 ? (this.isSeason(found.rows[0]) ? found.rows[0] : undefined) : undefined;
   }
 
-  createOwner(ownerName: string): Promise<Owner> {
-    console.log(ownerName);
-    // TODO: generate a UUID and send it in
-    throw new Error('Method not implemented.');
+  async createOwner(ownerName: string): Promise<number> {
+    const queryResult = await query('insert into owners (display_name) values ($1) returning id', [ownerName]);
+    if (isNumber(queryResult.rows[0].id)) {
+      return queryResult.rows[0].id;
+    } else {
+      throw new Error('Unexpected result from createOwner');
+    }
   }
-  findOwnerById(ownerId: string): Promise<Owner | undefined> {
-    console.log(ownerId);
-    throw new Error('Method not implemented.');
+
+  async findOwnerById(ownerId: number): Promise<Owner | undefined> {
+    const found: QueryResult = await query('select * from owners where id=$1', [ownerId]);
+    const ownerEntity: OwnerEntity = found.rows[0];
+
+    return ownerEntity ? this.convertOwnerEntityToOwner(ownerEntity) : undefined;
   }
+
   createTeam(seasonId: number, ownerId: string, wins: number, losses: number, ties: number): Promise<Team> {
     console.log(seasonId, ownerId, wins, losses, ties);
     throw new Error('Method not implemented.');
   }
+
   findTeam(seasonId: number, ownerId: string): Promise<Team | undefined> {
     console.log(seasonId, ownerId);
     throw new Error('Method not implemented.');
@@ -121,5 +130,12 @@ export class PgStatsRepository implements StatsRepository {
       (typeof (error as PostgresConstraintError).constraint === 'string' ||
         (error as PostgresConstraintError).constraint === undefined)
     );
+  }
+
+  private convertOwnerEntityToOwner(ownerEntity: OwnerEntity): Owner {
+    return {
+      id: ownerEntity.id,
+      name: ownerEntity.display_name,
+    };
   }
 }
