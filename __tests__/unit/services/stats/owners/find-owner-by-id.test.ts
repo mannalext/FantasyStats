@@ -9,7 +9,7 @@ describe('findOwnerById service', () => {
       const owner = await findOwnerById(ownerId);
       expect(owner).toEqual({
         id: ownerId,
-        displayName: ownerName,
+        name: ownerName,
       });
     });
   });

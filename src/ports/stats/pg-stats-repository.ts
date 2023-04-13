@@ -1,10 +1,11 @@
 import { League } from '@entities/league';
-import { Owner } from '@entities/owner';
+import { Owner, OwnerEntity } from '@entities/owner';
 import { Season } from '@entities/season';
 import { Team } from '@entities/team';
 import { query } from '.';
 import { StatsRepository } from './stats-repository';
 import { isNumber } from '../../utilities/is-number';
+import { QueryResult } from 'pg';
 
 interface PostgresConstraintError extends Error {
   code: string;
@@ -88,14 +89,19 @@ export class PgStatsRepository implements StatsRepository {
       throw new Error('Unexpected result from createOwner');
     }
   }
+
   async findOwnerById(ownerId: number): Promise<Owner | undefined> {
-    const found = await query('select * from owners where id=$1', [ownerId]);
-    return found.rows.length > 0 ? (found.rows[0] as Owner) : undefined;
+    const found: QueryResult = await query('select * from owners where id=$1', [ownerId]);
+    const ownerEntity: OwnerEntity = found.rows[0];
+
+    return ownerEntity ? this.convertOwnerEntityToOwner(ownerEntity) : undefined;
   }
+
   createTeam(seasonId: number, ownerId: string, wins: number, losses: number, ties: number): Promise<Team> {
     console.log(seasonId, ownerId, wins, losses, ties);
     throw new Error('Method not implemented.');
   }
+
   findTeam(seasonId: number, ownerId: string): Promise<Team | undefined> {
     console.log(seasonId, ownerId);
     throw new Error('Method not implemented.');
@@ -124,5 +130,12 @@ export class PgStatsRepository implements StatsRepository {
       (typeof (error as PostgresConstraintError).constraint === 'string' ||
         (error as PostgresConstraintError).constraint === undefined)
     );
+  }
+
+  private convertOwnerEntityToOwner(ownerEntity: OwnerEntity): Owner {
+    return {
+      id: ownerEntity.id,
+      name: ownerEntity.display_name,
+    };
   }
 }
