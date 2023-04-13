@@ -6,6 +6,32 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"League": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SingleLeagueResponse": {
+				"properties": {
+					"league": {
+						"$ref": "#/components/schemas/League"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Owner": {
 				"properties": {
 					"id": {
@@ -97,6 +123,73 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/leagues/{id}": {
+			"get": {
+				"operationId": "FindLeagueById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SingleLeagueResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/leagues": {
+			"post": {
+				"operationId": "CreateLeague",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"leagueName": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"leagueName"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/owners/{id}": {
 			"get": {
 				"operationId": "FindOwnerById",

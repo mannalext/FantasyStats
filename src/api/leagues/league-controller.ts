@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Path, Post, Route } from 'tsoa';
+import { Body, Controller, Get, Middlewares, Path, Post, Route } from 'tsoa';
 import { createLeague } from '../../services/stats/leagues/create-league';
 import { findLeagueById } from '../../services/stats/leagues/find-league-by-id';
 import { League } from '../../entities/league';
+import { LeagueErrorHandlingMiddleware } from './league-error-handling-middleware';
 // import { ErrorResponse } from '../error-message';
 // import { LeagueErrorHandlingMiddleware } from './league-error-handling-middleware';
 
@@ -10,13 +11,14 @@ interface SingleLeagueResponse {
 }
 
 @Route('leagues')
-// @Middlewares(LeagueErrorHandlingMiddleware)
+@Middlewares(LeagueErrorHandlingMiddleware)
 export class LeaguesController extends Controller {
   @Get('{id}')
   public async findLeagueById(
     @Path() id: number
     // @Res() notFoundResponse: TsoaResponse<404, ErrorResponse>
   ): Promise<SingleLeagueResponse> {
+    // throw new Error('hmm');
     const found = await findLeagueById(id);
     // if (!found) {
     //   return notFoundResponse(404, {
