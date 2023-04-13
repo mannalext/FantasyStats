@@ -80,14 +80,17 @@ export class PgStatsRepository implements StatsRepository {
     return found.rows.length > 0 ? (this.isSeason(found.rows[0]) ? found.rows[0] : undefined) : undefined;
   }
 
-  createOwner(ownerName: string): Promise<Owner> {
-    console.log(ownerName);
-    // TODO: generate a UUID and send it in
-    throw new Error('Method not implemented.');
+  async createOwner(ownerName: string): Promise<number> {
+    const queryResult = await query('insert into owners (display_name) values ($1) returning id', [ownerName]);
+    if (isNumber(queryResult.rows[0].id)) {
+      return queryResult.rows[0].id;
+    } else {
+      throw new Error('Unexpected result from createOwner');
+    }
   }
-  findOwnerById(ownerId: string): Promise<Owner | undefined> {
-    console.log(ownerId);
-    throw new Error('Method not implemented.');
+  async findOwnerById(ownerId: number): Promise<Owner | undefined> {
+    const found = await query('select * from owners where id=$1', [ownerId]);
+    return found.rows.length > 0 ? (found.rows[0] as Owner) : undefined;
   }
   createTeam(seasonId: number, ownerId: string, wins: number, losses: number, ties: number): Promise<Team> {
     console.log(seasonId, ownerId, wins, losses, ties);
