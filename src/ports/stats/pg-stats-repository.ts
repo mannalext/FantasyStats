@@ -1,4 +1,4 @@
-import { League } from '@entities/league';
+import { League, LeagueEntity } from '@entities/league';
 import { Owner, OwnerEntity } from '@entities/owner';
 import { Season } from '@entities/season';
 import { Team } from '@entities/team';
@@ -6,6 +6,7 @@ import { query } from '.';
 import { StatsRepository } from './stats-repository';
 import { isNumber } from '../../utilities/is-number';
 import { QueryResult } from 'pg';
+import { LeagueDoesNotExistError } from '../../services/stats/leagues/leagues-validators';
 
 interface PostgresConstraintError extends Error {
   code: string;
@@ -24,7 +25,15 @@ export class PgStatsRepository implements StatsRepository {
 
   async findLeagueById(leagueId: number): Promise<League | undefined> {
     const found = await query('SELECT * FROM leagues WHERE id=$1', [leagueId]);
-    return found.rows.length > 0 ? (this.isLeague(found.rows[0]) ? found.rows[0] : undefined) : undefined;
+    if (found.rows.length > 0) {
+      if (this.isLeagueEntity(found.rows[0])) {
+        return found.rows[0];
+      } else {
+        throw new Error('Unexpected result from findLeagueById');
+      }
+    } else {
+      throw new LeagueDoesNotExistError('No league found for that id');
+    }
   }
 
   async createSeason(leagueId: number): Promise<number> {
@@ -109,8 +118,8 @@ export class PgStatsRepository implements StatsRepository {
 
   // privates
 
-  private isLeague(result: League | unknown): result is League {
-    return (result as League).name !== undefined && (result as League).id !== undefined;
+  private isLeagueEntity(result: LeagueEntity | unknown): result is LeagueEntity {
+    return (result as LeagueEntity).name !== undefined && (result as LeagueEntity).id !== undefined;
   }
 
   private isSeason(result: Season | unknown): result is Season {

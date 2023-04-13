@@ -1,3 +1,4 @@
+import { LeagueDoesNotExistError } from '../../services/stats/leagues/leagues-validators';
 import * as Router from 'koa-router';
 
 export const LeagueErrorHandlingMiddleware = async (
@@ -9,6 +10,9 @@ export const LeagueErrorHandlingMiddleware = async (
     await next();
   } catch (error: any) {
     console.log('how');
+    if (error instanceof LeagueDoesNotExistError) {
+      context.throw(error, 404);
+    }
     // if (error instanceof TooManyTiersError || error instanceof PriceTooLowError) {
     //   ctx.throw(error, 400);
     // } else if (error instanceof UserNotAuthorizedError) {
