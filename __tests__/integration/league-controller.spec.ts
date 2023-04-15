@@ -14,10 +14,8 @@ describe('league-controller', () => {
     const response = await axios.get(`${host}leagues/${leagueId}`);
 
     expect(response.data).toEqual({
-      league: {
-        name: leagueName,
-        id: leagueId,
-      },
+      name: leagueName,
+      id: leagueId,
     });
   });
 });

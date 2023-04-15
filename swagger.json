@@ -91,15 +91,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"SingleSeasonResponse": {
-				"properties": {
-					"season": {
-						"$ref": "#/components/schemas/Season"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -267,17 +258,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/SingleSeasonResponse"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/Season"
 								}
 							}
 						}
@@ -306,17 +287,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/SingleSeasonResponse"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/Season"
 								}
 							}
 						}

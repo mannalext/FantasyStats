@@ -5,7 +5,7 @@ describe('owner-controller', () => {
 
   it('creating an owner', async () => {
     const ownerName = 'IntegrationTestOwner';
-    const createOwnerResponse = await axios.post(`${host}owners`, { ownerName });
+    const createOwnerResponse = await axios.post(`${host}owners`, { displayName: ownerName });
     const findOwnerResponse = await axios.get(`${host}owners/${createOwnerResponse.data}`);
 
     expect(createOwnerResponse.data).toEqual(findOwnerResponse.data.owner.id);
@@ -13,14 +13,14 @@ describe('owner-controller', () => {
 
   it('fetching an owner by id', async () => {
     const ownerName = 'IntegrationTestOwner';
-    const createOwnerResponse = await axios.post(`${host}owners`, { ownerName });
+    const createOwnerResponse = await axios.post(`${host}owners`, { displayName: ownerName });
     const ownerId = createOwnerResponse.data;
     const fetchOwnerResponse = await axios.get(`${host}owners/${ownerId}`);
 
     expect(fetchOwnerResponse.data).toEqual({
       owner: {
         id: ownerId,
-        displayName: ownerName,
+        name: ownerName,
       },
     });
   });
