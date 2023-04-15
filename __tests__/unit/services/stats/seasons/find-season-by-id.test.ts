@@ -25,7 +25,7 @@ describe('findSeasonById service', () => {
   describe('when a season does not exist with the given seasonId', () => {
     it('returns throws an EntityDoesNotExistError', async () => {
       await expect(findSeasonById(9_999_999)).rejects.toEqual(
-        new EntityDoesNotExistError('No season found for id 9999999')
+        new EntityDoesNotExistError('No season found for season id 9999999')
       );
     });
   });

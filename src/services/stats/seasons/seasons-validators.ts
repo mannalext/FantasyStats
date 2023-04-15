@@ -3,16 +3,24 @@ import { EntityAlreadyExistsError, EntityDoesNotExistError } from '../../../serv
 
 export async function validateSeasonDoesNotAlreadyExist(leagueId: number): Promise<void> {
   const ports = await getPorts();
-  const doesSeasonExist = await ports.statsRepository.doesSeasonExist(leagueId);
+  const doesSeasonExist = await ports.statsRepository.doesSeasonExistByLeagueId(leagueId);
   if (doesSeasonExist) {
     throw new EntityAlreadyExistsError('A season already exists for this league and year');
   }
 }
 
-export async function validateSeasonExists(seasonId: number): Promise<void> {
+export async function validateSeasonExistsBySeasonId(seasonId: number): Promise<void> {
   const ports = await getPorts();
-  const doesSeasonExist = await ports.statsRepository.doesSeasonExist(seasonId);
+  const doesSeasonExist = await ports.statsRepository.doesSeasonExistByLeagueId(seasonId);
   if (!doesSeasonExist) {
-    throw new EntityDoesNotExistError(`No season found for id ${seasonId}`);
+    throw new EntityDoesNotExistError(`No season found for season id ${seasonId}`);
+  }
+}
+
+export async function validateSeasonExistsByLeagueId(leagueId: number): Promise<void> {
+  const ports = await getPorts();
+  const doesSeasonExist = await ports.statsRepository.doesSeasonExistByLeagueId(leagueId);
+  if (!doesSeasonExist) {
+    throw new EntityDoesNotExistError(`No season found for league id ${leagueId}`);
   }
 }

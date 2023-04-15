@@ -50,8 +50,13 @@ export class InMemoryStatsRepository implements StatsRepository {
     throw new Error('Method not implemented.');
   }
 
-  doesSeasonExist(leagueId: number): Promise<boolean> {
+  doesSeasonExistByLeagueId(leagueId: number): Promise<boolean> {
     console.log(leagueId);
+    throw new Error('Method not implemented.');
+  }
+
+  doesSeasonExistBySeasonId(seasonId: number): Promise<boolean> {
+    console.log(seasonId);
     throw new Error('Method not implemented.');
   }
 
@@ -60,7 +65,7 @@ export class InMemoryStatsRepository implements StatsRepository {
     throw new Error('Method not implemented.');
   }
 
-  async findSeasonByLeagueAndYear(leagueId: number, year: number): Promise<Season | undefined> {
+  async findSeasonByLeagueAndYear(leagueId: number, year: number): Promise<Season> {
     console.log(leagueId, year);
     throw new Error('Method not implemented.');
   }

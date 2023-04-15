@@ -169,8 +169,11 @@ describe('stats-repository', () => {
         });
 
         describe('and the season does not exist', () => {
-          it('returns undefined', async () => {
-            expect(await repo.findSeasonByLeagueAndYear(1, 2020)).toEqual(undefined);
+          it('throws an error', async () => {
+            const leagueName = 'testLeagueForFindSeasonByLeagueAndYear';
+            const leagueId = await repo.createLeague(leagueName);
+
+            await expect(repo.findSeasonByLeagueAndYear(leagueId, new Date().getFullYear())).rejects.toThrow();
           });
         });
       });

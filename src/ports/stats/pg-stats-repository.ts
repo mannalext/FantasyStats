@@ -66,7 +66,7 @@ export class PgStatsRepository implements StatsRepository {
     }
   }
 
-  async findSeasonByLeagueAndYear(leagueId: number, year: number): Promise<Season | undefined> {
+  async findSeasonByLeagueAndYear(leagueId: number, year: number): Promise<Season> {
     const found = await query(
       `
         select id, league_id::int as "leagueId", year
@@ -77,10 +77,14 @@ export class PgStatsRepository implements StatsRepository {
       [leagueId, year]
     );
 
-    return found.rows.length > 0 ? (this.isSeasonEntity(found.rows[0]) ? found.rows[0] : undefined) : undefined;
+    if (this.isSeasonEntity(found.rows[0])) {
+      return found.rows[0];
+    } else {
+      throw new Error('Unexpected result from findSeasonByLeagueAndYear');
+    }
   }
 
-  async doesSeasonExist(leagueId: number): Promise<boolean> {
+  async doesSeasonExistByLeagueId(leagueId: number): Promise<boolean> {
     const found = await query(
       `
         SELECT * FROM seasons
@@ -88,6 +92,17 @@ export class PgStatsRepository implements StatsRepository {
         AND year=$2
       `,
       [leagueId, new Date().getFullYear()]
+    );
+    return found.rows.length > 0;
+  }
+
+  async doesSeasonExistBySeasonId(seasonId: number): Promise<boolean> {
+    const found = await query(
+      `
+        SELECT * FROM seasons
+        WHERE id=$1
+      `,
+      [seasonId]
     );
     return found.rows.length > 0;
   }
