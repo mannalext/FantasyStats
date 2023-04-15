@@ -1,14 +1,15 @@
-interface ILeague {
-  id: number,
-  name: string
-}
+export class League {
+  id: number;
+  name: string;
 
-export class League implements ILeague {
-  readonly id: number;
-  readonly name: string;
-
-  constructor({id, name}: ILeague) {
+  constructor(id: number, name: string) {
     this.id = id;
     this.name = name;
+  }
+}
+
+export class LeagueEntity extends League {
+  constructor(id: number, name: string) {
+    super(id, name);
   }
 }

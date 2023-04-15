@@ -25,11 +25,16 @@ export class InMemoryStatsRepository implements StatsRepository {
     return league.id;
   }
 
-  async findLeagueById(leagueId: number): Promise<League | undefined> {
-    return this.leagues.find(league => {
-      return league.id === leagueId;
-    });
+  async findLeagueById(leagueId: number): Promise<League> {
+    console.log(leagueId);
+    throw new Error('Method not implemented.');
   }
+
+  doesLeagueExist(leagueId: number): Promise<boolean> {
+    console.log(leagueId);
+    throw new Error('Method not implemented.');
+  }
+
   async createOwner(ownerName: string): Promise<number> {
     console.log(ownerName);
     throw new Error('Method not implemented.');
@@ -45,12 +50,22 @@ export class InMemoryStatsRepository implements StatsRepository {
     throw new Error('Method not implemented.');
   }
 
-  async findSeasonById(seasonId: number): Promise<Season | undefined> {
+  doesSeasonExistByLeagueId(leagueId: number): Promise<boolean> {
+    console.log(leagueId);
+    throw new Error('Method not implemented.');
+  }
+
+  doesSeasonExistBySeasonId(seasonId: number): Promise<boolean> {
     console.log(seasonId);
     throw new Error('Method not implemented.');
   }
 
-  async findSeasonByLeagueAndYear(leagueId: number, year: number): Promise<Season | undefined> {
+  async findSeasonById(seasonId: number): Promise<Season> {
+    console.log(seasonId);
+    throw new Error('Method not implemented.');
+  }
+
+  async findSeasonByLeagueAndYear(leagueId: number, year: number): Promise<Season> {
     console.log(leagueId, year);
     throw new Error('Method not implemented.');
   }

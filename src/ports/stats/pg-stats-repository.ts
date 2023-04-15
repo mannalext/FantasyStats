@@ -1,16 +1,11 @@
-import { League } from '@entities/league';
+import { League, LeagueEntity } from '@entities/league';
 import { Owner, OwnerEntity } from '@entities/owner';
-import { Season } from '@entities/season';
+import { Season, SeasonEntity } from '@entities/season';
 import { Team } from '@entities/team';
 import { query } from '.';
 import { StatsRepository } from './stats-repository';
 import { isNumber } from '../../utilities/is-number';
 import { QueryResult } from 'pg';
-
-interface PostgresConstraintError extends Error {
-  code: string;
-  constraint?: string;
-}
 
 export class PgStatsRepository implements StatsRepository {
   async createLeague(leagueName: string): Promise<number> {
@@ -22,39 +17,40 @@ export class PgStatsRepository implements StatsRepository {
     }
   }
 
-  async findLeagueById(leagueId: number): Promise<League | undefined> {
+  // TODO: slim down this function when we get an ORM implemented
+  async findLeagueById(leagueId: number): Promise<League> {
     const found = await query('SELECT * FROM leagues WHERE id=$1', [leagueId]);
-    return found.rows.length > 0 ? (this.isLeague(found.rows[0]) ? found.rows[0] : undefined) : undefined;
+    if (this.isLeagueEntity(found.rows[0])) {
+      return found.rows[0];
+    } else {
+      throw new Error('Unexpected result from findLeagueById');
+    }
+  }
+
+  async doesLeagueExist(leagueId: number): Promise<boolean> {
+    const found = await query('SELECT * FROM leagues WHERE id=$1', [leagueId]);
+    return found.rows.length > 0;
   }
 
   async createSeason(leagueId: number): Promise<number> {
-    let queryResult;
-    try {
-      queryResult = await query(
-        `
-          INSERT INTO seasons
-          (league_id, year)
-          VALUES ($1, $2)
-          RETURNING id
-        `,
-        [leagueId, new Date().getFullYear()]
-      );
-    } catch (error) {
-      const error_ =
-        this.isPostgresConstraintError(error) && error.code === '23505' && error.constraint === 'seasons_pkey'
-          ? new Error('A season already exists for this league and year')
-          : error;
-      throw error_;
-    }
+    const queryResult = await query(
+      `
+        INSERT INTO seasons
+        (league_id, year)
+        VALUES ($1, $2)
+        RETURNING id
+      `,
+      [leagueId, new Date().getFullYear()]
+    );
 
     if (isNumber(queryResult.rows[0].id)) {
       return queryResult.rows[0].id;
     } else {
-      throw new Error('Unexpected result from createSeason'); // TODO: make sure that trying to create a second season for a league, year pair fails
+      throw new Error('Unexpected result from createSeason');
     }
   }
 
-  async findSeasonById(seasonId: number): Promise<Season | undefined> {
+  async findSeasonById(seasonId: number): Promise<Season> {
     const found = await query(
       `
         select id, league_id::int as "leagueId", year
@@ -63,11 +59,14 @@ export class PgStatsRepository implements StatsRepository {
       `,
       [seasonId]
     );
-
-    return found.rows.length > 0 ? (this.isSeason(found.rows[0]) ? found.rows[0] : undefined) : undefined;
+    if (this.isSeasonEntity(found.rows[0])) {
+      return found.rows[0];
+    } else {
+      throw new Error('Unexpected result from findSeasonById');
+    }
   }
 
-  async findSeasonByLeagueAndYear(leagueId: number, year: number): Promise<Season | undefined> {
+  async findSeasonByLeagueAndYear(leagueId: number, year: number): Promise<Season> {
     const found = await query(
       `
         select id, league_id::int as "leagueId", year
@@ -78,7 +77,34 @@ export class PgStatsRepository implements StatsRepository {
       [leagueId, year]
     );
 
-    return found.rows.length > 0 ? (this.isSeason(found.rows[0]) ? found.rows[0] : undefined) : undefined;
+    if (this.isSeasonEntity(found.rows[0])) {
+      return found.rows[0];
+    } else {
+      throw new Error('Unexpected result from findSeasonByLeagueAndYear');
+    }
+  }
+
+  async doesSeasonExistByLeagueId(leagueId: number): Promise<boolean> {
+    const found = await query(
+      `
+        SELECT * FROM seasons
+        WHERE league_id=$1
+        AND year=$2
+      `,
+      [leagueId, new Date().getFullYear()]
+    );
+    return found.rows.length > 0;
+  }
+
+  async doesSeasonExistBySeasonId(seasonId: number): Promise<boolean> {
+    const found = await query(
+      `
+        SELECT * FROM seasons
+        WHERE id=$1
+      `,
+      [seasonId]
+    );
+    return found.rows.length > 0;
   }
 
   async createOwner(ownerName: string): Promise<number> {
@@ -109,26 +135,16 @@ export class PgStatsRepository implements StatsRepository {
 
   // privates
 
-  private isLeague(result: League | unknown): result is League {
-    return (result as League).name !== undefined && (result as League).id !== undefined;
+  // TODO: this type guard likely goes away when we get an ORM
+  private isLeagueEntity(result: LeagueEntity | unknown): result is LeagueEntity {
+    return (result as LeagueEntity).name !== undefined && (result as LeagueEntity).id !== undefined;
   }
 
-  private isSeason(result: Season | unknown): result is Season {
+  private isSeasonEntity(result: SeasonEntity | unknown): result is SeasonEntity {
     return (
-      (result as Season).id !== undefined &&
-      (result as Season).leagueId !== undefined &&
-      (result as Season).year !== undefined
-    );
-  }
-
-  private isPostgresConstraintError(error: unknown): error is PostgresConstraintError {
-    return (
-      error instanceof Error &&
-      'code' in error &&
-      typeof (error as PostgresConstraintError).code === 'string' &&
-      'constraint' in error &&
-      (typeof (error as PostgresConstraintError).constraint === 'string' ||
-        (error as PostgresConstraintError).constraint === undefined)
+      (result as SeasonEntity).id !== undefined &&
+      (result as SeasonEntity).leagueId !== undefined &&
+      (result as SeasonEntity).year !== undefined
     );
   }
 

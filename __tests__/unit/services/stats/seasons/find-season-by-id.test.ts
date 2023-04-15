@@ -1,3 +1,4 @@
+import { EntityDoesNotExistError } from '@services/errors';
 import { createLeague } from '@services/stats/leagues/create-league';
 import { createSeason } from '@services/stats/seasons/create-season';
 import { findSeasonById } from '@services/stats/seasons/find-season-by-id';
@@ -22,9 +23,10 @@ describe('findSeasonById service', () => {
   });
 
   describe('when a season does not exist with the given seasonId', () => {
-    it('returns undefined', async () => {
-      const season = await findSeasonById(-1);
-      expect(season).toEqual(undefined);
+    it('returns throws an EntityDoesNotExistError', async () => {
+      await expect(findSeasonById(9_999_999)).rejects.toEqual(
+        new EntityDoesNotExistError('No season found for season id 9999999')
+      );
     });
   });
 });

@@ -23,10 +23,27 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"SingleLeagueResponse": {
+			"Owner": {
 				"properties": {
-					"league": {
-						"$ref": "#/components/schemas/League"
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SingleOwnerResponse": {
+				"properties": {
+					"owner": {
+						"$ref": "#/components/schemas/Owner"
 					}
 				},
 				"type": "object",
@@ -74,15 +91,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"SingleSeasonResponse": {
-				"properties": {
-					"season": {
-						"$ref": "#/components/schemas/Season"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -106,17 +114,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/SingleLeagueResponse"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/League"
 								}
 							}
 						}
@@ -174,16 +172,16 @@
 				}
 			}
 		},
-		"/seasons/{id}": {
+		"/owners/{id}": {
 			"get": {
-				"operationId": "FindSeasonById",
+				"operationId": "FindOwnerById",
 				"responses": {
 					"200": {
 						"description": "Ok",
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/SingleSeasonResponse"
+									"$ref": "#/components/schemas/SingleOwnerResponse"
 								}
 							}
 						}
@@ -213,6 +211,73 @@
 				]
 			}
 		},
+		"/owners": {
+			"post": {
+				"operationId": "CreateOwner",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"displayName": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"displayName"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/seasons/{id}": {
+			"get": {
+				"operationId": "FindSeasonById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Season"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/seasons/{leagueId}/{year}": {
 			"get": {
 				"operationId": "FindSeasonByLeagueAndYear",
@@ -222,17 +287,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/SingleSeasonResponse"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/Season"
 								}
 							}
 						}
