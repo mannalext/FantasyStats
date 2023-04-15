@@ -1,15 +1,11 @@
 version: '3.7'
 
 services:
-
   db:
     image: postgres
-    ports: 
+    ports:
       - 5432:5432
     restart: always
-    volumes:
-      - db_data:/var/lib/postgresql/data
-      - ./db:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_PASSWORD: admin
 
