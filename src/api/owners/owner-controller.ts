@@ -3,7 +3,6 @@ import { findOwnerById } from '../../services/stats/owners/find-owner-by-id';
 import { Route, Controller, Get, Path, Post, Body, Middlewares } from 'tsoa';
 import { createOwner } from '../../services/stats/owners/create-owner';
 import { OwnerErrorHandlingMiddleware } from './owner-error-handling-middleware';
-
 @Route('owners')
 @Middlewares(OwnerErrorHandlingMiddleware)
 export class OwnersController extends Controller {
