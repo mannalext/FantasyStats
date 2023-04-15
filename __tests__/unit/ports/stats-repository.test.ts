@@ -213,8 +213,8 @@ describe('stats-repository', () => {
         });
 
         describe('and the owner does not exist', () => {
-          it('returns undefined', async () => {
-            expect(await repo.findOwnerById(9_999_999)).toEqual(undefined);
+          it('throws an error', async () => {
+            await expect(repo.findOwnerById(-1)).rejects.toThrow();
           });
         });
       });

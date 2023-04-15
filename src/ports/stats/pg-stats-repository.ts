@@ -116,11 +116,16 @@ export class PgStatsRepository implements StatsRepository {
     }
   }
 
-  async findOwnerById(ownerId: number): Promise<Owner | undefined> {
+  async findOwnerById(ownerId: number): Promise<Owner> {
     const found: QueryResult = await query('select * from owners where id=$1', [ownerId]);
     const ownerEntity: OwnerEntity = found.rows[0];
 
-    return ownerEntity ? this.convertOwnerEntityToOwner(ownerEntity) : undefined;
+    return this.convertOwnerEntityToOwner(ownerEntity);
+  }
+
+  async doesOwnerExist(ownerId: number): Promise<boolean> {
+    const found = await query('select * from owners where id=$1', [ownerId]);
+    return found.rows.length > 0;
   }
 
   createTeam(seasonId: number, ownerId: string, wins: number, losses: number, ties: number): Promise<Team> {

@@ -40,7 +40,12 @@ export class InMemoryStatsRepository implements StatsRepository {
     throw new Error('Method not implemented.');
   }
 
-  async findOwnerById(ownerId: number): Promise<Owner | undefined> {
+  async findOwnerById(ownerId: number): Promise<Owner> {
+    console.log(ownerId);
+    throw new Error('Method not implemented.');
+  }
+
+  doesOwnerExist(ownerId: number): Promise<boolean> {
     console.log(ownerId);
     throw new Error('Method not implemented.');
   }
