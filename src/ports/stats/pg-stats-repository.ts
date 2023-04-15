@@ -2,13 +2,15 @@ import { League, LeagueEntity } from '@entities/league';
 import { Owner, OwnerEntity } from '@entities/owner';
 import { Season, SeasonEntity } from '@entities/season';
 import { Team } from '@entities/team';
-import { query } from '.';
+import { query, prisma } from '.';
 import { StatsRepository } from './stats-repository';
 import { isNumber } from '../../utilities/is-number';
 import { QueryResult } from 'pg';
 
 export class PgStatsRepository implements StatsRepository {
   async createLeague(leagueName: string): Promise<number> {
+    const allLeagues = await prisma.leagues.findMany();
+    console.log(allLeagues);
     const queryResult = await query('INSERT INTO leagues (name) VALUES ($1) RETURNING id', [leagueName]);
     if (isNumber(queryResult.rows[0].id)) {
       return queryResult.rows[0].id;

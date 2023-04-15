@@ -26,7 +26,7 @@ export class Configuration {
     if (process.env.NODE_ENV === 'replit') {
       return this.getReplitDatabaseConfig();
     } else {
-      return this.isTestEnv() ? this.getTestDatabaseConfig() : this.getProdDatabaseConfig();
+      return this.isLocalEnv() ? this.getLocalDatabaseConfig() : this.getProdDatabaseConfig();
     }
   }
 
@@ -39,11 +39,11 @@ export class Configuration {
   //   };
   // }
 
-  isTestEnv(): boolean {
+  isLocalEnv(): boolean {
     return process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development';
   }
 
-  private getTestDatabaseConfig(): DatabaseConfiguration {
+  private getLocalDatabaseConfig(): DatabaseConfiguration {
     return {
       host: 'localhost',
       database: 'postgres',
