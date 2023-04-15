@@ -50,6 +50,11 @@ export class InMemoryStatsRepository implements StatsRepository {
     throw new Error('Method not implemented.');
   }
 
+  doesSeasonExist(leagueId: number): Promise<boolean> {
+    console.log(leagueId);
+    throw new Error('Method not implemented.');
+  }
+
   async findSeasonById(seasonId: number): Promise<Season | undefined> {
     console.log(seasonId);
     throw new Error('Method not implemented.');

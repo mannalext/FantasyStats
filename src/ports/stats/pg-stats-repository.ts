@@ -7,11 +7,6 @@ import { StatsRepository } from './stats-repository';
 import { isNumber } from '../../utilities/is-number';
 import { QueryResult } from 'pg';
 
-interface PostgresConstraintError extends Error {
-  code: string;
-  constraint?: string;
-}
-
 export class PgStatsRepository implements StatsRepository {
   async createLeague(leagueName: string): Promise<number> {
     const queryResult = await query('INSERT INTO leagues (name) VALUES ($1) RETURNING id', [leagueName]);
@@ -38,30 +33,33 @@ export class PgStatsRepository implements StatsRepository {
   }
 
   async createSeason(leagueId: number): Promise<number> {
-    let queryResult;
-    try {
-      queryResult = await query(
-        `
-          INSERT INTO seasons
-          (league_id, year)
-          VALUES ($1, $2)
-          RETURNING id
-        `,
-        [leagueId, new Date().getFullYear()]
-      );
-    } catch (error) {
-      const error_ =
-        this.isPostgresConstraintError(error) && error.code === '23505' && error.constraint === 'seasons_pkey'
-          ? new Error('A season already exists for this league and year')
-          : error;
-      throw error_;
-    }
+    const queryResult = await query(
+      `
+        INSERT INTO seasons
+        (league_id, year)
+        VALUES ($1, $2)
+        RETURNING id
+      `,
+      [leagueId, new Date().getFullYear()]
+    );
 
     if (isNumber(queryResult.rows[0].id)) {
       return queryResult.rows[0].id;
     } else {
-      throw new Error('Unexpected result from createSeason'); // TODO: make sure that trying to create a second season for a league, year pair fails
+      throw new Error('Unexpected result from createSeason');
     }
+  }
+
+  async doesSeasonExist(leagueId: number): Promise<boolean> {
+    const found = await query(
+      `
+        SELECT * FROM seasons
+        WHERE league_id=$1
+        AND year=$2
+      `,
+      [leagueId, new Date().getFullYear()]
+    );
+    return found.rows.length > 0;
   }
 
   async findSeasonById(seasonId: number): Promise<Season | undefined> {
@@ -129,17 +127,6 @@ export class PgStatsRepository implements StatsRepository {
       (result as Season).id !== undefined &&
       (result as Season).leagueId !== undefined &&
       (result as Season).year !== undefined
-    );
-  }
-
-  private isPostgresConstraintError(error: unknown): error is PostgresConstraintError {
-    return (
-      error instanceof Error &&
-      'code' in error &&
-      typeof (error as PostgresConstraintError).code === 'string' &&
-      'constraint' in error &&
-      (typeof (error as PostgresConstraintError).constraint === 'string' ||
-        (error as PostgresConstraintError).constraint === undefined)
     );
   }
 
