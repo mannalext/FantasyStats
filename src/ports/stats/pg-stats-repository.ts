@@ -1,6 +1,6 @@
 import { League, LeagueEntity } from '@entities/league';
 import { Owner, OwnerEntity } from '@entities/owner';
-import { Season } from '@entities/season';
+import { Season, SeasonEntity } from '@entities/season';
 import { Team } from '@entities/team';
 import { query } from '.';
 import { StatsRepository } from './stats-repository';
@@ -50,19 +50,7 @@ export class PgStatsRepository implements StatsRepository {
     }
   }
 
-  async doesSeasonExist(leagueId: number): Promise<boolean> {
-    const found = await query(
-      `
-        SELECT * FROM seasons
-        WHERE league_id=$1
-        AND year=$2
-      `,
-      [leagueId, new Date().getFullYear()]
-    );
-    return found.rows.length > 0;
-  }
-
-  async findSeasonById(seasonId: number): Promise<Season | undefined> {
+  async findSeasonById(seasonId: number): Promise<Season> {
     const found = await query(
       `
         select id, league_id::int as "leagueId", year
@@ -71,8 +59,11 @@ export class PgStatsRepository implements StatsRepository {
       `,
       [seasonId]
     );
-
-    return found.rows.length > 0 ? (this.isSeason(found.rows[0]) ? found.rows[0] : undefined) : undefined;
+    if (this.isSeasonEntity(found.rows[0])) {
+      return found.rows[0];
+    } else {
+      throw new Error('Unexpected result from findSeasonById');
+    }
   }
 
   async findSeasonByLeagueAndYear(leagueId: number, year: number): Promise<Season | undefined> {
@@ -86,7 +77,19 @@ export class PgStatsRepository implements StatsRepository {
       [leagueId, year]
     );
 
-    return found.rows.length > 0 ? (this.isSeason(found.rows[0]) ? found.rows[0] : undefined) : undefined;
+    return found.rows.length > 0 ? (this.isSeasonEntity(found.rows[0]) ? found.rows[0] : undefined) : undefined;
+  }
+
+  async doesSeasonExist(leagueId: number): Promise<boolean> {
+    const found = await query(
+      `
+        SELECT * FROM seasons
+        WHERE league_id=$1
+        AND year=$2
+      `,
+      [leagueId, new Date().getFullYear()]
+    );
+    return found.rows.length > 0;
   }
 
   async createOwner(ownerName: string): Promise<number> {
@@ -122,11 +125,11 @@ export class PgStatsRepository implements StatsRepository {
     return (result as LeagueEntity).name !== undefined && (result as LeagueEntity).id !== undefined;
   }
 
-  private isSeason(result: Season | unknown): result is Season {
+  private isSeasonEntity(result: SeasonEntity | unknown): result is SeasonEntity {
     return (
-      (result as Season).id !== undefined &&
-      (result as Season).leagueId !== undefined &&
-      (result as Season).year !== undefined
+      (result as SeasonEntity).id !== undefined &&
+      (result as SeasonEntity).leagueId !== undefined &&
+      (result as SeasonEntity).year !== undefined
     );
   }
 

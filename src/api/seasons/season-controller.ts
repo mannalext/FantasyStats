@@ -9,26 +9,12 @@ import { SeasonErrorHandlingMiddleware } from './season-error-handling-middlewar
 interface SingleSeasonResponse {
   season: Season | undefined;
 }
-
 @Route('seasons')
 @Middlewares(SeasonErrorHandlingMiddleware)
 export class SeasonsController extends Controller {
   @Get('{id}')
-  public async findSeasonById(
-    @Path() id: number,
-    @Res() notFoundResponse: TsoaResponse<404, ErrorResponse>
-  ): Promise<SingleSeasonResponse> {
-    const found: Season | undefined = await findSeasonById(id);
-    if (!found) {
-      return notFoundResponse(404, {
-        error: {
-          message: 'No season found for that id',
-        },
-      });
-    }
-    return {
-      season: found,
-    };
+  public async findSeasonById(@Path() id: number): Promise<Season> {
+    return await findSeasonById(id);
   }
 
   @Get('{leagueId}/{year}')

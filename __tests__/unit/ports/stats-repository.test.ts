@@ -144,8 +144,8 @@ describe('stats-repository', () => {
         });
 
         describe('and the season does not exist', () => {
-          it('returns undefined', async () => {
-            expect(await repo.findSeasonById(9_999_999)).toEqual(undefined);
+          it('throws an error', async () => {
+            await expect(repo.findSeasonById(-1)).rejects.toThrow();
           });
         });
       });
