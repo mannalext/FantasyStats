@@ -8,7 +8,8 @@ export interface StatsRepository {
   findLeagueById(leagueId: number): Promise<League>;
   doesLeagueExist(leagueId: number): Promise<boolean>;
   createOwner(ownerName: string): Promise<number>;
-  findOwnerById(ownerId: number): Promise<Owner | undefined>;
+  findOwnerById(ownerId: number): Promise<Owner>;
+  doesOwnerExist(ownerId: number): Promise<boolean>;
   createSeason(leagueId: number): Promise<number>;
   doesSeasonExistBySeasonId(seasonId: number): Promise<boolean>;
   doesSeasonExistByLeagueId(leagueId: number): Promise<boolean>;

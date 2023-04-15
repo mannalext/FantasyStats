@@ -1,3 +1,4 @@
+import { EntityDoesNotExistError } from '@services/errors';
 import { createOwner } from '@services/stats/owners/create-owner';
 import { findOwnerById } from '@services/stats/owners/find-owner-by-id';
 
@@ -15,9 +16,8 @@ describe('findOwnerById service', () => {
   });
 
   describe('when an id that does not belong to an existing owner is passed in', () => {
-    it('returns undefined', async () => {
-      const owner = await findOwnerById(69);
-      expect(owner).toBeUndefined();
+    it('throws an EntityDoesNotExistError', async () => {
+      await expect(findOwnerById(-1)).rejects.toEqual(new EntityDoesNotExistError('No owner found for id -1'));
     });
   });
 });
