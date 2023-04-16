@@ -2,21 +2,22 @@ import { League, LeagueEntity } from '@entities/league';
 import { Owner, OwnerEntity } from '@entities/owner';
 import { Season, SeasonEntity } from '@entities/season';
 import { Team } from '@entities/team';
-import { query, prisma } from '.';
+import { query } from '.';
+import prisma from '.';
 import { StatsRepository } from './stats-repository';
 import { isNumber } from '../../utilities/is-number';
 import { QueryResult } from 'pg';
 
 export class PgStatsRepository implements StatsRepository {
   async createLeague(leagueName: string): Promise<number> {
-    const allLeagues = await prisma.leagues.findMany();
-    console.log(allLeagues);
-    const queryResult = await query('INSERT INTO leagues (name) VALUES ($1) RETURNING id', [leagueName]);
-    if (isNumber(queryResult.rows[0].id)) {
-      return queryResult.rows[0].id;
-    } else {
-      throw new Error('Unexpected result from createLeague');
-    }
+    const result = await prisma.leagues.create({
+      data: {
+        name: leagueName,
+      },
+      select: { id: true }, // TODO: figure out why I can't use a Prisma.leaguesSelect here. posted a discussion to the Prisma github
+    });
+
+    return result.id;
   }
 
   // TODO: slim down this function when we get an ORM implemented
