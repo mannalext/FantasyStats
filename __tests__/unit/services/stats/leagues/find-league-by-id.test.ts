@@ -22,7 +22,7 @@ describe('findLeagueById service', () => {
     it('throws a LeagueDoesNotExistError', async () => {
       const leagueId = 9_999_999;
       await expect(findLeagueById(leagueId)).rejects.toEqual(
-        new EntityDoesNotExistError(`No league found for id ${leagueId}`)
+        new EntityDoesNotExistError(`No league found for that ID`)
       );
     });
   });

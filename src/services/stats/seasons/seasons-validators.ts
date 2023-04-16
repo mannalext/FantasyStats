@@ -11,7 +11,7 @@ export async function validateSeasonDoesNotAlreadyExist(leagueId: number): Promi
 
 export async function validateSeasonExistsBySeasonId(seasonId: number): Promise<void> {
   const ports = await getPorts();
-  const doesSeasonExist = await ports.statsRepository.doesSeasonExistByLeagueId(seasonId);
+  const doesSeasonExist = await ports.statsRepository.doesSeasonExistBySeasonId(seasonId);
   if (!doesSeasonExist) {
     throw new EntityDoesNotExistError(`No season found for season id ${seasonId}`);
   }

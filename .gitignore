@@ -17,3 +17,6 @@ dist/**/*
 junit.xml
 
 .breakpoints
+
+# Prisma env
+.env

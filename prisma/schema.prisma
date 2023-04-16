@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model leagues {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(100)
+  seasons seasons[]
+}
+
+model owners {
+  id           Int     @id @default(autoincrement())
+  displayName String  @map("display_name") @db.VarChar(50)
+  teams        teams[]
+}
+
+model seasons {
+  id        Int     @unique @default(autoincrement())
+  leagueId Int @map("league_id")
+  year      Int
+  leagues   leagues @relation(fields: [leagueId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_league")
+  teams     teams[]
+
+  @@id([leagueId, year])
+}
+
+model teams {
+  id        Int     @unique @default(autoincrement())
+  seasonId Int @map("season_id")
+  ownerId  Int @map("owner_id")
+  wins      Int
+  losses    Int
+  ties      Int
+  owners    owners  @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_owner")
+  seasons   seasons @relation(fields: [seasonId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_season")
+
+  @@id([seasonId, ownerId])
+}

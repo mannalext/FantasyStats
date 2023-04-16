@@ -29,42 +29,13 @@
 						"type": "number",
 						"format": "double"
 					},
-					"name": {
+					"displayName": {
 						"type": "string"
 					}
 				},
 				"required": [
 					"id",
-					"name"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"SingleOwnerResponse": {
-				"properties": {
-					"owner": {
-						"$ref": "#/components/schemas/Owner"
-					}
-				},
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ErrorResponse": {
-				"properties": {
-					"error": {
-						"properties": {
-							"message": {
-								"type": "string"
-							}
-						},
-						"required": [
-							"message"
-						],
-						"type": "object"
-					}
-				},
-				"required": [
-					"error"
+					"displayName"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -181,17 +152,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/SingleOwnerResponse"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/Owner"
 								}
 							}
 						}
