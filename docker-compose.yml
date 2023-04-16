@@ -8,7 +8,6 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: admin
-      DATABASE_URL: 'postgresql://postgres:admin@localhost:5432/postgres'
 
 volumes:
   db_data:
