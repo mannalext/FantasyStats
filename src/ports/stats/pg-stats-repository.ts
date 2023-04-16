@@ -1,4 +1,4 @@
-import { League, LeagueEntity } from '@entities/league';
+import { League } from '@entities/league';
 import { Owner, OwnerEntity } from '@entities/owner';
 import { Season, SeasonEntity } from '@entities/season';
 import { Team } from '@entities/team';
@@ -14,25 +14,27 @@ export class PgStatsRepository implements StatsRepository {
       data: {
         name: leagueName,
       },
-      select: { id: true }, // TODO: figure out why I can't use a Prisma.leaguesSelect here. posted a discussion to the Prisma github
+      select: { id: true },
     });
 
     return result.id;
   }
 
-  // TODO: slim down this function when we get an ORM implemented
   async findLeagueById(leagueId: number): Promise<League> {
-    const found = await query('SELECT * FROM leagues WHERE id=$1', [leagueId]);
-    if (this.isLeagueEntity(found.rows[0])) {
-      return found.rows[0];
-    } else {
-      throw new Error('Unexpected result from findLeagueById');
-    }
+    const result: League = await prisma.leagues.findUniqueOrThrow({
+      // TODO: does this return stuff like the 'seasons' and '_count' on the prisma object, or just the League?
+      where: { id: leagueId },
+    });
+
+    return result;
   }
 
   async doesLeagueExist(leagueId: number): Promise<boolean> {
-    const found = await query('SELECT * FROM leagues WHERE id=$1', [leagueId]);
-    return found.rows.length > 0;
+    const result: League | null = await prisma.leagues.findUnique({
+      where: { id: leagueId },
+    });
+
+    return !!result;
   }
 
   async createSeason(leagueId: number): Promise<number> {
@@ -88,26 +90,20 @@ export class PgStatsRepository implements StatsRepository {
   }
 
   async doesSeasonExistByLeagueId(leagueId: number): Promise<boolean> {
-    const found = await query(
-      `
-        SELECT * FROM seasons
-        WHERE league_id=$1
-        AND year=$2
-      `,
-      [leagueId, new Date().getFullYear()]
-    );
-    return found.rows.length > 0;
+    console.log('huh');
+    const result: Season | null = await prisma.seasons.findUnique({
+      where: { leagueId_year: { leagueId, year: new Date().getFullYear() } },
+    });
+
+    return !!result;
   }
 
   async doesSeasonExistBySeasonId(seasonId: number): Promise<boolean> {
-    const found = await query(
-      `
-        SELECT * FROM seasons
-        WHERE id=$1
-      `,
-      [seasonId]
-    );
-    return found.rows.length > 0;
+    const result: Season | null = await prisma.seasons.findUnique({
+      where: { id: seasonId },
+    });
+
+    return !!result;
   }
 
   async createOwner(ownerName: string): Promise<number> {
@@ -142,11 +138,6 @@ export class PgStatsRepository implements StatsRepository {
   }
 
   // privates
-
-  // TODO: this type guard likely goes away when we get an ORM
-  private isLeagueEntity(result: LeagueEntity | unknown): result is LeagueEntity {
-    return (result as LeagueEntity).name !== undefined && (result as LeagueEntity).id !== undefined;
-  }
 
   private isSeasonEntity(result: SeasonEntity | unknown): result is SeasonEntity {
     return (

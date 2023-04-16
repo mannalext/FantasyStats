@@ -8,8 +8,10 @@ export const SeasonErrorHandlingMiddleware = async (
   try {
     await next();
   } catch (error: any) {
-    if (error instanceof EntityDoesNotExistError || error instanceof EntityAlreadyExistsError) {
+    if (error instanceof EntityDoesNotExistError) {
       context.throw(error, 404);
+    } else if (error instanceof EntityAlreadyExistsError) {
+      context.throw(error, 400);
     }
     context.throw(error, 500);
   }

@@ -5,8 +5,8 @@ import { findSeasonById } from '@services/stats/seasons/find-season-by-id';
 
 describe('createSeason service', () => {
   describe('when a unique combination of league and year is passed in', () => {
-    it('creates a creates a season', async () => {
-      const someLeagueName = 'someLeagueName';
+    it('creates a season', async () => {
+      const someLeagueName = 'someLeagueNameUnique';
       const leagueId = await createLeague(someLeagueName);
       const seasonId = await createSeason(leagueId);
       const season = await findSeasonById(seasonId);
@@ -31,10 +31,8 @@ describe('createSeason service', () => {
 
   describe('when a non existent league id is passed in', () => {
     it('throws an exception', async () => {
-      const leagueId = 69;
-      await expect(createSeason(leagueId)).rejects.toEqual(
-        new EntityDoesNotExistError(`No league found for id ${leagueId}`)
-      );
+      const leagueId = 9_999_999;
+      await expect(createSeason(leagueId)).rejects.toEqual(new EntityDoesNotExistError(`No league found for that ID`));
     });
   });
 });
