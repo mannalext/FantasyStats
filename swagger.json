@@ -29,13 +29,13 @@
 						"type": "number",
 						"format": "double"
 					},
-					"name": {
+					"displayName": {
 						"type": "string"
 					}
 				},
 				"required": [
 					"id",
-					"name"
+					"displayName"
 				],
 				"type": "object",
 				"additionalProperties": false

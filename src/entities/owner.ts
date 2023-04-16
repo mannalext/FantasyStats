@@ -1,20 +1,20 @@
 export class Owner {
   id: number;
-  name: string;
+  displayName: string;
 
-  constructor(id: number, name: string) {
+  constructor(id: number, displayName: string) {
     this.id = id;
-    this.name = name;
+    this.displayName = displayName;
   }
 }
 
 export class OwnerEntity extends Owner {
   id: number;
-  display_name: string;
+  display_displayName: string;
 
-  constructor(id: number, display_name: string) {
-    super(id, display_name);
+  constructor(id: number, display_displayName: string) {
+    super(id, display_displayName);
     this.id = id;
-    this.display_name = display_name;
+    this.display_displayName = display_displayName;
   }
 }

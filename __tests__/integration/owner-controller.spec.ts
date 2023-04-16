@@ -8,7 +8,7 @@ describe('owner-controller', () => {
     const createOwnerResponse = await axios.post(`${host}owners`, { displayName: ownerName });
     const findOwnerResponse = await axios.get(`${host}owners/${createOwnerResponse.data}`);
 
-    expect(createOwnerResponse.data).toEqual(findOwnerResponse.data.owner.id);
+    expect(createOwnerResponse.data).toEqual(findOwnerResponse.data.id);
   });
 
   it('fetching an owner by id', async () => {
@@ -18,10 +18,8 @@ describe('owner-controller', () => {
     const fetchOwnerResponse = await axios.get(`${host}owners/${ownerId}`);
 
     expect(fetchOwnerResponse.data).toEqual({
-      owner: {
-        id: ownerId,
-        name: ownerName,
-      },
+      id: ownerId,
+      displayName: ownerName,
     });
   });
 });
