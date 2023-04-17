@@ -75,16 +75,13 @@ export class InMemoryStatsRepository implements StatsRepository {
     throw new Error('Method not implemented.');
   }
 
-  async createTeam(seasonId: number, ownerId: string, wins: number, losses: number, ties: number): Promise<Team> {
+  async createTeam(seasonId: number, ownerId: number): Promise<number> {
     console.log(seasonId);
     console.log(ownerId);
-    console.log(wins);
-    console.log(losses);
-    console.log(ties);
     throw new Error('Method not implemented.');
   }
 
-  async findTeam(seasonId: number, ownerId: string): Promise<Team | undefined> {
+  async findTeam(seasonId: number, ownerId: number): Promise<Team> {
     console.log(seasonId);
     console.log(ownerId);
     throw new Error('Method not implemented.');
