@@ -33,9 +33,9 @@ model teams {
   id        Int     @unique @default(autoincrement())
   seasonId Int @map("season_id")
   ownerId  Int @map("owner_id")
-  wins      Int
-  losses    Int
-  ties      Int
+  wins      Int @default(0)
+  losses    Int @default(0)
+  ties      Int @default(0)
   owners    owners  @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_owner")
   seasons   seasons @relation(fields: [seasonId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_season")
 
