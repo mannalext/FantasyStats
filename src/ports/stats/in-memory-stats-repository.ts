@@ -86,4 +86,19 @@ export class InMemoryStatsRepository implements StatsRepository {
     console.log(ownerId);
     throw new Error('Method not implemented.');
   }
+
+  findTeamById(teamId: number): Promise<Team> {
+    console.log(teamId);
+    throw new Error('Method not implemented.');
+  }
+
+  doesTeamExist(seasonId: number, ownerId: number): Promise<boolean> {
+    console.log(seasonId, ownerId);
+    throw new Error('Method not implemented.');
+  }
+
+  doesTeamExistById(teamId: number): Promise<boolean> {
+    console.log(teamId);
+    throw new Error('Method not implemented.');
+  }
 }

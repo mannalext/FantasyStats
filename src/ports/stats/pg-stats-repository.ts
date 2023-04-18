@@ -118,6 +118,13 @@ export class PgStatsRepository implements StatsRepository {
   }
 
   // TODO: findTeamById
+  async findTeamById(teamId: number): Promise<Team> {
+    const result: Team = await prisma.teams.findUniqueOrThrow({
+      where: { id: teamId },
+    });
+
+    return result;
+  }
 
   async findTeam(seasonId: number, ownerId: number): Promise<Team> {
     const result: Team = await prisma.teams.findUniqueOrThrow({
@@ -125,5 +132,21 @@ export class PgStatsRepository implements StatsRepository {
     });
 
     return result;
+  }
+
+  async doesTeamExist(seasonId: number, ownerId: number): Promise<boolean> {
+    const result: Team | null = await prisma.teams.findUnique({
+      where: { seasonId_ownerId: { seasonId, ownerId } },
+    });
+
+    return !!result;
+  }
+
+  async doesTeamExistById(teamId: number): Promise<boolean> {
+    const result: Team | null = await prisma.teams.findUnique({
+      where: { id: teamId },
+    });
+
+    return !!result;
   }
 }

@@ -289,5 +289,87 @@ describe('stats-repository', () => {
         });
       });
     });
+
+    describe('findTeam', () => {
+      describe('when a valid combination of seasonId and ownerId is given', () => {
+        describe('and the team exists', () => {
+          it('returns the team', async () => {
+            const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+            const leagueId = await repo.createLeague(leagueName);
+            const seasonId = await repo.createSeason(leagueId);
+            const ownerId = await repo.createOwner('testUser');
+            const teamId = await repo.createTeam(seasonId, ownerId);
+            const team: Team = {
+              id: teamId,
+              seasonId,
+              ownerId,
+              wins: 0,
+              losses: 0,
+              ties: 0,
+            };
+
+            expect(await repo.findTeam(seasonId, ownerId)).toEqual(team);
+          });
+        });
+
+        describe('and the team does not exist', () => {
+          it('throws an error', async () => {
+            const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+            const leagueId = await repo.createLeague(leagueName);
+            const seasonId = await repo.createSeason(leagueId);
+            const ownerId = await repo.createOwner('testUser');
+            await expect(repo.findTeam(seasonId, ownerId)).rejects.toThrow();
+          });
+        });
+      });
+
+      describe('when invalid inputs are given', () => {
+        it('throws an error when the season id is invalid', async () => {
+          const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+          const leagueId = await repo.createLeague(leagueName);
+          const seasonId = await repo.createSeason(leagueId);
+          const ownerId = await repo.createOwner('testUser');
+          await expect(repo.findTeam(seasonId, ownerId)).rejects.toThrow();
+        });
+
+        it('throws an error when the owner id is invalid', async () => {
+          const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+          const leagueId = await repo.createLeague(leagueName);
+          const seasonId = await repo.createSeason(leagueId);
+          const ownerId = await repo.createOwner('testUser');
+          await expect(repo.findTeam(seasonId, ownerId)).rejects.toThrow();
+        });
+      });
+    });
+
+    describe('findTeamById', () => {
+      describe('when a valid team id is given', () => {
+        describe('and the team exists', () => {
+          it('returns the team', async () => {
+            const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+            const leagueId = await repo.createLeague(leagueName);
+            const seasonId = await repo.createSeason(leagueId);
+            const ownerId = await repo.createOwner('testUser');
+            const teamId = await repo.createTeam(seasonId, ownerId);
+            const team: Team = {
+              id: teamId,
+              seasonId,
+              ownerId,
+              wins: 0,
+              losses: 0,
+              ties: 0,
+            };
+
+            expect(await repo.findTeamById(teamId)).toEqual(team);
+          });
+        });
+
+        describe('and the team does not exist', () => {
+          it('throws an error', async () => {
+            await expect(repo.findTeamById(-1)).rejects.toThrow();
+          });
+        });
+      });
+    });
   });
 });

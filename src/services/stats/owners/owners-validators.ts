@@ -5,6 +5,6 @@ export async function validateOwnerExists(ownerId: number): Promise<void> {
   const ports = await getPorts();
   const doesOwnerExist = await ports.statsRepository.doesOwnerExist(ownerId);
   if (!doesOwnerExist) {
-    throw new EntityDoesNotExistError(`No owner found for id ${ownerId}`);
+    throw new EntityDoesNotExistError(`No owner found for owner id ${ownerId}`);
   }
 }
