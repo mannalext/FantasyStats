@@ -17,7 +17,7 @@ describe('findOwnerById service', () => {
 
   describe('when an id that does not belong to an existing owner is passed in', () => {
     it('throws an EntityDoesNotExistError', async () => {
-      await expect(findOwnerById(-1)).rejects.toEqual(new EntityDoesNotExistError('No owner found for id -1'));
+      await expect(findOwnerById(-1)).rejects.toEqual(new EntityDoesNotExistError('No owner found for owner id -1'));
     });
   });
 });

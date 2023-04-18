@@ -3,6 +3,7 @@ import { Season } from '@entities/season';
 import { StatsRepository } from '@ports/stats/stats-repository';
 import { isNumber } from '@utilities/is-number';
 import { getPortsForTesting } from '../../helpers/ports-for-testing';
+import { Team } from '@entities/team';
 
 describe('stats-repository', () => {
   let repo: StatsRepository;
@@ -215,6 +216,157 @@ describe('stats-repository', () => {
         describe('and the owner does not exist', () => {
           it('throws an error', async () => {
             await expect(repo.findOwnerById(-1)).rejects.toThrow();
+          });
+        });
+      });
+    });
+  });
+
+  describe('teams', () => {
+    describe('createTeam', () => {
+      describe('when a valid combination of seasonId and ownerId is given', () => {
+        const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+        let leagueId: number;
+        let seasonId: number;
+        let ownerId: number;
+        let teamId: number;
+
+        beforeAll(async () => {
+          leagueId = await repo.createLeague(leagueName);
+          seasonId = await repo.createSeason(leagueId);
+          ownerId = await repo.createOwner('testUser');
+        });
+
+        it('returns the team id', async () => {
+          teamId = await repo.createTeam(seasonId, ownerId);
+          expect(isNumber(teamId)).toBe(true);
+        });
+
+        it('creates a team', async () => {
+          const team: Team = {
+            id: teamId,
+            seasonId,
+            ownerId,
+            wins: 0,
+            losses: 0,
+            ties: 0,
+          };
+
+          expect(await repo.findTeam(seasonId, ownerId)).toEqual(team);
+        });
+
+        it('increments team ids for successively created teams', async () => {
+          const newOwnerId = await repo.createOwner('newOwner');
+          const newTeamId = await repo.createTeam(seasonId, newOwnerId);
+          expect(newTeamId).toEqual(teamId + 1);
+        });
+      });
+
+      describe('when the given season id does not exist', () => {
+        it('throws an exception', async () => {
+          await expect(repo.createTeam(-1, 1)).rejects.toThrow();
+        });
+      });
+
+      describe('when the given owner id does not exist', () => {
+        it('throws an exception', async () => {
+          const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+          const leagueId = await repo.createLeague(leagueName);
+          const seasonId = await repo.createSeason(leagueId);
+          await expect(repo.createTeam(seasonId, -1)).rejects.toThrow();
+        });
+      });
+
+      describe('when the team already exists', () => {
+        it('throws an exception', async () => {
+          const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+          const leagueId = await repo.createLeague(leagueName);
+          const seasonId = await repo.createSeason(leagueId);
+          const ownerId = await repo.createOwner('testUser');
+          await repo.createTeam(seasonId, ownerId);
+
+          await expect(repo.createTeam(seasonId, ownerId)).rejects.toThrow();
+        });
+      });
+    });
+
+    describe('findTeam', () => {
+      describe('when a valid combination of seasonId and ownerId is given', () => {
+        describe('and the team exists', () => {
+          it('returns the team', async () => {
+            const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+            const leagueId = await repo.createLeague(leagueName);
+            const seasonId = await repo.createSeason(leagueId);
+            const ownerId = await repo.createOwner('testUser');
+            const teamId = await repo.createTeam(seasonId, ownerId);
+            const team: Team = {
+              id: teamId,
+              seasonId,
+              ownerId,
+              wins: 0,
+              losses: 0,
+              ties: 0,
+            };
+
+            expect(await repo.findTeam(seasonId, ownerId)).toEqual(team);
+          });
+        });
+
+        describe('and the team does not exist', () => {
+          it('throws an error', async () => {
+            const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+            const leagueId = await repo.createLeague(leagueName);
+            const seasonId = await repo.createSeason(leagueId);
+            const ownerId = await repo.createOwner('testUser');
+            await expect(repo.findTeam(seasonId, ownerId)).rejects.toThrow();
+          });
+        });
+      });
+
+      describe('when invalid inputs are given', () => {
+        it('throws an error when the season id is invalid', async () => {
+          const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+          const leagueId = await repo.createLeague(leagueName);
+          const seasonId = await repo.createSeason(leagueId);
+          const ownerId = await repo.createOwner('testUser');
+          await expect(repo.findTeam(seasonId, ownerId)).rejects.toThrow();
+        });
+
+        it('throws an error when the owner id is invalid', async () => {
+          const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+          const leagueId = await repo.createLeague(leagueName);
+          const seasonId = await repo.createSeason(leagueId);
+          const ownerId = await repo.createOwner('testUser');
+          await expect(repo.findTeam(seasonId, ownerId)).rejects.toThrow();
+        });
+      });
+    });
+
+    describe('findTeamById', () => {
+      describe('when a valid team id is given', () => {
+        describe('and the team exists', () => {
+          it('returns the team', async () => {
+            const leagueName = 'testLeagueForTeamRepositoryUnitTests';
+            const leagueId = await repo.createLeague(leagueName);
+            const seasonId = await repo.createSeason(leagueId);
+            const ownerId = await repo.createOwner('testUser');
+            const teamId = await repo.createTeam(seasonId, ownerId);
+            const team: Team = {
+              id: teamId,
+              seasonId,
+              ownerId,
+              wins: 0,
+              losses: 0,
+              ties: 0,
+            };
+
+            expect(await repo.findTeamById(teamId)).toEqual(team);
+          });
+        });
+
+        describe('and the team does not exist', () => {
+          it('throws an error', async () => {
+            await expect(repo.findTeamById(-1)).rejects.toThrow();
           });
         });
       });

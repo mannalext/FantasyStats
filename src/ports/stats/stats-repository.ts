@@ -15,6 +15,9 @@ export interface StatsRepository {
   doesSeasonExistByLeagueId(leagueId: number): Promise<boolean>;
   findSeasonById(seasonId: number): Promise<Season>;
   findSeasonByLeagueAndYear(leagueId: number, year: number): Promise<Season>;
-  createTeam(seasonId: number, ownerId: string, wins: number, losses: number, ties: number): Promise<Team>; // TODO: this should return number
-  findTeam(seasonId: number, ownerId: string): Promise<Team | undefined>;
+  createTeam(seasonId: number, ownerId: number): Promise<number>;
+  findTeam(seasonId: number, ownerId: number): Promise<Team>;
+  findTeamById(teamId: number): Promise<Team>;
+  doesTeamExist(seasonId: number, ownerId: number): Promise<boolean>;
+  doesTeamExistById(teamId: number): Promise<boolean>;
 }

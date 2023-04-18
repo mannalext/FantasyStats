@@ -62,6 +62,44 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"Team": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"seasonId": {
+						"type": "number",
+						"format": "double"
+					},
+					"ownerId": {
+						"type": "number",
+						"format": "double"
+					},
+					"wins": {
+						"type": "number",
+						"format": "double"
+					},
+					"losses": {
+						"type": "number",
+						"format": "double"
+					},
+					"ties": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"seasonId",
+					"ownerId",
+					"wins",
+					"losses",
+					"ties"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -308,6 +346,117 @@
 								},
 								"required": [
 									"leagueId"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/teams/{seasonId}/{ownerId}": {
+			"get": {
+				"operationId": "FindTeam",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Team"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "seasonId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "ownerId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/teams/{teamId}": {
+			"get": {
+				"operationId": "FindTeamById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Team"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "teamId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/teams": {
+			"post": {
+				"operationId": "CreateTeam",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"ownerId": {
+										"type": "number",
+										"format": "double"
+									},
+									"seasonId": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"ownerId",
+									"seasonId"
 								],
 								"type": "object"
 							}
