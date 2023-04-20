@@ -2,6 +2,45 @@
 /**
  * A Sleeper League is the closest sleeper analog to a Season in my application. They create a new 'League' object every season
  */
+export class SleeperLeague {
+  leagueId: string;
+  leagueName: string;
+  rosterCount: number;
+  sport: string;
+  seasonType: string;
+  seasonYear: number;
+  rosterPositions: SleeperRosterPositionsDTO;
+  previousLeagueId: string;
+  loserBracketId: string;
+  draftId: string;
+  bracketId: string;
+
+  constructor(
+    leagueId: string,
+    leagueName: string,
+    rosterCount: number,
+    sport: string,
+    seasonType: string,
+    seasonYear: number,
+    rosterPositions: SleeperRosterPositionsDTO,
+    previousLeagueId: string,
+    loserBracketId: string,
+    draftId: string,
+    bracketId: string
+  ) {
+    this.leagueId = leagueId;
+    this.leagueName = leagueName;
+    this.rosterCount = rosterCount;
+    this.sport = sport;
+    this.seasonType = seasonType;
+    this.seasonYear = seasonYear;
+    this.rosterPositions = rosterPositions;
+    this.previousLeagueId = previousLeagueId;
+    this.loserBracketId = loserBracketId;
+    this.draftId = draftId;
+    this.bracketId = bracketId;
+  }
+}
 export class SleeperLeagueDTO {
   total_rosters: number;
   status: string;
@@ -11,7 +50,7 @@ export class SleeperLeagueDTO {
   season_type: string;
   season: number;
   scoring_settings: SleeperScoringSettingsDTO;
-  rotser_positions: SleeperRosterPositionsDTO;
+  roster_positions: SleeperRosterPositionsDTO;
   previous_league_id: string;
   name: string;
   metadata: SleeperLeagueMetadataDTO;
@@ -44,7 +83,7 @@ export class SleeperLeagueDTO {
     season_type: string,
     season: number,
     scoring_settings: SleeperScoringSettingsDTO,
-    rotser_positions: SleeperRosterPositionsDTO,
+    roster_positions: SleeperRosterPositionsDTO,
     previous_league_id: string,
     name: string,
     metadata: SleeperLeagueMetadataDTO,
@@ -76,7 +115,7 @@ export class SleeperLeagueDTO {
     this.season_type = season_type;
     this.season = season;
     this.scoring_settings = scoring_settings;
-    this.rotser_positions = rotser_positions;
+    this.roster_positions = roster_positions;
     this.previous_league_id = previous_league_id;
     this.name = name;
     this.metadata = metadata;
@@ -452,13 +491,7 @@ export class SleeperScoringSettingsDTO {
   }
 }
 
-export class SleeperRosterPositionsDTO {
-  positions: Position[];
-
-  constructor(positions: Position[]) {
-    this.positions = positions;
-  }
-}
+export type SleeperRosterPositionsDTO = Position[];
 
 export type Position =
   | 'RB'
