@@ -2,6 +2,7 @@ import { SleeperLeague } from '@entities/sleeper/sleeper-league';
 import { SleeperClientService } from '@services/sleeper-client/sleeper-client-service';
 import { server } from '../../../helpers/mocks/server';
 
+// TODO: more negative testing
 describe('sleeper-client-service', () => {
   let sleeperClientService: SleeperClientService;
 
