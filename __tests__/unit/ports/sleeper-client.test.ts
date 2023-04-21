@@ -1,29 +1,24 @@
 import { SleeperLeague } from '@entities/sleeper/sleeper-league';
 import { getPortsForTesting } from '../../helpers/ports-for-testing';
-import { sleeperLeagueDTOFixture } from './sleeper-client-fixtures';
-import axios, { AxiosResponse } from 'axios';
 import { SleeperClient } from '@ports/sleeper-client/sleeper-client';
+import { server } from '../../helpers/mocks/server';
 
+// all sleeper tests use MSW to intercept calls to sleeper and mock the response
 describe('sleeper-client', () => {
   let client: SleeperClient;
   let ports;
 
   beforeAll(() => {
+    server.listen();
     ports = getPortsForTesting();
     client = ports.sleeperClient;
   });
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
 
   describe('getLeagueById', () => {
     it('should return a sleeper league', async () => {
       const sleeperLeagueId = '1234';
-      const mockGetLeagueResponse: AxiosResponse = {
-        data: sleeperLeagueDTOFixture,
-        status: 200,
-        statusText: 'OK',
-        headers: {},
-        config: {},
-      };
-
       const sleeperLeague: SleeperLeague = {
         leagueId: sleeperLeagueId,
         leagueName: 'Test League',
@@ -32,10 +27,10 @@ describe('sleeper-client', () => {
         sport: 'nfl',
         seasonType: 'regular',
         seasonYear: 2020,
-        previousLeagueId: '123',
-        loserBracketId: '456',
-        draftId: '789',
-        bracketId: '1011',
+        previousLeagueId: 'somePreviousLeagueId',
+        loserBracketId: '1234',
+        draftId: 'someDraftId',
+        bracketId: '1234',
       };
 
       expect(await client.getLeagueById(sleeperLeagueId)).toEqual(sleeperLeague);
