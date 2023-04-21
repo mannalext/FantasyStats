@@ -4,6 +4,7 @@ import { Season } from '@entities/season';
 import { Team } from '@entities/team';
 import prisma from '.';
 import { StatsRepository } from './stats-repository';
+import { SleeperLeague } from '@entities/sleeper/sleeper-league';
 
 export class PgStatsRepository implements StatsRepository {
   async createLeague(leagueName: string): Promise<number> {
@@ -148,5 +149,10 @@ export class PgStatsRepository implements StatsRepository {
     });
 
     return !!result;
+  }
+
+  async saveSleeperLeague(sleeperLeague: SleeperLeague): Promise<void> {
+    console.log(sleeperLeague);
+    // TODO: save sleeperLeague to a new schema for it
   }
 }

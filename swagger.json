@@ -63,6 +63,86 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Position": {
+				"type": "string",
+				"enum": [
+					"RB",
+					"QB",
+					"WR",
+					"TE",
+					"FLEX",
+					"D/ST",
+					"K",
+					"BN",
+					"IR",
+					"RES",
+					"DL",
+					"LB",
+					"S",
+					"CB"
+				]
+			},
+			"SleeperRosterPositionsDTO": {
+				"items": {
+					"$ref": "#/components/schemas/Position"
+				},
+				"type": "array"
+			},
+			"SleeperLeague": {
+				"description": "A Sleeper League is the closest sleeper analog to a Season in my application. They create a new 'League' object every season",
+				"properties": {
+					"leagueId": {
+						"type": "string"
+					},
+					"leagueName": {
+						"type": "string"
+					},
+					"rosterCount": {
+						"type": "number",
+						"format": "double"
+					},
+					"sport": {
+						"type": "string"
+					},
+					"seasonType": {
+						"type": "string"
+					},
+					"seasonYear": {
+						"type": "number",
+						"format": "double"
+					},
+					"rosterPositions": {
+						"$ref": "#/components/schemas/SleeperRosterPositionsDTO"
+					},
+					"previousLeagueId": {
+						"type": "string"
+					},
+					"loserBracketId": {
+						"type": "string"
+					},
+					"draftId": {
+						"type": "string"
+					},
+					"bracketId": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"leagueId",
+					"leagueName",
+					"rosterCount",
+					"sport",
+					"seasonType",
+					"seasonYear",
+					"rosterPositions",
+					"previousLeagueId",
+					"loserBracketId",
+					"draftId",
+					"bracketId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Team": {
 				"properties": {
 					"id": {
@@ -352,6 +432,34 @@
 						}
 					}
 				}
+			}
+		},
+		"/sleeper/league/{sleeperLeagueId}": {
+			"get": {
+				"operationId": "GetLeagueById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SleeperLeague"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "sleeperLeagueId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/teams/{seasonId}/{ownerId}": {

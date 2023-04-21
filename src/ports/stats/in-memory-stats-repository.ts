@@ -3,6 +3,7 @@ import { Owner } from '@entities/owner';
 import { Season } from '@entities/season';
 import { Team } from '@entities/team';
 import { StatsRepository } from './stats-repository';
+import { SleeperLeague } from '@entities/sleeper/sleeper-league';
 
 export class InMemoryStatsRepository implements StatsRepository {
   private leagues: League[];
@@ -99,6 +100,11 @@ export class InMemoryStatsRepository implements StatsRepository {
 
   doesTeamExistById(teamId: number): Promise<boolean> {
     console.log(teamId);
+    throw new Error('Method not implemented.');
+  }
+
+  saveSleeperLeague(sleeperLeague: SleeperLeague): Promise<void> {
+    console.log(sleeperLeague);
     throw new Error('Method not implemented.');
   }
 }
