@@ -5,7 +5,8 @@ export class Season {
 
   constructor(id: number, leagueId: number, year: number) {
     this.id = id;
-    (this.leagueId = leagueId), (this.year = year);
+    this.leagueId = leagueId;
+    this.year = year;
   }
 }
 
