@@ -39,6 +39,7 @@ export class PgStatsRepository implements StatsRepository {
     const result = await prisma.seasons.create({
       data: {
         leagueId,
+        sleeperLeagueId: '',
         year: new Date().getFullYear(),
       },
       select: { id: true },

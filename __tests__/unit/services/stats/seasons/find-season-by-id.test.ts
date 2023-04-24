@@ -1,3 +1,4 @@
+import { Season } from '@entities/season';
 import { EntityDoesNotExistError } from '@services/errors';
 import { createLeague } from '@services/stats/leagues/create-league';
 import { createSeason } from '@services/stats/seasons/create-season';
@@ -10,9 +11,10 @@ describe('findSeasonById service', () => {
       const leagueId = await createLeague(leagueName);
       const seasonId = await createSeason(leagueId);
 
-      const someSeason = {
+      const someSeason: Season = {
         id: seasonId,
         leagueId,
+        sleeperLeagueId: '',
         year: new Date().getFullYear(),
       };
 

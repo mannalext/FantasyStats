@@ -96,6 +96,7 @@ describe('stats-repository', () => {
           const season: Season = {
             id: seasonId,
             leagueId: leagueId,
+            sleeperLeagueId: '',
             year: new Date().getFullYear(),
           };
 
@@ -137,6 +138,7 @@ describe('stats-repository', () => {
             const season: Season = {
               id: seasonId,
               leagueId: leagueId,
+              sleeperLeagueId: '',
               year: new Date().getFullYear(),
             };
 
@@ -162,6 +164,7 @@ describe('stats-repository', () => {
             const season: Season = {
               id: seasonId,
               leagueId: leagueId,
+              sleeperLeagueId: '',
               year: new Date().getFullYear(),
             };
 

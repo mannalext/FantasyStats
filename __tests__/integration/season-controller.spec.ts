@@ -25,6 +25,7 @@ describe('season-controller', () => {
     expect(fetchSeasonResponse.data).toEqual({
       leagueId,
       id: seasonId,
+      sleeperLeagueId: '',
       year: new Date().getFullYear(),
     });
   });
@@ -39,6 +40,7 @@ describe('season-controller', () => {
     expect(fetchSeasonResponse.data).toEqual({
       leagueId,
       id: createSeasonResponse.data,
+      sleeperLeagueId: '',
       year: new Date().getFullYear(),
     });
   });
