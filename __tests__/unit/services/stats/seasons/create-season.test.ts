@@ -13,6 +13,7 @@ describe('createSeason service', () => {
       expect(season).toEqual({
         leagueId,
         id: seasonId,
+        sleeperLeagueId: '',
         year: new Date().getFullYear(),
       });
     });
