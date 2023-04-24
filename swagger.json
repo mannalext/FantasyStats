@@ -50,6 +50,10 @@
 						"type": "number",
 						"format": "double"
 					},
+					"sleeperLeagueId": {
+						"type": "string",
+						"nullable": true
+					},
 					"year": {
 						"type": "number",
 						"format": "double"
