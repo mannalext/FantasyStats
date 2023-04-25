@@ -159,7 +159,18 @@ export class PgStatsRepository implements StatsRepository {
         seasonId,
         sleeperLeagueId,
       },
-      select: { seasonId: true },
+      include: {
+        seasons: true,
+      },
+      // select: {
+      //   seasonId: true,
+      //   seasons: {
+      //     select: {
+      //       leagueId: true,
+      //       year: true,
+      //     },
+      //    }
+      //   },
     });
 
     return result.seasonId;
@@ -172,6 +183,7 @@ export class PgStatsRepository implements StatsRepository {
       include: { seasons: true },
     });
 
+    // TODO: look into massaging the type safety here before moving on
     return result as unknown as SleeperSeason;
   }
 
