@@ -14,30 +14,37 @@ model leagues {
 }
 
 model owners {
-  id           Int     @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   displayName String  @map("display_name") @db.VarChar(50)
-  teams        teams[]
+  teams       teams[]
 }
 
 model seasons {
-  id        Int     @unique @default(autoincrement())
-  leagueId Int @map("league_id")
-  year      Int
-  leagues   leagues @relation(fields: [leagueId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_league")
-  teams     teams[]
+  id             Int              @unique @default(autoincrement())
+  leagueId       Int              @map("league_id")
+  year           Int
+  leagues        leagues          @relation(fields: [leagueId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_league")
+  teams          teams[]
+  sleeperSeasons sleeperSeasons[]
 
   @@id([leagueId, year])
 }
 
+model sleeperSeasons {
+  seasonId        Int     @map("season_id")
+  sleeperLeagueId String  @unique @map("sleeper_league_id") @db.VarChar(100)
+  seasons         seasons @relation(fields: [seasonId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_season")
+}
+
 model teams {
-  id        Int     @unique @default(autoincrement())
-  seasonId Int @map("season_id")
-  ownerId  Int @map("owner_id")
-  wins      Int @default(0)
-  losses    Int @default(0)
-  ties      Int @default(0)
-  owners    owners  @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_owner")
-  seasons   seasons @relation(fields: [seasonId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_season")
+  id       Int     @unique @default(autoincrement())
+  seasonId Int     @map("season_id")
+  ownerId  Int     @map("owner_id")
+  wins     Int     @default(0)
+  losses   Int     @default(0)
+  ties     Int     @default(0)
+  owners   owners  @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_owner")
+  seasons  seasons @relation(fields: [seasonId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_season")
 
   @@id([seasonId, ownerId])
 }
