@@ -14,7 +14,6 @@ describe('findSeasonByLeagueAndYear service', () => {
       const someSeason: Season = {
         id: seasonId,
         leagueId,
-        sleeperLeagueId: '',
         year: new Date().getFullYear(),
       };
 

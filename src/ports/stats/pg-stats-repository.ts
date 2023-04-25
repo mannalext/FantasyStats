@@ -1,6 +1,6 @@
 import { League } from '@entities/league';
 import { Owner } from '@entities/owner';
-import { Season } from '@entities/season';
+import { Season, SleeperSeason } from '@entities/season';
 import { Team } from '@entities/team';
 import prisma from '.';
 import { StatsRepository } from './stats-repository';
@@ -39,7 +39,6 @@ export class PgStatsRepository implements StatsRepository {
     const result = await prisma.seasons.create({
       data: {
         leagueId,
-        sleeperLeagueId: '',
         year: new Date().getFullYear(),
       },
       select: { id: true },
@@ -152,28 +151,28 @@ export class PgStatsRepository implements StatsRepository {
     return !!result;
   }
 
-  async createSleeperSeason(leagueId: number, sleeperLeagueId: string): Promise<number> {
-    const result = await prisma.seasons.create({
+  // TODO: ensure there can't be more than one SleeperSeason per Season
+  async createSleeperSeason(seasonId: number, sleeperLeagueId: string): Promise<number> {
+    // TODO: create the new season in the service level above this. use that seasonId and pass into here
+    const result = await prisma.sleeperSeasons.create({
       data: {
-        leagueId,
+        seasonId,
         sleeperLeagueId,
-        year: new Date().getFullYear(),
       },
-      select: { id: true },
+      select: { seasonId: true },
     });
 
-    return result.id;
+    return result.seasonId;
   }
 
-  async findSleeperSeasonBySleeperLeagueId(sleeperLeagueId: string): Promise<Season> {
-    // Prisma does not support nullable unique columns yet. I would rather do findUniqueOrThrow here.
-    // can't do that because if I set sleeperLeagueId to @unique in the schema, it can't be nullable. thus defeating the purpose
-    // of keeping my season entity independent from any single platform
-    const result: Season = await prisma.seasons.findFirstOrThrow({
+  // TODO: what is the correct way to query this relation? I want the entire object, including SleeperSeasonId
+  async findSleeperSeasonBySleeperLeagueId(sleeperLeagueId: string): Promise<SleeperSeason> {
+    const result = await prisma.sleeperSeasons.findUniqueOrThrow({
       where: { sleeperLeagueId },
+      include: { seasons: true },
     });
 
-    return result;
+    return result as unknown as SleeperSeason;
   }
 
   async saveSleeperLeague(sleeperLeague: SleeperLeague): Promise<void> {

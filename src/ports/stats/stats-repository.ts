@@ -23,7 +23,7 @@ export interface StatsRepository {
   doesTeamExist(seasonId: number, ownerId: number): Promise<boolean>;
   doesTeamExistById(teamId: number): Promise<boolean>;
 
-  createSleeperSeason(leagueId: number, sleeperLeagueId: string): Promise<number>;
+  createSleeperSeason(seasonId: number, sleeperLeagueId: string): Promise<number>;
   findSleeperSeasonBySleeperLeagueId(sleeperLeagueId: string): Promise<Season>;
 
   // believe this was intended to be for storing DTOs
