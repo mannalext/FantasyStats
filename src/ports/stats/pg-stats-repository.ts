@@ -152,6 +152,30 @@ export class PgStatsRepository implements StatsRepository {
     return !!result;
   }
 
+  async createSleeperSeason(leagueId: number, sleeperLeagueId: string): Promise<number> {
+    const result = await prisma.seasons.create({
+      data: {
+        leagueId,
+        sleeperLeagueId,
+        year: new Date().getFullYear(),
+      },
+      select: { id: true },
+    });
+
+    return result.id;
+  }
+
+  async findSleeperSeasonBySleeperLeagueId(sleeperLeagueId: string): Promise<Season> {
+    // Prisma does not support nullable unique columns yet. I would rather do findUniqueOrThrow here.
+    // can't do that because if I set sleeperLeagueId to @unique in the schema, it can't be nullable. thus defeating the purpose
+    // of keeping my season entity independent from any single platform
+    const result: Season = await prisma.seasons.findFirstOrThrow({
+      where: { sleeperLeagueId },
+    });
+
+    return result;
+  }
+
   async saveSleeperLeague(sleeperLeague: SleeperLeague): Promise<void> {
     console.log(sleeperLeague);
     // TODO: save sleeperLeague to a new schema for it
