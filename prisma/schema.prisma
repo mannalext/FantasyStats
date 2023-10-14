@@ -34,6 +34,7 @@ model sleeperSeasons {
   seasonId        Int     @map("season_id")
   sleeperLeagueId String  @unique @map("sleeper_league_id") @db.VarChar(100)
   seasons         seasons @relation(fields: [seasonId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_season")
+  @@unique([seasonId, sleeperLeagueId])
 }
 
 model teams {
