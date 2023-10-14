@@ -151,7 +151,6 @@ export class PgStatsRepository implements StatsRepository {
     return !!result;
   }
 
-  // TODO: ensure there can't be more than one SleeperSeason per Season
   async createSleeperSeason(seasonId: number, sleeperLeagueId: string): Promise<number> {
     // TODO: create the new season in the service level above this. use that seasonId and pass into here
     const result = await prisma.sleeperSeasons.create({
@@ -162,15 +161,6 @@ export class PgStatsRepository implements StatsRepository {
       include: {
         seasons: true,
       },
-      // select: {
-      //   seasonId: true,
-      //   seasons: {
-      //     select: {
-      //       leagueId: true,
-      //       year: true,
-      //     },
-      //    }
-      //   },
     });
 
     return result.seasonId;
