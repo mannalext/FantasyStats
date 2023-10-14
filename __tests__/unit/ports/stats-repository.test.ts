@@ -235,30 +235,31 @@ describe('stats-repository', () => {
         });
       });
 
-      // describe('findSleeperSeasonBySleeperLeagueId', () => {
-      //   describe('when a valid sleeperLeagueId is given', () => {
-      //     describe('and the season exists', () => {
-      //       it('returns the season', async () => {
-      //         const leagueName = 'testLeagueForSleeperSeasonRepositoryUnitTests';
-      //         const leagueId = await repo.createLeague(leagueName);
-      //         const sleeperSeasonId = await repo.createSleeperSeason(leagueId, sleeperLeagueId);
+      describe('findSleeperSeasonBySleeperLeagueId', () => {
+        describe('when a valid sleeperLeagueId is given', () => {
+          describe('and the season exists', () => {
+            it('returns the season', async () => {
+              const leagueName = 'testLeagueForSleeperSeasonRepositoryUnitTests';
+              const leagueId = await repo.createLeague(leagueName);
+              const seasonId = await repo.createSeason(leagueId);
+              const sleeperSeasonId = await repo.createSleeperSeason(seasonId, sleeperLeagueId);
 
-      //         expect(await repo.findSleeperSeasonBySleeperLeagueId(sleeperLeagueId)).toEqual({
-      //           id: sleeperSeasonId,
-      //           leagueId: leagueId,
-      //           sleeperLeagueId: sleeperLeagueId,
-      //           year: new Date().getFullYear(),
-      //         });
-      //       });
-      //     });
+              expect(await repo.findSleeperSeasonBySleeperLeagueId(sleeperLeagueId)).toEqual({
+                id: sleeperSeasonId,
+                leagueId: leagueId,
+                sleeperLeagueId: sleeperLeagueId,
+                year: new Date().getFullYear(),
+              });
+            });
+          });
 
-      //     describe('and the season does not exist', () => {
-      //       it('throws an error', async () => {
-      //         await expect(repo.findSleeperSeasonBySleeperLeagueId('-1')).rejects.toThrow();
-      //       });
-      //     });
-      //   });
-      // });
+          describe('and the season does not exist', () => {
+            it('throws an error', async () => {
+              await expect(repo.findSleeperSeasonBySleeperLeagueId('-1')).rejects.toThrow();
+            });
+          });
+        });
+      });
     });
   });
 
