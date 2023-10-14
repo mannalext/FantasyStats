@@ -11,16 +11,26 @@ export class Season {
 }
 
 export class SleeperSeason extends Season {
-  seasonId: number;
-  sleeperSeasonId: string;
+  id: number;
+  sleeperLeagueId: string;
   leagueId: number;
   year: number;
 
-  constructor(seasonId: number, sleeperSeasonId: string, leagueId: number, year: number) {
-    super(seasonId, leagueId, year);
-    this.seasonId = seasonId;
-    this.sleeperSeasonId = sleeperSeasonId;
+  constructor(id: number, sleeperLeagueId: string, leagueId: number, year: number) {
+    super(id, leagueId, year);
+    this.id = id;
+    this.sleeperLeagueId = sleeperLeagueId;
     this.leagueId = leagueId;
     this.year = year;
+  }
+}
+
+export class SleeperSeasonEntityRelation {
+  seasonId: number;
+  sleeperLeagueId: string;
+
+  constructor(seasonId: number, sleeperLeagueId: string) {
+    this.seasonId = seasonId;
+    this.sleeperLeagueId = sleeperLeagueId;
   }
 }

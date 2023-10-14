@@ -1,6 +1,6 @@
 import { League } from '@entities/league';
 import { Owner } from '@entities/owner';
-import { Season, SleeperSeason } from '@entities/season';
+import { Season, SleeperSeason, SleeperSeasonEntityRelation } from '@entities/season';
 import { Team } from '@entities/team';
 import prisma from '.';
 import { StatsRepository } from './stats-repository';
@@ -176,19 +176,22 @@ export class PgStatsRepository implements StatsRepository {
     return result.seasonId;
   }
 
-  // TODO: what is the correct way to query this relation? I want the entire object, including SleeperSeasonId
   async findSleeperSeasonBySleeperLeagueId(sleeperLeagueId: string): Promise<SleeperSeason> {
-    const result = await prisma.sleeperSeasons.findUniqueOrThrow({
+    const result: { seasons: Season } & SleeperSeasonEntityRelation = await prisma.sleeperSeasons.findUniqueOrThrow({
       where: { sleeperLeagueId },
       include: { seasons: true },
     });
 
-    // TODO: look into massaging the type safety here before moving on
-    return result as unknown as SleeperSeason;
+    return {
+      id: result.seasonId,
+      sleeperLeagueId: result.sleeperLeagueId,
+      leagueId: result.seasons.leagueId,
+      year: result.seasons.year,
+    };
   }
 
   async saveSleeperLeague(sleeperLeague: SleeperLeague): Promise<void> {
     console.log(sleeperLeague);
-    // TODO: save sleeperLeague to a new schema for it
+    // TODO: save SleeperLeagueDTO to a new schema for it
   }
 }
