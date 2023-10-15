@@ -1,6 +1,6 @@
 import { League } from '@entities/league';
 import { Owner } from '@entities/owner';
-import { Season } from '@entities/season';
+import { Season, SleeperSeason } from '@entities/season';
 import { Team } from '@entities/team';
 import { StatsRepository } from './stats-repository';
 import { SleeperLeague } from '@entities/sleeper/sleeper-league';
@@ -107,11 +107,11 @@ export class InMemoryStatsRepository implements StatsRepository {
     console.log(seasonId, sleeperLeagueId);
     throw new Error('Method not implemented.');
   }
-  findSleeperSeasonBySleeperLeagueId(sleeperLeagueId: string): Promise<Season> {
+  findSleeperSeasonBySleeperLeagueId(sleeperLeagueId: string): Promise<SleeperSeason> {
     console.log(sleeperLeagueId);
     throw new Error('Method not implemented.');
   }
-  findSleeperSeasonBySeasonId(seasonId: number): Promise<Season> {
+  findSleeperSeasonBySeasonId(seasonId: number): Promise<SleeperSeason> {
     console.log(seasonId);
     throw new Error('Method not implemented.');
   }
