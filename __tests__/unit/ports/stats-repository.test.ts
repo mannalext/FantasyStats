@@ -260,6 +260,32 @@ describe('stats-repository', () => {
           });
         });
       });
+
+      describe('findSleeperSeasonBySeasonId', () => {
+        describe('when a valid seasonId is given', () => {
+          describe('and the season exists', () => {
+            it('returns the season', async () => {
+              const leagueName = 'testLeagueForSleeperSeasonRepositoryUnitTests';
+              const leagueId = await repo.createLeague(leagueName);
+              const seasonId = await repo.createSeason(leagueId);
+              const sleeperSeasonId = await repo.createSleeperSeason(seasonId, sleeperLeagueId);
+
+              expect(await repo.findSleeperSeasonBySeasonId(seasonId)).toEqual({
+                id: sleeperSeasonId,
+                leagueId: leagueId,
+                sleeperLeagueId: sleeperLeagueId,
+                year: new Date().getFullYear(),
+              });
+            });
+          });
+
+          describe('and the season does not exist', () => {
+            it('throws an error', async () => {
+              await expect(repo.findSleeperSeasonBySeasonId(-1)).rejects.toThrow();
+            });
+          });
+        });
+      });
     });
   });
 

@@ -5,6 +5,7 @@ import { Team } from '@entities/team';
 import prisma from '.';
 import { StatsRepository } from './stats-repository';
 import { SleeperLeague } from '@entities/sleeper/sleeper-league';
+import { sleeperSeasons } from '@prisma/client';
 
 export class PgStatsRepository implements StatsRepository {
   async createLeague(leagueName: string): Promise<number> {
@@ -171,6 +172,28 @@ export class PgStatsRepository implements StatsRepository {
       where: { sleeperLeagueId },
       include: { seasons: true },
     });
+
+    return {
+      id: result.seasonId,
+      sleeperLeagueId: result.sleeperLeagueId,
+      leagueId: result.seasons.leagueId,
+      year: result.seasons.year,
+    };
+  }
+
+  async findSleeperSeasonBySeasonId(seasonId: number): Promise<SleeperSeason> {
+    const result:
+      | (sleeperSeasons & {
+          seasons: Season;
+        })
+      | null = await prisma.sleeperSeasons.findFirst({
+      where: { seasonId },
+      include: { seasons: true },
+    });
+
+    if (!result) {
+      throw new Error(`No SleeperSeason found for seasonId ${seasonId}`);
+    }
 
     return {
       id: result.seasonId,
