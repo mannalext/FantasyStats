@@ -1,7 +1,6 @@
 import { SleeperSeason } from '@entities/season';
 import { EntityDoesNotExistError } from '@services/errors';
 import { createLeague } from '@services/stats/leagues/create-league';
-import { findSeasonById } from '@services/stats/seasons/find-season-by-id';
 import { createSleeperSeason } from '@services/stats/seasons/sleeperSeasons/create-sleeper-season';
 import { findSleeperSeasonBySleeperLeagueId } from '@services/stats/seasons/sleeperSeasons/find-sleeper-season-by-sleeper-league-id';
 import { server } from '../../../../../helpers/mocks/server';
@@ -42,10 +41,10 @@ describe('findSleeperSeasonBySleeperLeagueId service', () => {
     });
   });
 
-  describe('when a season does not exist with the given seasonId', () => {
+  describe('when a sleeper season does not exist with the given sleeperLeagueId', () => {
     it('returns throws an EntityDoesNotExistError', async () => {
-      await expect(findSeasonById(9_999_999)).rejects.toEqual(
-        new EntityDoesNotExistError('No season found for season id 9999999')
+      await expect(findSleeperSeasonBySleeperLeagueId('9999999')).rejects.toEqual(
+        new EntityDoesNotExistError('No Sleeper season found for SleeperLeagueId 9999999')
       );
     });
   });
