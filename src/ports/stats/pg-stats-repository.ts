@@ -211,6 +211,12 @@ export class PgStatsRepository implements StatsRepository {
     return result === 1 ? true : false;
   }
 
+  async deleteSleeperSeason(sleeperLeagueId: string): Promise<void> {
+    await prisma.sleeperSeasons.delete({
+      where: { sleeperLeagueId },
+    });
+  }
+
   async saveSleeperLeague(sleeperLeague: SleeperLeague): Promise<void> {
     console.log(sleeperLeague);
     // TODO: save SleeperLeagueDTO to a new schema for it
