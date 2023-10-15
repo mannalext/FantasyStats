@@ -27,6 +27,7 @@ export interface StatsRepository {
   findSleeperSeasonBySleeperLeagueId(sleeperLeagueId: string): Promise<SleeperSeason>;
   findSleeperSeasonBySeasonId(seasonId: number): Promise<SleeperSeason>;
   doesSleeperSeasonExistBySleeperLeagueId(sleeperLeagueId: string): Promise<boolean>;
+  doesSleeperSeasonExistBySeasonId(seasonId: number): Promise<boolean>;
 
   // this is a utility function for tests
   deleteSleeperSeason(sleeperLeagueId: string): Promise<void>;

@@ -119,6 +119,10 @@ export class InMemoryStatsRepository implements StatsRepository {
     console.log(sleeperLeagueId);
     throw new Error('Method not implemented.');
   }
+  doesSleeperSeasonExistBySeasonId(seasonId: number): Promise<boolean> {
+    console.log(seasonId);
+    throw new Error('Method not implemented.');
+  }
 
   deleteSleeperSeason(sleeperLeagueId: string): Promise<void> {
     console.log(sleeperLeagueId);

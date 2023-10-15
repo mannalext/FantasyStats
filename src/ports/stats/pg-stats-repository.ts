@@ -211,6 +211,14 @@ export class PgStatsRepository implements StatsRepository {
     return result === 1 ? true : false;
   }
 
+  async doesSleeperSeasonExistBySeasonId(seasonId: number): Promise<boolean> {
+    const result: number = await prisma.sleeperSeasons.count({
+      where: { seasonId },
+    });
+
+    return result === 1 ? true : false;
+  }
+
   async deleteSleeperSeason(sleeperLeagueId: string): Promise<void> {
     await prisma.sleeperSeasons.delete({
       where: { sleeperLeagueId },
