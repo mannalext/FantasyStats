@@ -1,13 +1,13 @@
 import { SleeperSeason } from '@entities/season';
 import { EntityDoesNotExistError } from '@services/errors';
 import { createLeague } from '@services/stats/leagues/create-league';
-import { createSeason } from '@services/stats/seasons/create-season';
 import { findSeasonById } from '@services/stats/seasons/find-season-by-id';
 import { createSleeperSeason } from '@services/stats/seasons/sleeperSeasons/create-sleeper-season';
 import { findSleeperSeasonBySleeperLeagueId } from '@services/stats/seasons/sleeperSeasons/find-sleeper-season-by-sleeper-league-id';
 import { server } from '../../../../../helpers/mocks/server';
 import { StatsRepository } from '@ports/stats/stats-repository';
 import { getPortsForTesting } from '../../../../../helpers/ports-for-testing';
+import { findSeasonByLeagueAndYear } from '@services/stats/seasons/find-season-by-league-and-year';
 
 describe('findSleeperSeasonBySleeperLeagueId service', () => {
   const mockedSleeperLeagueId = '1234';
@@ -26,11 +26,10 @@ describe('findSleeperSeasonBySleeperLeagueId service', () => {
     it('returns it', async () => {
       const leagueName = 'someLeagueName';
       const leagueId = await createLeague(leagueName);
-      const seasonId = await createSeason(leagueId);
-      await createSleeperSeason(seasonId, mockedSleeperLeagueId);
-
+      await createSleeperSeason(leagueId, mockedSleeperLeagueId);
+      const season = await findSeasonByLeagueAndYear(leagueId, new Date().getFullYear());
       const someSleeperSeason: SleeperSeason = {
-        id: seasonId,
+        id: season.id,
         leagueId,
         sleeperLeagueId: mockedSleeperLeagueId,
         year: new Date().getFullYear(),
