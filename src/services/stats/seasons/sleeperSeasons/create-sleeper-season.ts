@@ -1,4 +1,4 @@
-import { validateLeagueExists } from '@services/stats/leagues/leagues-validators';
+import { validateLeagueExists } from '../../../../services/stats/leagues/leagues-validators';
 import { getPorts } from '../../../../ports/get-ports';
 import { createSeason } from '../create-season';
 import { validateSleeperLeagueExists, validateSleeperSeasonDoesNotAlreadyExist } from '../seasons-validators';

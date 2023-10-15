@@ -434,6 +434,77 @@
 				}
 			}
 		},
+		"/seasons/sleeper": {
+			"post": {
+				"operationId": "CreateSleeperSeason",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"sleeperLeagueId": {
+										"type": "string"
+									},
+									"leagueId": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"sleeperLeagueId",
+									"leagueId"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/seasons/sleeper/external/{sleeperLeagueId}": {
+			"get": {
+				"operationId": "FindSleeperSeasonBySleeperLeagueId",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Season"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "sleeperLeagueId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/sleeper/league/{sleeperLeagueId}": {
 			"get": {
 				"operationId": "GetLeagueById",

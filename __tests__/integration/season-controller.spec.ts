@@ -2,6 +2,7 @@ import axios from 'axios';
 
 describe('season-controller', () => {
   const host = process.env['STATS_API_URL'];
+  const sleeperLeagueIdForDynasty2023 = '985676679735504896';
 
   // TODO: this intermittently fails. likely because the tests aren't isolated well enough?
   it('creating a season', async () => {
@@ -40,6 +41,34 @@ describe('season-controller', () => {
       leagueId,
       id: createSeasonResponse.data,
       year: new Date().getFullYear(),
+    });
+  });
+
+  describe('sleeper seasons', () => {
+    let leagueId: number;
+
+    beforeAll(async () => {
+      const leagueName = 'IntegrationTestLeagueForSleeperSeason';
+      const createLeagueResponse = await axios.post(`${host}leagues`, { leagueName });
+      leagueId = createLeagueResponse.data;
+    });
+
+    it('creating a sleeper season and fetching it by sleeper season id', async () => {
+      const createSleeperSeasonResponse = await axios.post(`${host}seasons/sleeper`, {
+        leagueId,
+        sleeperLeagueId: sleeperLeagueIdForDynasty2023,
+      });
+
+      const fetchSleeperSeasonResponse = await axios.get(
+        `${host}seasons/sleeper/external/${sleeperLeagueIdForDynasty2023}`
+      );
+
+      expect(fetchSleeperSeasonResponse.data).toEqual({
+        leagueId,
+        id: createSleeperSeasonResponse.data,
+        sleeperLeagueId: sleeperLeagueIdForDynasty2023,
+        year: new Date().getFullYear(),
+      });
     });
   });
 });

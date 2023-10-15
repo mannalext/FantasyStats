@@ -1,5 +1,5 @@
-import { SleeperSeason } from '@entities/season';
-import { getPorts } from '@ports/get-ports';
+import { SleeperSeason } from '../../../../entities/season';
+import { getPorts } from '../../../../ports/get-ports';
 import { validateSleeperSeasonExistsBySleeperLeagueId } from '../seasons-validators';
 
 export async function findSleeperSeasonBySleeperLeagueId(sleeperLeagueId: string): Promise<SleeperSeason> {
