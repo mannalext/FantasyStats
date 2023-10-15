@@ -43,6 +43,15 @@ export async function validateSleeperSeasonExistsBySleeperLeagueId(sleeperLeague
   }
 }
 
+export async function validateSleeperSeasonExistsBySeasonId(seasonId: number): Promise<void> {
+  const ports = await getPorts();
+  const doesSleeperSeasonExist = await ports.statsRepository.doesSleeperSeasonExistBySeasonId(seasonId);
+
+  if (!doesSleeperSeasonExist) {
+    throw new EntityDoesNotExistError(`No Sleeper season found for seasonId ${seasonId}`);
+  }
+}
+
 export async function validateSleeperSeasonDoesNotAlreadyExist(sleeperLeagueId: string): Promise<void> {
   const ports = await getPorts();
   const doesSleeperSeasonExist = await ports.statsRepository.doesSleeperSeasonExistBySleeperLeagueId(sleeperLeagueId);
