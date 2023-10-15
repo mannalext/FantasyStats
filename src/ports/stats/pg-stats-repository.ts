@@ -203,6 +203,14 @@ export class PgStatsRepository implements StatsRepository {
     };
   }
 
+  async doesSleeperSeasonExistBySleeperLeagueId(sleeperLeagueId: string): Promise<boolean> {
+    const result: number = await prisma.sleeperSeasons.count({
+      where: { sleeperLeagueId },
+    });
+
+    return result === 1 ? true : false;
+  }
+
   async saveSleeperLeague(sleeperLeague: SleeperLeague): Promise<void> {
     console.log(sleeperLeague);
     // TODO: save SleeperLeagueDTO to a new schema for it

@@ -26,6 +26,7 @@ export interface StatsRepository {
   createSleeperSeason(seasonId: number, sleeperLeagueId: string): Promise<number>;
   findSleeperSeasonBySleeperLeagueId(sleeperLeagueId: string): Promise<Season>;
   findSleeperSeasonBySeasonId(seasonId: number): Promise<Season>;
+  doesSleeperSeasonExistBySleeperLeagueId(sleeperLeagueId: string): Promise<boolean>;
 
   // believe this was intended to be for storing DTOs
   // it is not currently (4.24.23) related to the particular flavor of Season object that contains a sleeperId
