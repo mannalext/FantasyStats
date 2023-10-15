@@ -6,6 +6,7 @@ import { createSeason } from '../../services/stats/seasons/create-season';
 import { SeasonErrorHandlingMiddleware } from './season-error-handling-middleware';
 import { createSleeperSeason } from '../../services/stats/seasons/sleeperSeasons/create-sleeper-season';
 import { findSleeperSeasonBySleeperLeagueId } from '../../services/stats/seasons/sleeperSeasons/find-sleeper-season-by-sleeper-league-id';
+import { findSleeperSeasonBySeasonId } from '../../services/stats/seasons/sleeperSeasons/find-sleeper-season-by-season-id';
 
 @Route('seasons')
 @Middlewares(SeasonErrorHandlingMiddleware)
@@ -33,5 +34,10 @@ export class SeasonsController extends Controller {
   @Get('sleeper/external/{sleeperLeagueId}')
   public async findSleeperSeasonBySleeperLeagueId(@Path() sleeperLeagueId: string): Promise<Season> {
     return await findSleeperSeasonBySleeperLeagueId(sleeperLeagueId);
+  }
+
+  @Get('sleeper/{seasonId}')
+  public async findSleeperSeasonBySeasonId(@Path() seasonId: number): Promise<Season> {
+    return await findSleeperSeasonBySeasonId(seasonId);
   }
 }
