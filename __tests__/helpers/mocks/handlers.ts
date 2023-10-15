@@ -21,4 +21,7 @@ export const handlers = [
       })
     );
   }),
+  rest.get('https://api.sleeper.app/v1/league/DoesNotExist', (_request, response, context) => {
+    return response(context.status(404));
+  }),
 ];
