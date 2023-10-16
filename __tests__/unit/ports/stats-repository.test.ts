@@ -301,7 +301,11 @@ describe('stats-repository', () => {
 
         it('creates an owner', async () => {
           const ownerId = await repo.createOwner('testOwner');
-          expect(await repo.findOwnerById(ownerId)).toEqual({ id: ownerId, displayName: 'testOwner' });
+          expect(await repo.findOwnerById(ownerId)).toEqual({
+            id: ownerId,
+            displayName: 'testOwner',
+            sleeperUserId: null,
+          });
         });
 
         it('increments owner ids for successively created owners', async () => {
@@ -317,7 +321,11 @@ describe('stats-repository', () => {
         describe('and the owner exists', () => {
           it('returns the owner', async () => {
             const ownerId = await repo.createOwner('testOwner');
-            expect(await repo.findOwnerById(ownerId)).toEqual({ id: ownerId, displayName: 'testOwner' });
+            expect(await repo.findOwnerById(ownerId)).toEqual({
+              id: ownerId,
+              displayName: 'testOwner',
+              sleeperUserId: null,
+            });
           });
         });
 

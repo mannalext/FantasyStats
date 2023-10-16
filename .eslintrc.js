@@ -1,22 +1,23 @@
 module.exports = {
   extends: [
-    "eslint:recommended",
-    "plugin:unicorn/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:jest/recommended"
+    'eslint:recommended',
+    'plugin:unicorn/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:jest/recommended',
   ],
   overrides: [
     {
-      files: [ "**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)" ],
+      files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
       rules: {
-        "@typescript-eslint/no-non-null-assertion": "off",
-        "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
-        "unicorn/consistent-function-scoping": "off",
+        '@typescript-eslint/no-non-null-assertion': 'off',
+        '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+        'unicorn/consistent-function-scoping': 'off',
+        'unicorn/no-null': 'off',
       },
     },
   ],
   rules: {
-    eqeqeq: "error",
+    eqeqeq: 'error',
   },
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
 };

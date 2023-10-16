@@ -16,6 +16,7 @@ model leagues {
 model owners {
   id          Int     @id @default(autoincrement())
   displayName String  @map("display_name") @db.VarChar(50)
+  sleeperUserId String? @unique 
   teams       teams[]
 }
 

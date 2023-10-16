@@ -10,6 +10,7 @@ describe('createOwner service', () => {
       expect(owner).toEqual({
         id: ownerId,
         displayName: ownerName,
+        sleeperUserId: null,
       });
     });
 
