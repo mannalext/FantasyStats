@@ -24,4 +24,25 @@ export const handlers = [
   rest.get('https://api.sleeper.app/v1/league/DoesNotExist', (_request, response, context) => {
     return response(context.status(404));
   }),
+  rest.get('https://api.sleeper.app/v1/league/1234/rosters', (_request, response, context) => {
+    return response(
+      context.status(200),
+      context.json([
+        {
+          roster_id: 1,
+          owner_id: '1',
+          league_id: '1234',
+          starters: ['1'],
+          players: ['1'],
+          reserve: ['1'],
+          keepers: ['1'],
+          settings: [1],
+          metadata: ['1'],
+          co_owners: ['1'],
+          player_map: null,
+          taxi: null,
+        },
+      ])
+    );
+  }),
 ];

@@ -36,4 +36,13 @@ describe('sleeper-client', () => {
       expect(await client.getLeagueById(sleeperLeagueId)).toEqual(sleeperLeague);
     });
   });
+
+  describe('getRostersForLeague', () => {
+    it('should return a list of rosters', async () => {
+      const sleeperLeagueId = '1234';
+      const rosters = await client.getRostersForLeague(sleeperLeagueId);
+
+      expect(rosters.length).toEqual(1);
+    });
+  });
 });
