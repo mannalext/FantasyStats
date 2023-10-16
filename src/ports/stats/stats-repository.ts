@@ -1,6 +1,6 @@
 import { League } from '@entities/league';
 import { Owner } from '@entities/owner';
-import { Season } from '@entities/season';
+import { Season, SleeperSeason } from '@entities/season';
 import { SleeperLeague } from '@entities/sleeper/sleeper-league';
 import { Team } from '@entities/team';
 
@@ -23,5 +23,16 @@ export interface StatsRepository {
   doesTeamExist(seasonId: number, ownerId: number): Promise<boolean>;
   doesTeamExistById(teamId: number): Promise<boolean>;
 
+  createSleeperSeason(seasonId: number, sleeperLeagueId: string): Promise<number>;
+  findSleeperSeasonBySleeperLeagueId(sleeperLeagueId: string): Promise<SleeperSeason>;
+  findSleeperSeasonBySeasonId(seasonId: number): Promise<SleeperSeason>;
+  doesSleeperSeasonExistBySleeperLeagueId(sleeperLeagueId: string): Promise<boolean>;
+  doesSleeperSeasonExistBySeasonId(seasonId: number): Promise<boolean>;
+
+  // this is a utility function for tests
+  deleteSleeperSeason(sleeperLeagueId: string): Promise<void>;
+
+  // believe this was intended to be for storing DTOs
+  // it is not currently (4.24.23) related to the particular flavor of Season object that contains a sleeperId
   saveSleeperLeague(sleeperLeague: SleeperLeague): Promise<void>;
 }

@@ -24,3 +24,38 @@ export async function validateSeasonExistsByLeagueId(leagueId: number): Promise<
     throw new EntityDoesNotExistError(`No season found for league id ${leagueId}`);
   }
 }
+
+export async function validateSleeperLeagueExists(sleeperLeagueId: string): Promise<void> {
+  const ports = await getPorts();
+  try {
+    await ports.sleeperClient.doesSleeperLeagueExistBySleeperLeagueId(sleeperLeagueId);
+  } catch {
+    throw new EntityDoesNotExistError(`No league found on Sleeper found for SleeperLeagueId ${sleeperLeagueId}`);
+  }
+}
+
+export async function validateSleeperSeasonExistsBySleeperLeagueId(sleeperLeagueId: string): Promise<void> {
+  const ports = await getPorts();
+  const doesSleeperSeasonExist = await ports.statsRepository.doesSleeperSeasonExistBySleeperLeagueId(sleeperLeagueId);
+
+  if (!doesSleeperSeasonExist) {
+    throw new EntityDoesNotExistError(`No Sleeper season found for SleeperLeagueId ${sleeperLeagueId}`);
+  }
+}
+
+export async function validateSleeperSeasonExistsBySeasonId(seasonId: number): Promise<void> {
+  const ports = await getPorts();
+  const doesSleeperSeasonExist = await ports.statsRepository.doesSleeperSeasonExistBySeasonId(seasonId);
+
+  if (!doesSleeperSeasonExist) {
+    throw new EntityDoesNotExistError(`No Sleeper season found for seasonId ${seasonId}`);
+  }
+}
+
+export async function validateSleeperSeasonDoesNotAlreadyExist(sleeperLeagueId: string): Promise<void> {
+  const ports = await getPorts();
+  const doesSleeperSeasonExist = await ports.statsRepository.doesSleeperSeasonExistBySleeperLeagueId(sleeperLeagueId);
+  if (doesSleeperSeasonExist) {
+    throw new EntityAlreadyExistsError(`A sleeper season already exists for that SleeperLeagueId`);
+  }
+}

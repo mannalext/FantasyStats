@@ -15,6 +15,11 @@ export class HttpSleeperClient implements SleeperClient {
     }
   }
 
+  async doesSleeperLeagueExistBySleeperLeagueId(sleeperLeagueId: string): Promise<boolean> {
+    const response = await axios.get(`${this.sleeperApiUrl}/league/${sleeperLeagueId}`);
+    return !!response.data;
+  }
+
   private convertSleeperLeagueDTOToSleeperLeague(sleeperLeagueDTO: SleeperLeagueDTO): SleeperLeague {
     return {
       leagueId: sleeperLeagueDTO.league_id,

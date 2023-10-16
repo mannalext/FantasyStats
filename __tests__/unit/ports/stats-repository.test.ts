@@ -1,9 +1,11 @@
+/* eslint-disable jest/no-commented-out-tests */
 import { League } from '@entities/league';
 import { Season } from '@entities/season';
 import { StatsRepository } from '@ports/stats/stats-repository';
 import { isNumber } from '@utilities/is-number';
 import { getPortsForTesting } from '../../helpers/ports-for-testing';
 import { Team } from '@entities/team';
+import { v4 as uuidv4 } from 'uuid';
 
 describe('stats-repository', () => {
   let repo: StatsRepository;
@@ -112,7 +114,7 @@ describe('stats-repository', () => {
 
       describe('when the given league id does not exist', () => {
         it('throws an exception', async () => {
-          await expect(repo.createSeason(69)).rejects.toThrow();
+          await expect(repo.createSeason(9_999_999)).rejects.toThrow();
         });
       });
 
@@ -175,6 +177,112 @@ describe('stats-repository', () => {
             const leagueId = await repo.createLeague(leagueName);
 
             await expect(repo.findSeasonByLeagueAndYear(leagueId, new Date().getFullYear())).rejects.toThrow();
+          });
+        });
+      });
+    });
+
+    describe('sleeper seasons', () => {
+      let sleeperLeagueId: string;
+      beforeEach(() => {
+        sleeperLeagueId = uuidv4();
+      });
+
+      describe('createSleeperSeason', () => {
+        describe('when a valid combination of leagueId and sleeperLeagueId is given', () => {
+          it('returns the season id', async () => {
+            const leagueName = 'testLeagueForSleeperSeasonRepositoryUnitTests';
+            const leagueId = await repo.createLeague(leagueName);
+            const seasonId = await repo.createSeason(leagueId);
+
+            expect(typeof (await repo.createSleeperSeason(seasonId, sleeperLeagueId))).toBe('number');
+          });
+
+          it('creates a sleeper season', async () => {
+            const leagueName = 'testLeagueForSleeperSeasonRepositoryUnitTests';
+            const leagueId = await repo.createLeague(leagueName);
+            const seasonId = await repo.createSeason(leagueId);
+            await repo.createSleeperSeason(seasonId, sleeperLeagueId);
+
+            expect(await repo.findSleeperSeasonBySleeperLeagueId(sleeperLeagueId)).toEqual({
+              id: seasonId,
+              leagueId: leagueId,
+              sleeperLeagueId: sleeperLeagueId,
+              year: new Date().getFullYear(),
+            });
+          });
+        });
+
+        // it is a business rule that the Season to SleeperSeason relationship is 1:1
+        describe('when the sleeper season already exists', () => {
+          it('throws an exception', async () => {
+            const leagueName = 'testLeagueForSleeperSeasonRepositoryUnitTests';
+            const leagueId = await repo.createLeague(leagueName);
+            const seasonId = await repo.createSeason(leagueId);
+            const repeatedSleeperLeagueId = uuidv4();
+
+            await repo.createSleeperSeason(seasonId, repeatedSleeperLeagueId);
+
+            await expect(repo.createSleeperSeason(seasonId, repeatedSleeperLeagueId)).rejects.toThrow();
+          });
+        });
+
+        describe('when the Season does not exist', () => {
+          it('throws an exception', async () => {
+            const nonexistentSeasonId = 9_999_999;
+            await expect(repo.createSleeperSeason(nonexistentSeasonId, sleeperLeagueId)).rejects.toThrow();
+          });
+        });
+      });
+
+      describe('findSleeperSeasonBySleeperLeagueId', () => {
+        describe('when a valid sleeperLeagueId is given', () => {
+          describe('and the season exists', () => {
+            it('returns the season', async () => {
+              const leagueName = 'testLeagueForSleeperSeasonRepositoryUnitTests';
+              const leagueId = await repo.createLeague(leagueName);
+              const seasonId = await repo.createSeason(leagueId);
+              const sleeperSeasonId = await repo.createSleeperSeason(seasonId, sleeperLeagueId);
+
+              expect(await repo.findSleeperSeasonBySleeperLeagueId(sleeperLeagueId)).toEqual({
+                id: sleeperSeasonId,
+                leagueId: leagueId,
+                sleeperLeagueId: sleeperLeagueId,
+                year: new Date().getFullYear(),
+              });
+            });
+          });
+
+          describe('and the season does not exist', () => {
+            it('throws an error', async () => {
+              await expect(repo.findSleeperSeasonBySleeperLeagueId('-1')).rejects.toThrow();
+            });
+          });
+        });
+      });
+
+      describe('findSleeperSeasonBySeasonId', () => {
+        describe('when a valid seasonId is given', () => {
+          describe('and the season exists', () => {
+            it('returns the season', async () => {
+              const leagueName = 'testLeagueForSleeperSeasonRepositoryUnitTests';
+              const leagueId = await repo.createLeague(leagueName);
+              const seasonId = await repo.createSeason(leagueId);
+              const sleeperSeasonId = await repo.createSleeperSeason(seasonId, sleeperLeagueId);
+
+              expect(await repo.findSleeperSeasonBySeasonId(seasonId)).toEqual({
+                id: sleeperSeasonId,
+                leagueId: leagueId,
+                sleeperLeagueId: sleeperLeagueId,
+                year: new Date().getFullYear(),
+              });
+            });
+          });
+
+          describe('and the season does not exist', () => {
+            it('throws an error', async () => {
+              await expect(repo.findSleeperSeasonBySeasonId(-1)).rejects.toThrow();
+            });
           });
         });
       });

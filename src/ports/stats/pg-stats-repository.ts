@@ -1,6 +1,6 @@
 import { League } from '@entities/league';
 import { Owner } from '@entities/owner';
-import { Season } from '@entities/season';
+import { Season, SleeperSeason, SleeperSeasonEntityRelation } from '@entities/season';
 import { Team } from '@entities/team';
 import prisma from '.';
 import { StatsRepository } from './stats-repository';
@@ -151,8 +151,77 @@ export class PgStatsRepository implements StatsRepository {
     return !!result;
   }
 
+  async createSleeperSeason(seasonId: number, sleeperLeagueId: string): Promise<number> {
+    // TODO: create the new season in the service level above this. use that seasonId and pass into here
+    const result = await prisma.sleeperSeasons.create({
+      data: {
+        seasonId,
+        sleeperLeagueId,
+      },
+      include: {
+        seasons: true,
+      },
+    });
+
+    return result.seasonId;
+  }
+
+  async findSleeperSeasonBySleeperLeagueId(sleeperLeagueId: string): Promise<SleeperSeason> {
+    const result: { seasons: Season } & SleeperSeasonEntityRelation = await prisma.sleeperSeasons.findUniqueOrThrow({
+      where: { sleeperLeagueId },
+      include: { seasons: true },
+    });
+
+    return {
+      id: result.seasonId,
+      sleeperLeagueId: result.sleeperLeagueId,
+      leagueId: result.seasons.leagueId,
+      year: result.seasons.year,
+    };
+  }
+
+  async findSleeperSeasonBySeasonId(seasonId: number): Promise<SleeperSeason> {
+    const result = await prisma.sleeperSeasons.findFirst({
+      where: { seasonId },
+      include: { seasons: true },
+    });
+
+    if (!result) {
+      throw new Error(`No SleeperSeason found for seasonId ${seasonId}`);
+    }
+
+    return {
+      id: result.seasonId,
+      sleeperLeagueId: result.sleeperLeagueId,
+      leagueId: result.seasons.leagueId,
+      year: result.seasons.year,
+    };
+  }
+
+  async doesSleeperSeasonExistBySleeperLeagueId(sleeperLeagueId: string): Promise<boolean> {
+    const result: number = await prisma.sleeperSeasons.count({
+      where: { sleeperLeagueId },
+    });
+
+    return result === 1 ? true : false;
+  }
+
+  async doesSleeperSeasonExistBySeasonId(seasonId: number): Promise<boolean> {
+    const result: number = await prisma.sleeperSeasons.count({
+      where: { seasonId },
+    });
+
+    return result === 1 ? true : false;
+  }
+
+  async deleteSleeperSeason(sleeperLeagueId: string): Promise<void> {
+    await prisma.sleeperSeasons.delete({
+      where: { sleeperLeagueId },
+    });
+  }
+
   async saveSleeperLeague(sleeperLeague: SleeperLeague): Promise<void> {
     console.log(sleeperLeague);
-    // TODO: save sleeperLeague to a new schema for it
+    // TODO: save SleeperLeagueDTO to a new schema for it
   }
 }
